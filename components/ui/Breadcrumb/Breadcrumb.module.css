@@ -1,0 +1,33 @@
+.nav {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+}
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.link {
+  color: var(--ink-soft);
+  transition: color 0.25s var(--ease);
+}
+.link:hover {
+  color: var(--forest);
+}
+.current {
+  color: var(--ink);
+}
+.sep {
+  color: var(--line);
+}

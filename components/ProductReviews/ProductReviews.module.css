@@ -1,0 +1,302 @@
+.section {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(4rem, 7vw, 6rem) 0;
+  overflow-x: clip;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0;
+  font-weight: 400;
+}
+.heading em {
+  font-style: italic;
+  color: var(--blush);
+}
+
+/* ── Summary ─────────────────────────────────────────────────── */
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr auto;
+  gap: clamp(1.4rem, 3vw, 3rem);
+  align-items: center;
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  background: var(--ivory-deep);
+  border-radius: 10px;
+  border: 1px solid rgba(58, 18, 29, 0.08);
+  margin-bottom: clamp(2rem, 3vw, 2.4rem);
+}
+.avgBlock {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.avgNum {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(3rem, 5vw, 4rem);
+  line-height: 1;
+  color: var(--ink);
+}
+.stars {
+  display: inline-flex;
+  gap: 0.15rem;
+  color: var(--blush);
+}
+.stars svg {
+  width: 16px;
+  height: 16px;
+}
+.avgLabel {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-top: 0.3rem;
+}
+
+.breakdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.breakRow {
+  display: grid;
+  grid-template-columns: 3rem 1fr 2.5rem;
+  align-items: center;
+  gap: 0.7rem;
+}
+.breakLabel {
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  transition: color 0.3s var(--ease);
+}
+.breakLabel:hover { color: var(--blush); }
+.breakBar {
+  position: relative;
+  height: 4px;
+  background: rgba(58, 18, 29, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.breakFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--blush);
+  border-radius: 2px;
+}
+.breakPct {
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  text-align: right;
+}
+
+.writeReview {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s var(--ease);
+}
+.writeReview:hover { background: var(--blush); }
+.writeReview span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.writeReview:hover span { transform: translateX(3px); }
+
+/* ── Toolbar ─────────────────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+  flex-wrap: wrap;
+}
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.filter {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+.filter:hover {
+  border-color: var(--blush);
+  color: var(--blush);
+}
+.filterActive {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--ivory);
+}
+.sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.sortLabel {
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink);
+  padding: 0.4rem 1rem 0.4rem 0;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ── Reviews list ────────────────────────────────────────────── */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.2rem, 2vw, 1.6rem);
+}
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: clamp(1.4rem, 2.4vw, 1.8rem);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.review:hover {
+  border-color: var(--blush);
+  transform: translateY(-2px);
+}
+.reviewHead {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--ivory-deep);
+  border: 1px solid var(--blush);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--blush);
+}
+.reviewMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.reviewName {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.verified {
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--blush);
+  margin-left: 0.3rem;
+}
+.reviewSub {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.reviewStars {
+  display: inline-flex;
+  gap: 0.12rem;
+  color: var(--blush);
+}
+.reviewStars svg {
+  width: 14px;
+  height: 14px;
+}
+.reviewTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  line-height: 1.2;
+  margin: 0.2rem 0 0;
+  font-weight: 500;
+}
+.reviewBody {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 2rem;
+  font-style: italic;
+}
+
+@media (max-width: 860px) {
+  .summary {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  .list { grid-template-columns: 1fr; }
+}

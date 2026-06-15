@@ -1,0 +1,149 @@
+.section {
+  position: relative;
+  background: var(--forest);
+  color: var(--ivory);
+  overflow: hidden;
+}
+.inner {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  /* Clear the fixed navbar so pinned content isn't covered. */
+  padding-top: clamp(5rem, 12vh, 9rem);
+  padding-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+/* New wrapper for image + rings — takes the existing media grid column,
+   overflow stays visible so the rings can extend beyond the image. */
+.mediaCol {
+  position: relative;
+}
+
+/* Concentric gold rings sitting behind the image. They sit at z-index 0
+   while .media sits at z-index 1, so the rings frame the image and peek
+   through the corners when the image tilts during the pinned scroll. */
+.rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  color: var(--gold);
+}
+.ringSlot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+}
+.ringLg {
+  width: clamp(440px, 60vw, 820px);
+  height: clamp(440px, 60vw, 820px);
+  opacity: 0.55;
+}
+.ringMd {
+  width: clamp(340px, 46vw, 640px);
+  height: clamp(340px, 46vw, 640px);
+  opacity: 0.4;
+}
+/* Scale wrapper — sits between the centered slot and the spinning SVG so
+   GSAP's scroll-driven scale doesn't collide with the CSS rotation. Both
+   rings start collided (scale 0.35) and open out to scale 1 during the pin. */
+.ringScale {
+  width: 100%;
+  height: 100%;
+  transform: scale(0.25);
+  transform-origin: center;
+}
+.ring {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* All rings start at the top (12 o'clock) by offsetting the stroke's
+     default 3 o'clock origin by -90deg. Each ring still rotates 360°
+     from that shared starting point. */
+  animation: ringSpin 40s linear infinite;
+}
+.ringMd .ring {
+  animation-duration: 28s;
+  animation-direction: reverse;
+}
+@keyframes ringSpin {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(270deg);
+  }
+}
+
+.media {
+  position: relative;
+  z-index: 1;
+  height: 68vh;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: transparent;
+}
+.media :global(img) {
+  object-fit: cover;
+  will-change: transform;
+}
+.badge {
+  position: absolute;
+  top: 1.4rem;
+  left: 1.4rem;
+  z-index: 2;
+  background: var(--ivory);
+  color: var(--forest);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+}
+
+.copy {
+  max-width: 30rem;
+}
+.heading {
+  font-size: clamp(2.2rem, 4.8vw, 4rem);
+  margin: 1.2rem 0 1.4rem;
+}
+.body {
+  color: rgba(246, 241, 231, 0.82);
+  font-size: 1.05rem;
+}
+.body + .body {
+  margin-top: 1rem;
+}
+.cta {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.95rem 2rem;
+  border: 1px solid rgba(246, 241, 231, 0.45);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.cta:hover {
+  background: var(--ivory);
+  color: var(--forest);
+}
+
+@media (max-width: 860px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: clamp(4rem, 10vw, 6rem) 0;
+  }
+  .media {
+    height: 60vh;
+  }
+}

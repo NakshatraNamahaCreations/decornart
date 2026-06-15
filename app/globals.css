@@ -1,0 +1,112 @@
+:root {
+  /* Wine & rose luxury palette. Variable names kept identical so existing
+     components pick up the rebrand without touching every file. */
+  --ivory: #fbf2ec;        /* warm cream with a pink whisper — page bg */
+  --ivory-deep: #f6dcd5;   /* soft blush — section bg */
+  --forest: #5a1932;       /* deep wine — primary dark */
+  --forest-soft: #7a2944;  /* lighter wine */
+  --moss: #b07a8a;         /* dusty rose (replaces moss green) */
+  --blush: #c98a82;        /* dusty pink */
+  --blush-soft: #efd4cd;   /* very soft pink */
+  --gold: #b08d57;         /* warm gold accent */
+  --ink: #3a121d;          /* deep wine-ink — body text */
+  --ink-soft: rgba(58, 18, 29, 0.65);
+  --line: rgba(58, 18, 29, 0.12);
+
+  /* Optional explicit aliases — use these where intent matters more than legacy. */
+  --wine: #5a1932;
+  --rose: #d4448a;
+  --cream: #fbf2ec;
+
+  /* Fonts (family injected by next/font in layout.js) */
+  --font-display: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
+
+  --maxw: 1320px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --radius: 4px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Lenis recommended baseline */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 380;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* Hide everything until the preloader hands off, preventing a flash of
+   unstyled content jumping behind the loader. */
+.app-locked {
+  overflow: hidden;
+  height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

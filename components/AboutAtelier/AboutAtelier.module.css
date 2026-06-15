@@ -1,0 +1,274 @@
+.section {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(5rem, 9vw, 8rem) 0 0;
+  overflow: hidden;
+}
+
+/* ── Editorial head, centered ─────────────────────────────────── */
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.9rem;
+  max-width: 56ch;
+  margin: 0 auto clamp(3rem, 5vw, 4.4rem);
+}
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  font-weight: 400;
+}
+.heading em {
+  font-style: italic;
+  color: var(--blush);
+}
+.lead {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  font-size: clamp(0.95rem, 1.05vw, 1.02rem);
+}
+
+/* ── Asymmetric gallery ──────────────────────────────────────── */
+/* Three frames staggered: short-tall-short with vertical offsets. */
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  gap: clamp(1.2rem, 2.4vw, 2rem);
+  align-items: start;
+}
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.frameOne {
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+.frameTwo {
+  margin-top: 0;
+}
+.frameThree {
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.imgWrap {
+  position: relative;
+  width: 100%;
+  background: #f6e7df;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.frameOne .imgWrap,
+.frameThree .imgWrap {
+  aspect-ratio: 4 / 5.4;
+}
+.frameTwo .imgWrap {
+  aspect-ratio: 4 / 5;
+}
+.imgWrap :global(img) {
+  object-fit: cover;
+  transition: transform 1.4s var(--ease);
+}
+.frame:hover .imgWrap :global(img) {
+  transform: scale(1.05);
+}
+.frameNum {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--blush);
+  background: rgba(251, 242, 236, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+}
+
+.cap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 0 0 1rem;
+  border-left: 1px solid var(--blush);
+  margin-top: 1rem;
+}
+.capTitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.capSub {
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+/* ── Dark colophon — final word ──────────────────────────────── */
+.colophonWrap {
+  background: var(--forest);
+  color: var(--ivory);
+  margin-top: clamp(5rem, 9vw, 8rem);
+  padding: clamp(5rem, 9vw, 8rem) 0;
+  position: relative;
+}
+.colophonWrap::before,
+.colophonWrap::after {
+  /* hairline ornaments — top and bottom of the dark block */
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 28rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(251, 242, 236, 0.35),
+    transparent
+  );
+}
+.colophonWrap::before { top: clamp(2rem, 4vw, 3rem); }
+.colophonWrap::after { bottom: clamp(2rem, 4vw, 3rem); }
+
+.colophon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
+  max-width: 60rem;
+}
+.colophonEyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+.colophonHeading {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.4vw, 4.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  font-weight: 400;
+  color: var(--ivory);
+}
+.colophonHeading em {
+  font-style: italic;
+  color: var(--blush);
+}
+.colophonRule {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--blush);
+  opacity: 0.85;
+  margin: 0.2rem 0;
+}
+.colophonCopy {
+  margin: 0;
+  color: rgba(251, 242, 236, 0.78);
+  line-height: 1.75;
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  max-width: 46ch;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  margin-top: 1.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.2rem;
+  background: var(--ivory);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.cta:hover {
+  background: var(--blush);
+  color: var(--ivory);
+}
+.cta span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.cta:hover span {
+  transform: translateX(4px);
+}
+.ghost {
+  position: relative;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  text-decoration: none;
+  padding-bottom: 4px;
+}
+.ghost::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--blush);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.ghost:hover::after {
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imgWrap :global(img),
+  .cta span {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 2.2rem;
+  }
+  .frameOne,
+  .frameTwo,
+  .frameThree {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,135 @@
+.section {
+  background: #faebe5;
+  color: var(--ink);
+  padding: clamp(3.5rem, 7vw, 6rem) 0;
+}
+
+/* Centered head. */
+.head {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  color: var(--ink);
+  margin: 0;
+  text-align: center;
+  line-height: 1.15;
+}
+
+/* Three blush cards in a row. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+.card {
+  background: var(--ivory);
+  border-radius: 16px;
+  padding: clamp(1.6rem, 2.4vw, 2.2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 240px;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 36px -22px rgba(58, 18, 29, 0.25);
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  color: var(--blush);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.starOff {
+  color: rgba(58, 18, 29, 0.18);
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0;
+  flex: 1;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: auto;
+}
+
+/* Initial-based avatar in blush — premium and consistent without needing
+   real photo assets. */
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--blush);
+  color: var(--ivory);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  flex: 0 0 auto;
+}
+
+.authorName {
+  font-size: 0.92rem;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+/* Pagination dots. */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: clamp(2rem, 3.5vw, 2.8rem);
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(58, 18, 29, 0.22);
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.dot:hover {
+  background: rgba(58, 18, 29, 0.4);
+}
+.dotActive {
+  background: var(--ink);
+  transform: scale(1.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .dot {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 680px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,186 @@
+/* Desktop: sticky column in the layout grid. */
+.sidebar {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+}
+
+/* Mobile-only chrome — hidden on desktop. */
+.drawerHeader,
+.drawerFooter {
+  display: none;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.clear {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+.clear:hover {
+  color: var(--forest);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.sectionTitle {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  font-size: 0.92rem;
+  color: var(--ink);
+  user-select: none;
+}
+.rowLabel {
+  line-height: 1.3;
+}
+.checkbox,
+.radio {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--forest);
+  cursor: pointer;
+}
+
+.search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.25s var(--ease);
+}
+.search:focus {
+  border-color: var(--forest);
+}
+.search::placeholder {
+  color: var(--ink-soft);
+}
+
+.scrim {
+  display: none;
+}
+
+/* Mobile: the same sidebar becomes a slide-in drawer. Off-screen by default,
+   slides in when `.open`. Header + footer chrome become visible. */
+@media (max-width: 860px) {
+  .sidebar {
+    position: fixed;
+    inset: 0 0 0 auto;
+    top: 0;
+    width: min(85vw, 360px);
+    height: 100dvh;
+    background: var(--ivory);
+    z-index: 1100;
+    transform: translateX(100%);
+    transition: transform 0.4s var(--ease);
+    box-shadow: -16px 0 40px rgba(58, 18, 29, 0.12);
+  }
+  .open {
+    transform: translateX(0);
+  }
+
+  .drawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 1.4rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .drawerTitle {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+  }
+  .drawerClose {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .body {
+    padding: 1.4rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .drawerFooter {
+    display: block;
+    padding: 1rem 1.4rem 1.4rem;
+    border-top: 1px solid var(--line);
+  }
+  .apply {
+    width: 100%;
+    padding: 0.95rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--forest);
+    color: var(--ivory);
+    font-size: 0.76rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s var(--ease);
+  }
+  .apply:hover {
+    background: var(--blush);
+  }
+
+  .scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(58, 18, 29, 0.45);
+    border: none;
+    z-index: 1050;
+    cursor: pointer;
+  }
+}

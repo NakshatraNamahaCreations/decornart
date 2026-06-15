@@ -1,0 +1,137 @@
+.section {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(9rem, 16vw, 14rem) 0 clamp(4rem, 7vw, 6rem);
+  overflow: hidden;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(1rem, 1.8vw, 1.6rem);
+}
+
+.eyebrow {
+  font-size: 0.74rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6.4vw, 5.4rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0;
+  font-weight: 380;
+  max-width: 18ch;
+}
+.heading em {
+  font-style: italic;
+  color: var(--blush);
+}
+
+.rule {
+  display: block;
+  width: 72px;
+  height: 1px;
+  background: var(--blush);
+  opacity: 0.85;
+  margin: 0.2rem 0;
+}
+
+.lead {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 56ch;
+  line-height: 1.85;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+}
+
+/* ── Four contact cards (no background fill) ─────────────────── */
+.cards {
+  width: 100%;
+  display: grid;
+  /* minmax(0, 1fr) forces equal column widths even when content is long */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-top: clamp(2.6rem, 5vw, 4rem);
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  text-decoration: none;
+  color: var(--ink);
+  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease);
+}
+a.card:hover {
+  border-color: var(--blush);
+  transform: translateY(-3px);
+}
+
+.cardIcon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--blush);
+  border-radius: 50%;
+  color: var(--blush);
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.cardIcon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+a.card:hover .cardIcon {
+  background: var(--blush);
+  color: var(--ivory);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.cardLabel {
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.cardValue {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a.card:hover { transform: none; }
+}
+
+@media (max-width: 760px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .cards { grid-template-columns: 1fr; }
+  .cardValue { white-space: normal; }
+}

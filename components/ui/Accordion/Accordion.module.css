@@ -1,0 +1,72 @@
+.root {
+  border-top: 1px solid var(--line);
+}
+.item {
+  border-bottom: 1px solid var(--line);
+}
+.heading {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: 0;
+}
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.4rem 0;
+  background: transparent;
+  border: none;
+  text-align: left;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+.trigger:hover {
+  color: var(--forest);
+}
+.trigger:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+.question {
+  flex: 1;
+  line-height: 1.3;
+}
+.icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  display: inline-block;
+}
+.iconBar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform-origin: center;
+  transition: transform 0.3s var(--ease);
+}
+.iconBarV {
+  transform: rotate(90deg);
+}
+.open .iconBarV {
+  transform: rotate(0deg);
+}
+
+.panel {
+  padding-bottom: 1.4rem;
+  color: var(--ink-soft);
+}
+.panelInner {
+  max-width: 60ch;
+  line-height: 1.7;
+}

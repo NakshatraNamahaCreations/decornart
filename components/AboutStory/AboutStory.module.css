@@ -1,0 +1,201 @@
+.section {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(3rem, 5vw, 4rem) 0 clamp(5rem, 9vw, 8rem);
+  overflow: hidden;
+}
+
+/* ── Pull-quote ──────────────────────────────────────────────── */
+.quote {
+  position: relative;
+  margin: 0 auto clamp(4rem, 8vw, 7rem);
+  max-width: 56rem;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 4vw, 3rem);
+  text-align: center;
+}
+.quoteMark {
+  position: absolute;
+  top: -0.1em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(6rem, 12vw, 10rem);
+  line-height: 1;
+  color: var(--blush);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.quoteText {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  font-weight: 380;
+}
+.quoteText em {
+  font-style: italic;
+  color: var(--blush);
+}
+.quoteAttr {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.quoteHairline {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background: var(--blush);
+}
+
+/* ── Magazine spread ─────────────────────────────────────────── */
+.spread {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+/* Body column. */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 36rem;
+  padding-top: clamp(0.5rem, 2vw, 1.5rem);
+}
+.label {
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  margin: 0 0 0.6rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.heading em {
+  font-style: italic;
+  color: var(--blush);
+}
+.copy {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(0.98rem, 1.1vw, 1.05rem);
+  line-height: 1.85;
+}
+.copyItalic {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink);
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+  padding-left: 1.2rem;
+  border-left: 1px solid var(--blush);
+}
+.dropCap {
+  float: left;
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 5vw, 4.4rem);
+  line-height: 0.9;
+  padding: 0.05em 0.18em 0 0;
+  color: var(--blush);
+  font-weight: 400;
+}
+
+.signature {
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.signatureName {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 1.8vw, 1.55rem);
+  color: var(--ink);
+}
+.signatureRole {
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Media column — tall portrait with side-anchored caption. */
+.mediaWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #f6e7df;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.media :global(img) {
+  object-fit: cover;
+  transition: transform 1.4s var(--ease);
+}
+.mediaWrap:hover .media :global(img) {
+  transform: scale(1.04);
+}
+.mediaCaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--blush);
+}
+.mediaCaptionTitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  color: var(--ink);
+  line-height: 1.2;
+}
+.mediaCaptionSub {
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media :global(img) {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .spread {
+    grid-template-columns: 1fr;
+    gap: 2.6rem;
+  }
+  .mediaWrap {
+    max-width: 520px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}

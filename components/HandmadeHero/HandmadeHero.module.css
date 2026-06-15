@@ -1,0 +1,183 @@
+.section {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(5rem, 9vw, 8rem) 0 clamp(4rem, 7vw, 6rem);
+  overflow: hidden;
+  position: relative;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+/* ── Copy column ─────────────────────────────────────────────── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 38rem;
+}
+
+.issue {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.8vw, 4.6rem);
+  line-height: 1.05;
+  margin: 0;
+  font-weight: 400;
+}
+.heading em {
+  font-style: italic;
+  color: var(--blush);
+}
+
+.rule {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--blush);
+  opacity: 0.85;
+  margin: 0.4rem 0;
+}
+
+.lead {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  line-height: 1.75;
+  font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.95rem 2rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+.cta:hover {
+  background: var(--blush);
+}
+.cta span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.cta:hover span {
+  transform: translateX(4px);
+}
+
+.ghost {
+  position: relative;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 4px;
+}
+.ghost::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--blush);
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.ghost:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+/* ── Media column ────────────────────────────────────────────── */
+.media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.media :global(img) {
+  object-fit: contain;
+  transition: transform 1.2s var(--ease);
+}
+.media:hover :global(img) {
+  transform: scale(1.04);
+}
+
+/* Editorial caption — museum-plaque style. No background; a blush
+   left hairline anchors the title + subtitle stack against the image. */
+.caption {
+  position: absolute;
+  left: 0;
+  bottom: 18px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--blush);
+  max-width: calc(100% - 24px);
+}
+.captionTitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.captionSub {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media :global(img),
+  .cta span {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+  .media {
+    aspect-ratio: 4 / 4.5;
+    max-width: 520px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}

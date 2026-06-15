@@ -1,0 +1,388 @@
+.section {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(9rem, 16vw, 14rem) 0 clamp(5rem, 9vw, 8rem);
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* ── Head ────────────────────────────────────────────────────── */
+.head {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: end;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--line);
+}
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-width: 46ch;
+}
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0;
+  font-weight: 400;
+}
+.heading em {
+  font-style: normal;
+  color: var(--blush);
+}
+.lead {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  font-size: clamp(0.98rem, 1.1vw, 1.05rem);
+}
+
+.headRight {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  justify-content: flex-end;
+}
+.count,
+.subtotal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  padding: 0 clamp(1.2rem, 2.4vw, 2rem);
+  border-right: 1px solid var(--line);
+}
+.subtotal {
+  border-right: none;
+  padding-right: 0;
+}
+.countNum,
+.subtotalValue {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
+  line-height: 1;
+  color: var(--ink);
+}
+.countLabel,
+.subtotalLabel {
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ── Toolbar ─────────────────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.4rem;
+  margin-bottom: clamp(1.4rem, 2.4vw, 2rem);
+  flex-wrap: wrap;
+}
+.sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.sortLabel {
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.selectWrap {
+  position: relative;
+}
+.select {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem 1.4rem 0.5rem 0;
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease);
+}
+.select:focus { border-bottom-color: var(--blush); }
+.selectCaret {
+  position: absolute;
+  right: 0.2rem;
+  top: 50%;
+  transform: translateY(-45%);
+  font-size: 0.78rem;
+  color: var(--blush);
+  pointer-events: none;
+}
+.moveAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--blush);
+  transition: color 0.3s var(--ease);
+}
+.moveAll:hover { color: var(--blush); }
+.moveAll span {
+  display: inline-block;
+  color: var(--blush);
+  transition: transform 0.3s var(--ease);
+}
+.moveAll:hover span { transform: translateX(4px); }
+
+/* ── Grid ────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.4rem, 2.6vw, 2.4rem);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.imageWrap {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  background: #f6e7df;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.imageWrap :global(img) {
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+.card:hover .imageWrap :global(img) {
+  transform: scale(1.05);
+}
+
+/* Filled heart — click removes from wishlist. */
+.remove {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: rgba(251, 242, 236, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: none;
+  border-radius: 50%;
+  color: var(--blush);
+  cursor: pointer;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+.remove:hover {
+  background: var(--ink);
+  color: var(--ivory);
+  transform: scale(1.05);
+}
+.remove svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.metaText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 500;
+}
+.name a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.3s var(--ease);
+}
+.name a:hover { color: var(--blush); }
+.occasion {
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.price {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  white-space: nowrap;
+}
+
+.addToCart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.2rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border: none;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.4s var(--ease);
+}
+.addToCart:hover { background: var(--blush); }
+.addToCart span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.addToCart:hover span { transform: translateX(4px); }
+.added {
+  background: var(--blush);
+}
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--ivory-deep);
+}
+.emptyMark {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--blush);
+  border-radius: 50%;
+  color: var(--blush);
+  margin-bottom: 0.4rem;
+}
+.emptyMark svg {
+  width: 24px;
+  height: 24px;
+}
+.emptyHeading {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0;
+  font-weight: 400;
+}
+.emptyHeading em {
+  font-style: normal;
+  color: var(--blush);
+}
+.emptyCopy {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  font-size: clamp(0.98rem, 1.1vw, 1.05rem);
+  max-width: 46ch;
+}
+.emptyActions {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.95rem 2rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.4s var(--ease);
+}
+.cta:hover { background: var(--blush); }
+.cta span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.cta:hover span { transform: translateX(4px); }
+.ghost {
+  position: relative;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--blush);
+  transition: color 0.3s var(--ease);
+}
+.ghost:hover { color: var(--blush); }
+
+@media (prefers-reduced-motion: reduce) {
+  .imageWrap :global(img),
+  .addToCart span,
+  .moveAll span,
+  .cta span,
+  .remove {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .head {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+  .headRight { justify-content: flex-start; }
+}
+@media (max-width: 540px) {
+  .grid { grid-template-columns: 1fr; }
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

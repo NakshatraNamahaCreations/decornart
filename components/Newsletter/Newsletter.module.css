@@ -1,0 +1,139 @@
+.section {
+  background: var(--forest);
+  color: var(--ivory);
+  padding: clamp(2rem, 3.5vw, 2.8rem) 0;
+}
+
+/* Horizontal strip: text on the left, form on the right. */
+.inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: clamp(1.4rem, 4vw, 3rem);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  line-height: 1.2;
+  color: var(--ivory);
+  margin: 0;
+}
+.copy {
+  font-size: clamp(0.82rem, 1vw, 0.92rem);
+  color: rgba(251, 242, 236, 0.7);
+  margin: 0;
+}
+
+/* Form column. */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+/* Email pill — input + button tucked together in a single rounded shell. */
+.field {
+  display: flex;
+  align-items: center;
+  background: rgba(251, 242, 236, 0.08);
+  border: 1px solid rgba(251, 242, 236, 0.18);
+  border-radius: 999px;
+  padding: 4px 4px 4px 18px;
+  min-width: 360px;
+  transition: border-color 0.3s var(--ease);
+}
+.field:focus-within {
+  border-color: rgba(251, 242, 236, 0.5);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--ivory);
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  padding: 0.55rem 0.4rem;
+}
+.input::placeholder {
+  color: rgba(251, 242, 236, 0.55);
+}
+
+.button {
+  flex: 0 0 auto;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--forest);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+.button:hover {
+  background: var(--blush);
+  color: var(--ivory);
+}
+
+.note {
+  font-size: 0.74rem;
+  min-height: 1.1em;
+  margin: 0;
+  color: rgba(251, 242, 236, 0.7);
+  text-align: right;
+}
+.error {
+  color: #f7b9b1;
+}
+.success {
+  color: #d2e6c8;
+}
+
+@media (max-width: 860px) {
+  .inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .text {
+    align-items: center;
+  }
+  .field {
+    min-width: 0;
+  }
+  .note {
+    text-align: center;
+  }
+}
+
+@media (max-width: 540px) {
+  .field {
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    padding: 0;
+    gap: 0.5rem;
+  }
+  .input {
+    background: rgba(251, 242, 236, 0.08);
+    border: 1px solid rgba(251, 242, 236, 0.18);
+    border-radius: 999px;
+    padding: 0.85rem 1.2rem;
+  }
+  .button {
+    width: 100%;
+  }
+}

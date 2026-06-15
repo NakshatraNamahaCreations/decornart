@@ -1,0 +1,201 @@
+.section {
+  position: relative;
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(3rem, 5vw, 5rem) 0;
+  overflow: hidden;
+}
+
+/* Atmospheric vignettes top & bottom — almost imperceptible, but they
+   give the section a sense of depth like a gallery wall. */
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  z-index: 0;
+}
+.section::before {
+  top: 0;
+  background: linear-gradient(180deg, rgba(58, 18, 29, 0.05), transparent);
+}
+.section::after {
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(58, 18, 29, 0.04), transparent);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.9rem;
+  /* margin: 0 auto clamp(1rem, 1vw, 1rem); */
+  max-width: 64ch;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+  line-height: 1.08;
+  margin: 0;
+}
+
+.rule {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0.4rem 0 0.6rem;
+  opacity: 0.85;
+}
+
+.lead {
+  color: var(--ink-soft);
+  max-width: 52ch;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.4rem, 2.4vw, 2rem) clamp(0.6rem, 1.2vw, 1rem);
+  justify-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.card {
+  --card-r: 14px;
+  width: 100%;
+  max-width: 290px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.6s var(--ease);
+}
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* The image frame — clean portrait crop with a subtle ivory tint behind
+   so transparent PNGs sit on the brand color, not white. */
+.frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--ivory-deep);
+  border-radius: var(--card-r);
+}
+.frame :global(img) {
+  object-fit: cover;
+  transition: transform 1.4s var(--ease), filter 0.8s var(--ease);
+  filter: saturate(0.96);
+}
+.card:hover .frame :global(img) {
+  transform: scale(1.06);
+  filter: saturate(1);
+}
+
+/* Gold hairline that sits inside the frame and fades in on hover —
+   the museum-frame moment. */
+.hairline {
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(176, 141, 87, 0);
+  border-radius: calc(var(--card-r) - 6px);
+  pointer-events: none;
+  transition: border-color 0.6s var(--ease), inset 0.6s var(--ease);
+  z-index: 2;
+}
+.card:hover .hairline {
+  border-color: rgba(176, 141, 87, 0.85);
+}
+
+/* The "plaque" — caption sitting under the image like a gallery label. */
+.meta {
+  padding: 1.4rem 0.2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.ord {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 500;
+}
+
+.copy {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.ctaLine {
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease);
+}
+.card:hover .ctaLine {
+  width: 56px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .frame :global(img),
+  .hairline,
+  .ctaLine {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 540px) {
+  .grid { grid-template-columns: 1fr; }
+}

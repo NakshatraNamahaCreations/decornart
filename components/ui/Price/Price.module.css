@@ -1,0 +1,26 @@
+.price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  white-space: nowrap;
+  color: var(--ink);
+}
+.current {
+  font-feature-settings: "tnum" 1;
+}
+.compare {
+  font-size: 0.82em;
+  color: var(--ink-soft);
+  text-decoration: line-through;
+}
+
+.sm {
+  font-size: 0.95rem;
+}
+.md {
+  font-size: 1.15rem;
+}
+.lg {
+  font-size: 1.6rem;
+}

@@ -1,0 +1,303 @@
+/* Per-slide accent color. Registered as a typed custom property so it
+   animates smoothly when the active banner changes. */
+@property --hero-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f6e7df;
+}
+
+.hero {
+  --hero-bg: #f6e7df;
+  position: relative;
+  display: grid;
+  grid-template-columns: 45fr 55fr;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+  background: var(--hero-bg);
+  color: var(--ink);
+  transition: --hero-bg 1.1s var(--ease);
+}
+
+/* Left: per-slide color block with content. */
+.leftPanel {
+  position: relative;
+  z-index: 2;
+  background: var(--hero-bg);
+  display: flex;
+  align-items: center;
+}
+.leftInner {
+  width: 100%;
+  padding: 0 clamp(2rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* Right: image column. Position relative so the blend strip can sit on top. */
+.rightPanel {
+  position: relative;
+  overflow: hidden;
+  background: var(--hero-bg);
+}
+.mediaWrap {
+  position: absolute;
+  inset: -8% 0;
+  will-change: transform;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.1s var(--ease);
+}
+.slideActive {
+  opacity: 1;
+}
+.slide :global(img) {
+  object-fit: cover;
+}
+
+/* Soft horizontal blend — solid accent at the seam, fades to transparent
+   across ~30% of the image so the eye reads it as one composition. */
+.blend {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 32%;
+  background: linear-gradient(
+    90deg,
+    var(--hero-bg) 0%,
+    var(--hero-bg) 18%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(58, 18, 29, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Copy */
+.copy {
+  max-width: 36rem;
+}
+.eyebrow {
+  display: block;
+  font-size: 0.74rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--blush);
+  margin-bottom: 1.4rem;
+  margin-top: 9.2rem;
+}
+.title {
+  font-size: clamp(2.4rem, 4.6vw, 4.6rem);
+  white-space: pre-line;
+  color: var(--ink);
+}
+.subtitle {
+  margin-top: 1.4rem;
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  color: var(--ink-soft);
+  max-width: 38ch;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 2.2rem;
+  padding: 0.95rem 2rem;
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: transform 0.35s var(--ease), background 0.35s var(--ease),
+    color 0.35s var(--ease);
+}
+.cta:hover {
+  transform: translateY(-2px);
+  background: var(--blush);
+  color: var(--ivory);
+}
+
+/* Dots sit at the bottom of the left panel. */
+.dots {
+  display: flex;
+  gap: 0.7rem;
+}
+.dot {
+  width: 34px;
+  height: 3px;
+  border: none;
+  background: rgba(58, 18, 29, 0.18);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+}
+.dotFill {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.55s var(--ease);
+}
+.dotActive .dotFill {
+  transform: scaleX(1);
+}
+
+.scrollCue {
+  position: absolute;
+  z-index: 4;
+  bottom: 7rem;
+  right: var(--gutter);
+  color: rgba(58, 18, 29, 0.65);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+/* Frosted trust strip overlay — pinned to the bottom of the hero,
+   stays the same across all 3 slides. */
+.trust {
+  position: absolute;
+  left: clamp(1rem, 10vw, 3.5rem);
+  right: clamp(1rem, 2vw, 1.6rem);
+  bottom: clamp(1.2rem, 2vw, 2rem);
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 1.1rem 1rem;
+  background: rgba(251, 242, 236, 0.45);
+  backdrop-filter: blur(14px) saturate(1.05);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  border: 1px solid rgba(58, 18, 29, 0.08);
+  border-radius: 12px;
+}
+
+.trustItem {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  gap: 0.8rem;
+  padding: 0.4rem 0.6rem;
+}
+.trustItem + .trustItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(58, 18, 29, 0.18) 30%,
+    rgba(58, 18, 29, 0.18) 70%,
+    transparent
+  );
+}
+
+.trustIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--blush);
+}
+.trustIcon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.trustText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.trustTitle {
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 1vw, 0.98rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.trustSub {
+  font-size: clamp(0.7rem, 0.8vw, 0.78rem);
+  color: var(--ink-soft);
+  line-height: 1.2;
+}
+
+/* Mobile: collapse to a single full-bleed image with copy overlaid. The
+   pin is desktop-only per CLAUDE.md GSAP rule 3, and split-screen would
+   crush the title on small screens. */
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .leftPanel {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    z-index: 3;
+    padding: 0 var(--gutter);
+  }
+  .leftInner {
+    padding: 0;
+    justify-content: flex-end;
+    padding-bottom: 4rem;
+    height: 100%;
+  }
+  .rightPanel {
+    grid-row: 1;
+    grid-column: 1;
+    height: 100%;
+  }
+  .blend {
+    inset: 0;
+    width: 100%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0) 35%,
+      var(--hero-bg) 100%
+    );
+  }
+  .scrollCue {
+    display: none;
+  }
+  .trust {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem 0;
+    padding: 0.9rem var(--gutter);
+  }
+}
+
+@media (max-width: 480px) {
+  .trust {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

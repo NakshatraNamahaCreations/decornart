@@ -1,0 +1,111 @@
+.section {
+  position: relative;
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Double-rule print frame — a faint gold hairline inset from each
+   outer border, the classic editorial hallmark band. */
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.section::before { top: 6px; }
+.section::after { bottom: 6px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.55rem;
+  padding: 0.8rem clamp(0.8rem, 2vw, 1.8rem);
+  transition: transform 0.5s var(--ease);
+}
+.card:hover { transform: translateY(-3px); }
+
+/* Tapered gold hairline divider between items. */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16%;
+  bottom: 16%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(176, 141, 87, 0.45) 25%,
+    rgba(176, 141, 87, 0.45) 75%,
+    transparent
+  );
+}
+.card:first-child::before { display: none; }
+
+.figure {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+/* Small gold accent rule under each figure. */
+.rule {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+  margin-top: 0.5rem;
+  opacity: 0.85;
+}
+
+.label {
+  font-size: clamp(0.72rem, 0.85vw, 0.8rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 0.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 0;
+  }
+  /* Only show divider between the two columns within each row. */
+  .card::before { display: none; }
+  .card:nth-child(even)::before { display: block; }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+  .card::before,
+  .card:nth-child(even)::before { display: none; }
+}

@@ -1,0 +1,136 @@
+.section {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: clamp(3.5rem, 7vw, 6rem) 0;
+}
+
+/* Centered heading with sprigs on either side. */
+.head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+  margin-bottom: clamp(2.4rem, 5vw, 3.6rem);
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+  text-align: center;
+  line-height: 1.15;
+}
+
+/* Two large spotlight cards side by side. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+.card {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 11;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.imageWrap {
+  position: absolute;
+  inset: 0;
+}
+.imageWrap :global(img) {
+  object-fit: cover;
+  transition: transform 1.4s var(--ease);
+}
+.card:hover .imageWrap :global(img) {
+  transform: scale(1.05);
+}
+
+/* Left-anchored scrim + text. Gradient fades to transparent on the right
+   so the bouquet image breathes on that side. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.6rem, 4vw, 3rem);
+  background: linear-gradient(
+    90deg,
+    rgba(58, 18, 29, 0.55) 0%,
+    rgba(58, 18, 29, 0.68) 50%,
+    rgba(58, 18, 29, 0) 100%
+  );
+  color: var(--ivory);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.1;
+  max-width: 16ch;
+}
+
+.copy {
+  margin: 0.8rem 0 1.6rem;
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
+  line-height: 1.55;
+  color: rgba(251, 242, 236, 0.92);
+  max-width: 32ch;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.85rem 2rem;
+  background: var(--ivory);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.card:hover .ctaBtn {
+  background: var(--blush);
+  color: var(--ivory);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageWrap :global(img),
+  .ctaBtn {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 1.3rem;
+  }
+  .overlay {
+    padding: 1.3rem;
+  }
+  .copy {
+    margin: 0.6rem 0 1.2rem;
+  }
+}
