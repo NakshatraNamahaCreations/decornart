@@ -1,7 +1,7 @@
 import AccountView from "@/components/AccountView/AccountView";
 
 export const metadata = {
-  title: "Your account — Decornart Atelier",
+  title: "Your account — Decor N Art Atelier",
   description:
     "Your private dashboard — orders, saved addresses, wishlist, profile and loyalty points.",
 };

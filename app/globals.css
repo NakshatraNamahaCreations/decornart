@@ -1,31 +1,56 @@
 :root {
-  /* Wine & rose luxury palette. Variable names kept identical so existing
-     components pick up the rebrand without touching every file. */
-  --ivory: #fbf2ec;        /* warm cream with a pink whisper — page bg */
-  --ivory-deep: #f6dcd5;   /* soft blush — section bg */
-  --forest: #5a1932;       /* deep wine — primary dark */
-  --forest-soft: #7a2944;  /* lighter wine */
-  --moss: #b07a8a;         /* dusty rose (replaces moss green) */
-  --blush: #c98a82;        /* dusty pink */
-  --blush-soft: #efd4cd;   /* very soft pink */
-  --gold: #b08d57;         /* warm gold accent */
-  --ink: #3a121d;          /* deep wine-ink — body text */
-  --ink-soft: rgba(58, 18, 29, 0.65);
-  --line: rgba(58, 18, 29, 0.12);
+  /* ─── Client palette — STRICT 5-colour set ──────────────────────────
+     #2A0F2B  deepest plum / ink
+     #4B1F4F  dark purple
+     #6F2A5E  magenta-purple (accent)
+     #D8C2A8  warm beige (neutral)
+     #FFF6EA  cream (page bg)
+     Legacy token names kept so existing components inherit the rebrand
+     without touching every file. */
 
-  /* Optional explicit aliases — use these where intent matters more than legacy. */
-  --wine: #5a1932;
-  --rose: #d4448a;
-  --cream: #fbf2ec;
+  --ivory: #FFFFFF;        /* page background (whitened) */
+  --ivory-deep: #FFFFFF;   /* section background / mat (whitened) */
+  --forest: #2A0F2B;       /* deepest plum — primary dark */
+  --forest-soft: #4B1F4F;  /* dark purple */
+  --moss: #6F2A5E;         /* magenta accent (legacy moss alias) */
+  --blush: #6F2A5E;        /* magenta accent (used for eyebrows, rules, pills) */
+  --blush-soft: color-mix(in srgb, #6F2A5E 22%, #FFFFFF); /* tinted accent */
+  --gold: #D8C2A8;         /* beige (legacy gold alias — avoid in new code) */
+  --ink: #2A0F2B;          /* deepest plum — body text */
+  --ink-soft: rgba(42, 15, 43, 0.65);
+  --line: rgba(42, 15, 43, 0.12);
+
+  /* Named palette aliases — prefer these in new code. */
+  --plum: #2A0F2B;
+  --purple: #4B1F4F;
+  --magenta: #6F2A5E;
+  --beige: #D8C2A8;
+  --cream: #FFFFFF;
+  --warm-white: #FFFFFF;   /* legacy alias retained */
+  --lavender: #6F2A5E;     /* legacy alias retained */
+  --wine: #4B1F4F;         /* legacy alias retained */
+  --rose: #6F2A5E;         /* legacy alias retained */
 
   /* Fonts (family injected by next/font in layout.js) */
-  --font-display: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
-  --font-body: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-cormorant), "Cormorant Garamond", "Times New Roman", serif;
+  --font-body: var(--font-poppins), "Poppins", "Helvetica Neue", Arial, sans-serif;
+  --font-script: var(--font-allura), "Allura", cursive;
 
-  --maxw: 1320px;
-  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --maxw: 1480px;
+  --gutter: clamp(1.25rem, 1vw, 1rem);
   --radius: 4px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Height of the fixed Navbar. Used by pinned sections to push their
+     content out from behind it. Two rows on desktop, search wraps below
+     on mobile so the height stays similar. */
+  --nav-h: 152px;
+}
+@media (max-width: 860px) {
+  :root { --nav-h: 138px; }
+}
+@media (max-width: 480px) {
+  :root { --nav-h: 124px; }
 }
 
 * {
@@ -40,9 +65,10 @@ html {
 }
 
 body {
-  background: var(--ivory);
+  background: color-mix(in srgb, var(--beige) 14%, #ffffff);
   color: var(--ink);
   font-family: var(--font-body);
+  font-weight: 400; /* Poppins Regular — body text */
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
@@ -62,9 +88,40 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 380;
-  line-height: 1.04;
-  letter-spacing: -0.01em;
+  font-weight: 700; /* Cormorant Garamond Bold — main headings */
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+}
+
+button {
+  font-family: var(--font-body);
+  font-weight: 600; /* Poppins SemiBold — buttons */
+  cursor: pointer;
+}
+
+/* Navigation links — Poppins Medium. */
+nav a {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+/* Footer — Cormorant SemiBold for headings, Poppins Regular for links. */
+footer h1,
+footer h2,
+footer h3,
+footer h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+footer a {
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+/* Script accent utility — Allura for accented headline words. */
+.script {
+  font-family: var(--font-script);
+  font-weight: 400;
 }
 
 a {
@@ -75,11 +132,6 @@ a {
 img {
   display: block;
   max-width: 100%;
-}
-
-button {
-  font-family: inherit;
-  cursor: pointer;
 }
 
 .container {

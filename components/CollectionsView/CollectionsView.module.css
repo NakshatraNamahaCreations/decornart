@@ -1,0 +1,632 @@
+/* ──────────────────────────────────────────────────────────────────
+   Collections page
+   • Editorial banner (image bg, blush eyebrow, display title with em)
+   • Trust strip (6 inline items, ivory card)
+   • Shop by Collection — 4×2 immersive image tiles
+   • Featured Collections — circular pill row, wraps on smaller screens
+   • Support tri-card (Bulk / Custom / Help)
+   ────────────────────────────────────────────────────────────────── */
+
+.page {
+  background: var(--ivory);
+  color: var(--ink);
+  padding: 0 0 clamp(3.5rem, 7vw, 6rem);
+}
+
+/* ──────── Banner ──────── */
+.banner {
+  position: relative;
+  width: 100%;
+  min-height: clamp(320px, 42vw, 480px);
+  padding-top: 110px;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--ink);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.bannerImg {
+  object-fit: cover;
+  object-position: 100% 30%;
+  z-index: 0;
+}
+.bannerScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 246, 234, 0.92) 0%,
+    rgba(255, 246, 234, 0.72) 0%,
+    rgba(255, 246, 234, 0.25) 20%,
+    rgba(255, 246, 234, 0) 100%
+  );
+}
+.bannerInner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-top: clamp(1.4rem, 4vw, 2.6rem);
+  padding-bottom: clamp(1.4rem, 4vw, 2.6rem);
+  max-width: 1320px;
+  align-items: flex-start;
+}
+.bannerEyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--blush);
+  font-weight: 500;
+}
+.bannerTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.05;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.bannerTitle em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blush);
+}
+.bannerIntro {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  max-width: 44ch;
+}
+.bannerCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.95rem 1.5rem;
+  margin-top: 0.5rem;
+  background: var(--ink);
+  color: var(--ivory) !important;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.bannerCta:hover {
+  background: var(--blush);
+  transform: translateY(-2px);
+}
+.bannerCtaArrow {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 246, 234, 0.18);
+  color: var(--ivory);
+  font-size: 0.65rem;
+  transition: transform 0.3s var(--ease);
+}
+.bannerCta:hover .bannerCtaArrow { transform: translateX(3px); }
+
+.banner :global(a),
+.banner :global(span) { color: var(--ink-soft); }
+.banner :global(a:hover) { color: var(--blush); }
+
+/* ──────── Trust strip ──────── */
+.trustWrap {
+  padding: 0 0 clamp(2.4rem, 5vw, 3.4rem);
+}
+.trustStrip {
+  list-style: none;
+  margin: 0;
+  padding: clamp(1rem, 2vw, 1.4rem) clamp(1.1rem, 2vw, 1.6rem);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 16px 36px -28px rgba(42, 15, 43, 0.18);
+}
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+.trustIcon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
+  color: var(--blush);
+  font-size: 0.95rem;
+  flex: 0 0 auto;
+}
+.trustCopy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+.trustCopy strong {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.trustCopy small {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  margin-top: 0.2rem;
+  line-height: 1.35;
+}
+
+/* ──────── Generic section heading ──────── */
+.section { padding: clamp(2.4rem, 5vw, 3.8rem) 0; }
+.sectionHead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: clamp(1.6rem, 3.4vw, 2.4rem);
+}
+.sectionHeadCenter {
+  align-items: center;
+  text-align: center;
+}
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--blush);
+  font-weight: 500;
+}
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  line-height: 1.1;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.sectionTitle em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blush);
+}
+
+/* ──────── Shop by Collection grid ──────── */
+.collectionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 1.8vw, 1.6rem);
+}
+.collectionCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease),
+    border-color 0.4s var(--ease);
+}
+.collectionCard:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--blush) 40%, transparent);
+  box-shadow: 0 30px 50px -32px rgba(42, 15, 43, 0.32);
+}
+.cardImage {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--ivory-deep);
+}
+.cardImage :global(img) {
+  object-fit: cover;
+  transition: transform 1s var(--ease);
+}
+.collectionCard:hover .cardImage :global(img) { transform: scale(1.06); }
+.cardIndex {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 28px;
+  padding: 0 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 246, 234, 0.92);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.cardCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem 1.1rem;
+  flex: 1;
+}
+.cardName {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+.cardNote {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.cardMeta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.cardCount {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blush);
+  font-weight: 600;
+}
+.cardArrow {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
+  color: var(--blush);
+  font-size: 0.7rem;
+  transition: transform 0.3s var(--ease), background 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+.collectionCard:hover .cardArrow {
+  background: var(--blush);
+  color: var(--ivory);
+  transform: translateX(3px);
+}
+
+/* ──────── Featured pills section ──────── */
+.pillsSection {
+  position: relative;
+  isolation: isolate;
+  margin: clamp(2rem, 4vw, 3rem) 0;
+  padding: clamp(3rem, 6vw, 4.5rem) 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--blush) 8%, var(--ivory)) 0%,
+    color-mix(in srgb, var(--blush) 14%, var(--ivory)) 60%,
+    color-mix(in srgb, var(--blush) 6%, var(--ivory)) 100%
+  );
+  overflow: hidden;
+}
+/* .pillsSection::before,
+.pillsSection::after {
+  content: "";
+  position: absolute;
+  width: clamp(220px, 24vw, 380px);
+  height: clamp(220px, 24vw, 380px);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(80px);
+  opacity: 0.55;
+}
+.pillsSection::before {
+  top: -120px;
+  left: -120px;
+  background: color-mix(in srgb, var(--blush) 60%, transparent);
+}
+.pillsSection::after {
+  bottom: -160px;
+  right: -120px;
+  background: color-mix(in srgb, var(--blush) 45%, transparent);
+} */
+
+/* Small ornamental dot-line-dot flourish above the eyebrow */
+.flourish {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.flourishDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--blush);
+}
+.flourishLine {
+  width: clamp(40px, 6vw, 70px);
+  height: 1px;
+  background: var(--blush);
+  opacity: 0.55;
+}
+
+.sectionLead {
+  margin: 0.6rem auto 0;
+  max-width: 50ch;
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.pillsTrack {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.5vw, 1.4rem);
+}
+/* Faint hairline behind the pills, tying them together visually */
+.pillsTrack::before {
+  content: "";
+  position: absolute;
+  top: clamp(55px, 5.5vw, 70px);
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--blush) 50%, transparent) 14%,
+    color-mix(in srgb, var(--blush) 50%, transparent) 86%,
+    transparent
+  );
+  z-index: 0;
+}
+
+.pill {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+.pillLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.3rem;
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.35s var(--ease);
+  width: 100%;
+  position: relative;
+}
+.pillLink:hover { transform: translateY(-4px); }
+
+/* Outer halo that lights up on hover */
+.pillFrame {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: clamp(108px, 10.5vw, 140px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--blush) 28%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+  z-index: 0;
+}
+.pillLink:hover .pillFrame { opacity: 1; }
+
+.pillImage {
+  position: relative;
+  width: clamp(90px, 9vw, 120px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--ivory);
+  padding: 4px;
+  box-shadow:
+    inset 0 0 0 2px var(--ivory),
+    0 0 0 1px color-mix(in srgb, var(--blush) 35%, transparent),
+    0 10px 22px -12px rgba(42, 15, 43, 0.22);
+  transition: box-shadow 0.4s var(--ease), transform 0.5s var(--ease);
+  z-index: 1;
+}
+.pillImage :global(img) {
+  object-fit: cover;
+  border-radius: 50%;
+}
+.pillLink:hover .pillImage {
+  box-shadow:
+    inset 0 0 0 2px var(--ivory),
+    0 0 0 2px var(--blush),
+    0 18px 32px -14px color-mix(in srgb, var(--blush) 55%, transparent);
+  transform: scale(1.02);
+}
+
+.pillOrdinal {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--blush);
+  letter-spacing: 0.05em;
+  margin-top: 0.55rem;
+}
+
+.pillName {
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1vw, 0.8rem);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.pillShop {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blush);
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.pillLink:hover .pillShop {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ──────── Support tri-card ──────── */
+.supportGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 1.8vw, 1.4rem);
+}
+.supportCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+  padding: 1.4rem 1.5rem;
+  border-radius: 16px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--blush) 14%, var(--ivory)),
+    color-mix(in srgb, var(--blush) 4%, var(--ivory))
+  );
+  border: 1px solid color-mix(in srgb, var(--blush) 22%, transparent);
+  text-decoration: none;
+  color: var(--ink);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.supportCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 50px -28px color-mix(in srgb, var(--blush) 55%, transparent);
+}
+.supportCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.supportEyebrow {
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--blush);
+  font-weight: 600;
+}
+.supportTitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--ink);
+}
+.supportCta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: background 0.3s var(--ease);
+}
+.supportCta svg { font-size: 0.65rem; }
+.supportCard:hover .supportCta { background: var(--blush); }
+
+.supportImage {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ivory-deep);
+  min-height: 130px;
+}
+.supportImage :global(img) {
+  object-fit: cover;
+}
+.supportIconBg {
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--blush) 22%, var(--ivory));
+}
+.supportBigIcon {
+  font-size: clamp(2.4rem, 4vw, 3rem);
+  color: var(--blush);
+}
+
+/* ──────── Responsive ──────── */
+@media (max-width: 1180px) {
+  .trustStrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .collectionGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pillsTrack { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pillsTrack::before { display: none; }
+  .supportGrid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .trustStrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collectionGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pillsTrack { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .trustStrip { grid-template-columns: 1fr; }
+  .collectionGrid { grid-template-columns: 1fr; }
+  .pillsTrack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .supportCard { grid-template-columns: 1fr; }
+  .supportImage { min-height: 160px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collectionCard,
+  .cardImage :global(img),
+  .pillLink,
+  .pillImage,
+  .supportCard,
+  .cardArrow,
+  .bannerCta,
+  .bannerCtaArrow {
+    transition: none;
+    transform: none;
+  }
+}

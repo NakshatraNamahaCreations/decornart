@@ -1,23 +1,11 @@
-import AboutHero from "@/components/AboutHero/AboutHero";
-import AboutStory from "@/components/AboutStory/AboutStory";
-import AboutValues from "@/components/AboutValues/AboutValues";
-import AboutAtelier from "@/components/AboutAtelier/AboutAtelier";
-import HandmadeBouquets from "@/components/HandmadeBouquets/HandmadeBouquets";
+import AboutView from "@/components/AboutView/AboutView";
 
 export const metadata = {
-  title: "About — Decornart Atelier",
+  title: "About — Decor N Art Atelier",
   description:
-    "Decornart is a small atelier of florists, sourcers, and couriers composing hand-tied bouquets each morning across Mumbai, Bengaluru, Delhi and Pune.",
+    "Decor N Art is a small atelier crafting handmade decor, bouquets, gifts and craft supplies — made with love, packed with heart.",
 };
 
 export default function AboutPage() {
-  return (
-    <main>
-      <AboutHero />
-      <AboutStory />
-      <HandmadeBouquets/>
-      <AboutValues />
-      <AboutAtelier />
-    </main>
-  );
+  return <AboutView />;
 }

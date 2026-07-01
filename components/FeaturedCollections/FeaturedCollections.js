@@ -3,16 +3,8 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { collections } from "@/lib/data/collections";
+import { categories } from "@/lib/data/categories";
 import styles from "./FeaturedCollections.module.css";
-
-const TINTS = {
-  "sunlit-meadow": "#fde2e4", // pastel pink
-  "blush-editorial": "#e2f0d9",    // pastel mint
-  "garden-romance": "#fdecd2",  // pastel peach
-  "wild-meadow": "#ffd0bf",     // pastel coral
-  "snow-lily": "#dfe9f3", // pastel blue
-};
 
 export default function FeaturedCollections() {
   const root = useRef(null);
@@ -20,52 +12,67 @@ export default function FeaturedCollections() {
 
   useGSAP(
     () => {
-      const cards = root.current.querySelectorAll(`.${styles.card}`);
+      const cards = gridRef.current.querySelectorAll("[data-reveal]");
       gsap.from(cards, {
-        y: 40,
+        y: 28,
         opacity: 0,
-        duration: 0.85,
-        stagger: 0.12,
+        duration: 0.7,
+        stagger: 0.06,
         ease: "power3.out",
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: "top 82%",
-        },
+        scrollTrigger: { trigger: gridRef.current, start: "top 85%" },
       });
     },
     { scope: root }
   );
 
   return (
-    <section ref={root} className={styles.section}>
-      <div className="container">
-        <div className={styles.head}>
-          <span className={styles.eyebrow}>The Decornart Edits</span>
-          <h2 className={styles.heading}>Explore Our Collections</h2>
-          <span className={styles.rule} aria-hidden="true" />
-          <p className={styles.lead}>Hand-tied edits for every kind of moment</p>
-        </div>
+    <section ref={root} id="categories" className={styles.section}>
+      <div className="container" style={{ maxWidth: "1480px" }}>
+        <header className={styles.head}>
+          <span className={styles.eyebrow}>Our Categories</span>
+          <h2 className={styles.heading}>Shop by Category</h2>
+          <p className={styles.lead}>
+            Raw materials and supplies for floral design, crafting, gifting and
+            decor — sourced in small lots and stocked for the makers.
+          </p>
+        </header>
 
         <div ref={gridRef} className={styles.grid}>
-          {collections.map((c) => (
+          {categories.map((c) => (
             <a
               key={c.id}
-              href={`/product/${c.id}`}
+              href={`/category/${c.id}`}
               className={styles.card}
-              style={{ "--mat": TINTS[c.id] }}
-              aria-label={`Open ${c.name} collection`}
+              aria-label={`Browse ${c.name}`}
+              data-reveal
             >
-              <div className={styles.arch}>
-                <div className={styles.imgWrap}>
-                  <Image
-                    src={c.image}
-                    alt={c.name}
-                    fill
-                    sizes="(max-width: 420px) 80vw, (max-width: 680px) 42vw, (max-width: 1100px) 28vw, 18vw"
-                  />
-                </div>
-              </div>
-              <h3 className={styles.name}>{c.name}</h3>
+              <span className={styles.arch}>
+                <Image
+                  src={c.image}
+                  alt={c.name}
+                  fill
+                  sizes="(max-width: 560px) 45vw, (max-width: 900px) 30vw, 14vw"
+                  className={styles.archImg}
+                />
+              </span>
+              <span className={styles.foot}>
+                <span className={styles.name}>{c.name}</span>
+                <span className={styles.shopNow}>
+                  Shop now
+                  <span className={styles.arrowSvg} aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="14" height="14">
+                      <path
+                        d="M5 12h14m-6-6 6 6-6 6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </span>
+              </span>
             </a>
           ))}
         </div>

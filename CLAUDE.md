@@ -1,4 +1,4 @@
-# CLAUDE.md — Decornart Bouquet E-commerce
+# CLAUDE.md — Decor N Art Bouquet E-commerce
 
 Rules and context for working on this repo. Read before generating or editing code.
 

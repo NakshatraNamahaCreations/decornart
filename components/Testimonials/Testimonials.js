@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { testimonials } from "@/lib/data/testimonials";
+import { testimonials, testimonialsHero } from "@/lib/data/testimonials";
 import styles from "./Testimonials.module.css";
-
-const PER_PAGE = 3;
 
 function Stars({ count = 5 }) {
   return (
@@ -25,65 +25,82 @@ function Stars({ count = 5 }) {
 
 export default function Testimonials() {
   const root = useRef(null);
-  const [page, setPage] = useState(0);
-
-  const pageCount = Math.ceil(testimonials.length / PER_PAGE);
-  const visible = testimonials.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
 
   useGSAP(
     () => {
-      gsap.fromTo(
-        `.${styles.card}`,
-        { opacity: 0, y: 22 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.12,
-        }
-      );
+      const cards = root.current.querySelectorAll("[data-reveal]");
+      gsap.from(cards, {
+        opacity: 0,
+        y: 22,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: 0.1,
+        scrollTrigger: { trigger: root.current, start: "top 82%" },
+      });
     },
-    { dependencies: [page], scope: root }
+    { scope: root }
   );
 
   return (
     <section ref={root} className={styles.section}>
-      <div className="container">
+      <div className="container" style={{ maxWidth: "1480px" }}>
         <div className={styles.head}>
-          <h2 className={styles.heading}>What Our Customers Say</h2>
+          <span className={styles.viewAllSpacer} aria-hidden="true">
+            View all reviews <span>→</span>
+          </span>
+          <span className={styles.headRule} aria-hidden="true" />
+          <h2 className={styles.heading}>What Our Creators Say</h2>
+          <span className={styles.headRule} aria-hidden="true" />
+          <Link href="/reviews" className={styles.viewAll}>
+            View all reviews <span aria-hidden="true">→</span>
+          </Link>
         </div>
 
-        <div className={styles.grid} aria-live="polite">
-          {visible.map((t) => (
-            <article key={t.id} className={styles.card}>
-              <Stars count={t.rating} />
-              <p className={styles.quote}>&ldquo;{t.quote}&rdquo;</p>
-              <div className={styles.author}>
-                <span className={styles.avatar} aria-hidden="true">
+        <div className={styles.grid}>
+          {testimonials.slice(0, 4).map((t) => (
+            <article key={t.id} className={styles.card} data-reveal>
+              <header className={styles.author}>
+                <span className={styles.monogram} aria-hidden="true">
                   {t.name.charAt(0)}
                 </span>
-                <span className={styles.authorName}>{t.name}</span>
-              </div>
+                <span className={styles.meta}>
+                  <span className={styles.authorName}>{t.name}</span>
+                  {t.verified && (
+                    <span className={styles.verified}>Verified Buyer</span>
+                  )}
+                  <Stars count={t.rating} />
+                </span>
+              </header>
+
+              <p className={styles.quote}>{t.quote}</p>
+
+              <ul className={styles.thumbs}>
+                {t.thumbnails.map((thumb, i) => (
+                  <li key={i} className={styles.thumb}>
+                    <Image
+                      src={thumb}
+                      alt=""
+                      fill
+                      sizes="60px"
+                      className={styles.thumbImg}
+                    />
+                  </li>
+                ))}
+              </ul>
             </article>
           ))}
-        </div>
 
-        {pageCount > 1 && (
-          <div className={styles.dots}>
-            {Array.from({ length: pageCount }, (_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setPage(i)}
-                aria-label={`Show page ${i + 1}`}
-                className={`${styles.dot} ${
-                  i === page ? styles.dotActive : ""
-                }`}
-              />
-            ))}
-          </div>
-        )}
+          <article className={styles.heroCard} data-reveal>
+            <Image
+              src={testimonialsHero.src}
+              alt={testimonialsHero.alt}
+              fill
+              sizes="(max-width: 900px) 90vw, 22vw"
+              className={styles.heroImg}
+            />
+            <p className={styles.heroQuote}>{testimonialsHero.quote}</p>
+          </article>
+        </div>
       </div>
     </section>
   );

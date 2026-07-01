@@ -30,6 +30,7 @@ export default function Newsletter() {
     <section className={styles.section}>
       <div className={`container ${styles.inner}`}>
         <div className={styles.text}>
+          <span className={styles.script}>Stay in touch</span>
           <h2 className={styles.heading}>Seasonal drops, in your inbox.</h2>
           <p className={styles.copy}>
             Weekly handmade bouquets and occasion guides. No noise.

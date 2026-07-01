@@ -1,0 +1,686 @@
+/* ──────────────────────────────────────────────────────────────────
+   Contact — premium multi-section page
+   Hero (split with gift-box image) • 5 contact-method cards •
+   Message form + "We're here for you" aside (with dark quote card) •
+   FAQ accordion + Instagram grid • Footer trust strip
+   ────────────────────────────────────────────────────────────────── */
+
+.page {
+  background: var(--ivory);
+  color: var(--ink);
+  overflow-x: clip;
+}
+
+/* ──────── Shared ──────── */
+.section { padding: clamp(2.4rem, 4.5vw, 3.6rem) 0; }
+
+/* ──────── Banner (matches Collections / Categories) ──────── */
+.banner {
+  position: relative;
+  width: 100%;
+  min-height: clamp(320px, 42vw, 480px);
+  padding-top: 110px;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--ink);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.bannerImg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+.bannerScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 246, 234, 0.94) 0%,
+    rgba(255, 246, 234, 0.75) 0%,
+    rgba(255, 246, 234, 0.25) 2%,
+    rgba(255, 246, 234, 0) 100%
+  );
+}
+.bannerInner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-top: clamp(1.4rem, 4vw, 2.6rem);
+  padding-bottom: clamp(1.4rem, 4vw, 2.6rem);
+  max-width: 1320px;
+  align-items: flex-start;
+}
+.bannerEyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--blush);
+  font-weight: 500;
+}
+.bannerTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.05;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  max-width: 20ch;
+}
+.bannerTitle em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blush);
+}
+.bannerIntro {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  max-width: 44ch;
+}
+.bannerMeta {
+  margin-top: 0.2rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  color: var(--blush);
+}
+.banner :global(a),
+.banner :global(span) { color: var(--ink-soft); }
+.banner :global(a:hover) { color: var(--blush); }
+
+/* ──────── 5-method cards ──────── */
+.methods {
+  padding: 0 0 clamp(2.4rem, 5vw, 3.6rem);
+}
+.methodsRow {
+  list-style: none;
+  margin: auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.6vw, 1.4rem);
+  align-items: stretch;
+}
+.methodCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 1.4rem 1.1rem;
+  height: 100%;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 16px;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+.methodCard:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--blush) 40%, transparent);
+  box-shadow: 0 28px 44px -30px rgba(42, 15, 43, 0.22);
+}
+.methodIcon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
+  color: var(--blush);
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  transition: transform 0.35s var(--ease);
+}
+.methodCard:hover .methodIcon { transform: scale(1.06); }
+.methodTitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+}
+.methodNote {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.methodCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  padding: 0.65rem 1rem;
+  background: var(--ink);
+  color: var(--ivory) !important;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background 0.3s var(--ease);
+  white-space: nowrap;
+}
+.methodCta:hover { background: var(--blush); }
+
+/* ──────── Message + Here-for-you ──────── */
+.messageSection { background: var(--ivory); }
+.messageGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+  align-items: stretch;
+}
+
+.formCard {
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 20px;
+  padding: clamp(1.6rem, 2.6vw, 2.2rem);
+  box-shadow: 0 22px 44px -32px rgba(42, 15, 43, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.formHead { display: flex; flex-direction: column; gap: 0.3rem; }
+.formTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.formTitleIcon { color: var(--blush); font-size: 1.05rem; }
+.formLead { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.field { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+.fieldLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.fieldLabel em {
+  font-style: normal;
+  color: var(--blush);
+  margin-left: 0.15rem;
+}
+.input,
+.textarea {
+  width: 100%;
+  background: var(--ivory);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: 10px;
+  padding: 0.75rem 0.95rem;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.input:focus,
+.textarea:focus { border-color: var(--blush); background: #fff; }
+.input::placeholder,
+.textarea::placeholder { color: var(--ink-soft); opacity: 0.85; }
+.textarea { min-height: 130px; resize: vertical; }
+
+.phoneWrap {
+  display: flex;
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: 10px;
+  background: var(--ivory);
+  overflow: hidden;
+  transition: border-color 0.25s var(--ease);
+}
+.phoneWrap:focus-within { border-color: var(--blush); background: #fff; }
+.phonePrefix {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.9rem;
+  font-size: 0.88rem;
+  color: var(--ink);
+  border-right: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+  flex: 0 0 auto;
+}
+.phoneInput {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+.phoneInput:focus { background: transparent; }
+
+.submitRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+.sendBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1.4rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.sendBtn:hover { background: var(--blush); transform: translateY(-2px); }
+.sendBtn svg { font-size: 0.78rem; }
+.privacyNote {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+}
+.privacyNote svg { color: var(--blush); font-size: 0.85rem; }
+.privacyNote strong {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.privacyNote small { font-size: 0.72rem; color: var(--ink-soft); }
+
+.status {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+}
+.statusError {
+  background: color-mix(in srgb, #b54545 10%, transparent);
+  color: #b54545;
+}
+.statusSuccess {
+  background: color-mix(in srgb, #2f7d4f 12%, transparent);
+  color: #2f7d4f;
+}
+
+/* ──────── Here For You aside ──────── */
+.hereForYou {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.8vw, 1.4rem);
+}
+.hereHead { margin-bottom: 0.2rem; }
+.hereTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.hereTitle span { color: var(--blush); margin-left: 0.35rem; }
+
+.categories {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.category {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.categoryIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
+  color: var(--blush);
+  font-size: 0.98rem;
+  flex: 0 0 auto;
+}
+.categoryCopy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+  min-width: 0;
+}
+.categoryCopy strong {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.categoryCopy small { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.12rem; }
+
+.quoteCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 1rem;
+  padding: 1.3rem 1.4rem;
+  background: linear-gradient(155deg, var(--ink) 0%, #3a1c3b 100%);
+  color: var(--ivory);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.quoteCopy {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.5;
+  margin: 0;
+  color: var(--ivory);
+  position: relative;
+}
+.quoteCopy em { color: var(--gold); font-style: italic; font-weight: 500; }
+.quoteMark {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 0.5;
+  color: color-mix(in srgb, var(--blush) 60%, var(--ivory));
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.quoteImage {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ivory-deep);
+  min-height: 160px;
+}
+.quoteImage :global(img) { object-fit: cover; }
+
+/* ──────── FAQ + Instagram ──────── */
+.faqSection {
+  background: color-mix(in srgb, var(--blush) 6%, var(--ivory));
+}
+.faqGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+  align-items: start;
+}
+
+.faqCard {
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 18px;
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  box-shadow: 0 18px 36px -30px rgba(42, 15, 43, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.faqHeader { display: flex; flex-direction: column; gap: 0.3rem; }
+.faqTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.7rem);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.faqTitle em { font-style: italic; font-weight: 500; color: var(--blush); }
+
+.faqList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.faqItem {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.faqItem:first-child { border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); }
+.faqHead {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0.2rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: var(--ink);
+  transition: color 0.25s var(--ease);
+}
+.faqHead:hover { color: var(--blush); }
+.faqQ { font-size: 0.92rem; font-weight: 600; line-height: 1.35; }
+.faqToggle {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
+  color: var(--blush);
+  font-size: 0.72rem;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.faqOpen .faqHead { color: var(--ink); }
+.faqOpen .faqToggle {
+  background: var(--blush);
+  color: var(--ivory);
+}
+.faqBody {
+  padding: 0 0.2rem 0.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.faqAll {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0;
+  color: var(--blush);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--blush) 50%, transparent);
+  transition: color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.faqAll:hover { color: var(--ink); transform: translateX(3px); }
+.faqAll svg { font-size: 0.65rem; }
+
+/* Instagram card */
+.instaCard {
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 18px;
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  box-shadow: 0 18px 36px -30px rgba(42, 15, 43, 0.15);
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: clamp(1rem, 2vw, 1.6rem);
+  align-items: center;
+}
+.instaHead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.instaTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.instaTitle em { font-style: italic; font-weight: 500; color: var(--blush); }
+.instaLead {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.instaLead strong { color: var(--ink); font-weight: 700; }
+.instaCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  padding: 0.8rem 1.2rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border-radius: 10px;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.instaCta:hover { background: var(--blush); transform: translateY(-2px); }
+.instaCta svg { font-size: 0.9rem; }
+
+.instaGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+.instaTile {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--ivory-deep);
+}
+.instaTile a {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.instaTile :global(img) {
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.instaTile:hover :global(img) { transform: scale(1.08); }
+.instaHover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(42, 15, 43, 0);
+  color: var(--ivory);
+  font-size: 1.4rem;
+  opacity: 0;
+  transition: background 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.instaTile:hover .instaHover {
+  background: rgba(42, 15, 43, 0.45);
+  opacity: 1;
+}
+
+/* ──────── Footer trust strip ──────── */
+.footerTrust {
+  padding: clamp(1.4rem, 3vw, 2rem) 0;
+  background: var(--ivory);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.footerTrustRow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+}
+.footerTrustItem {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+.footerTrustIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
+  color: var(--blush);
+  flex: 0 0 auto;
+}
+.footerTrustItem strong {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.footerTrustItem small { font-size: 0.72rem; color: var(--ink-soft); }
+
+/* ──────── Responsive ──────── */
+@media (max-width: 1180px) {
+  .methodsRow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .messageGrid { grid-template-columns: minmax(0, 1fr); }
+  .faqGrid { grid-template-columns: minmax(0, 1fr); }
+  .instaCard { grid-template-columns: minmax(0, 1fr); }
+  .footerTrustRow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .methodsRow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quoteCard { grid-template-columns: minmax(0, 1fr); }
+  .quoteImage { min-height: 200px; }
+  .row2 { grid-template-columns: minmax(0, 1fr); }
+  .submitRow { flex-direction: column; align-items: stretch; }
+  .footerTrustRow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .methodsRow { grid-template-columns: minmax(0, 1fr); }
+  .instaGrid { grid-template-columns: repeat(2, 1fr); }
+  .footerTrustRow { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .methodCard,
+  .methodCard:hover,
+  .methodCta,
+  .methodCta:hover,
+  .sendBtn,
+  .sendBtn:hover,
+  .instaCta,
+  .instaCta:hover,
+  .instaTile :global(img),
+  .instaHover,
+  .faqAll { transition: none; transform: none; }
+}

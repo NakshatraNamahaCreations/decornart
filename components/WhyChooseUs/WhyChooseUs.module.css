@@ -1,136 +1,107 @@
 .section {
-  background: var(--ivory);
+  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
   color: var(--ink);
-  padding: clamp(3.5rem, 7vw, 6rem) 0;
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  margin: 40px clamp(1rem, 3vw, 2.5rem);
+  border-radius: clamp(16px, 2vw, 24px);
 }
 
-/* Centered heading with sprigs on either side. */
-.head {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(0.8rem, 2vw, 1.4rem);
-  margin-bottom: clamp(2.4rem, 5vw, 3.6rem);
-}
 .heading {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink);
-  margin: 0;
   text-align: center;
-  line-height: 1.15;
+  margin: 0 0 clamp(1.8rem, 3.6vw, 2.6rem);
+  color: var(--ink);
 }
 
-/* Two large spotlight cards side by side. */
 .grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1rem, 2vw, 1.6rem);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.4vw, 1.2rem);
 }
 
-.card {
-  position: relative;
-  display: block;
-  aspect-ratio: 16 / 11;
+.item {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.2vw, 1rem);
+  padding: clamp(0.9rem, 1.4vw, 1.2rem) clamp(1rem, 1.4vw, 1.25rem);
+  background: color-mix(in srgb, var(--beige) 24%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--beige) 45%, transparent);
   border-radius: 14px;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+.item:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--blush) 35%, transparent);
+  box-shadow: 0 18px 40px -28px rgba(42, 15, 43, 0.4);
 }
 
-.imageWrap {
-  position: absolute;
-  inset: 0;
+.icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: clamp(42px, 4vw, 52px);
+  height: clamp(42px, 4vw, 52px);
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--blush);
 }
-.imageWrap :global(img) {
-  object-fit: cover;
-  transition: transform 1.4s var(--ease);
-}
-.card:hover .imageWrap :global(img) {
-  transform: scale(1.05);
+.icon svg {
+  width: 60%;
+  height: 60%;
 }
 
-/* Left-anchored scrim + text. Gradient fades to transparent on the right
-   so the bouquet image breathes on that side. */
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
+.text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(1.6rem, 4vw, 3rem);
-  background: linear-gradient(
-    90deg,
-    rgba(58, 18, 29, 0.55) 0%,
-    rgba(58, 18, 29, 0.68) 50%,
-    rgba(58, 18, 29, 0) 100%
-  );
-  color: var(--ivory);
+  gap: 0.2rem;
+  min-width: 0;
 }
-
 .title {
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2vw, 2rem);
-  letter-spacing: 0.06em;
+  font-family: var(--font-body);
+  font-size: clamp(0.72rem, 0.85vw, 0.82rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  margin: 0;
-  line-height: 1.1;
-  max-width: 16ch;
-}
-
-.copy {
-  margin: 0.8rem 0 1.6rem;
-  font-size: clamp(0.88rem, 1.1vw, 1rem);
-  line-height: 1.55;
-  color: rgba(251, 242, 236, 0.92);
-  max-width: 32ch;
-}
-
-.ctaBtn {
-  display: inline-flex;
-  align-self: flex-start;
-  padding: 0.85rem 2rem;
-  background: var(--ivory);
+  line-height: 1.2;
   color: var(--ink);
-  border-radius: 999px;
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  transition: background 0.35s var(--ease), color 0.35s var(--ease);
 }
-.card:hover .ctaBtn {
-  background: var(--blush);
-  color: var(--ivory);
+.copy {
+  font-family: var(--font-body);
+  font-size: clamp(0.75rem, 0.9vw, 0.86rem);
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 0.9rem;
+  }
+}
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 460px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .imageWrap :global(img),
-  .ctaBtn {
+  .item {
     transition: none;
+  }
+  .item:hover {
     transform: none;
-  }
-}
-
-@media (max-width: 860px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  .card {
-    aspect-ratio: 4 / 3;
-  }
-}
-
-@media (max-width: 480px) {
-  .heading {
-    font-size: 1.3rem;
-  }
-  .overlay {
-    padding: 1.3rem;
-  }
-  .copy {
-    margin: 0.6rem 0 1.2rem;
   }
 }

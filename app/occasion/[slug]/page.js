@@ -11,10 +11,12 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }) {
   const occasion = occasions.find((o) => o.id === params.slug);
-  if (!occasion) return { title: "Not found — Decornart" };
+  if (!occasion) return { title: "Not found — Decor N Art" };
+  const label = occasion.label || occasion.title || occasion.id;
+  const blurb = occasion.blurb || occasion.copy || "";
   return {
-    title: `${occasion.title} bouquets — Decornart Atelier`,
-    description: `Hand-tied bouquets for ${occasion.title.toLowerCase()} — ${occasion.copy}`,
+    title: `${label} bouquets — Decor N Art Atelier`,
+    description: `Hand-tied bouquets for ${label.toLowerCase()}${blurb ? ` — ${blurb}` : ""}`,
   };
 }
 

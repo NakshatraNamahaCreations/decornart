@@ -1,4 +1,4 @@
-# Decornart — Premium Bouquet Delivery (Next.js)
+# Decor N Art — Premium Bouquet Delivery (Next.js)
 
 A premium, mobile-first bouquet e-commerce front end built with the **Next.js App Router** (JavaScript, **CSS Modules — no Tailwind**), **GSAP + ScrollTrigger** for parallax and pinned sections, and **Lenis** for smooth scroll.
 
@@ -33,7 +33,7 @@ The home page composes these sections (top → bottom):
 ## Structure
 
 ```
-decornart-bouquets/
+Decor N Art-bouquets/
 ├── app/
 │   ├── layout.js            # fonts (next/font) + SmoothScrollProvider
 │   ├── page.js              # composes sections, refreshes ScrollTrigger after preloader

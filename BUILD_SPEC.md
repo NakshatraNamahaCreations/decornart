@@ -1,4 +1,4 @@
-# BUILD_SPEC.md — Decornart Bouquet E-commerce
+# BUILD_SPEC.md — Decor N Art Bouquet E-commerce
 
 Technical specification for the full build. The home page front end in this repo is **complete**; everything else below is the target to build against.
 

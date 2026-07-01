@@ -1,19 +1,24 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
+import logo from "@/assets/decor-logo.png";
 import styles from "./Preloader.module.css";
 
-const SESSION_KEY = "decornart:preloaded";
+const SESSION_KEY = "Decor N Art:preloaded";
 
-const hasPreloaded = () =>
-  typeof window !== "undefined" &&
-  window.sessionStorage?.getItem(SESSION_KEY) === "1";
+const hasPreloaded = () => {
+  if (typeof window === "undefined") return false;
+  // Escape hatch for design QA — ?preloader=1 forces the animation to run.
+  if (window.location.search.includes("preloader=1")) return false;
+  return window.sessionStorage?.getItem(SESSION_KEY) === "1";
+};
 
 export default function Preloader({ onComplete }) {
   const root = useRef(null);
-  const [count, setCount] = useState(0);
+  const countRef = useRef(null);
 
   // Lock page scroll while the loader is up — but only when the loader
   // will actually run. Skip the lock entirely on repeat visits in the
@@ -48,26 +53,14 @@ export default function Preloader({ onComplete }) {
         },
       });
 
-      // 1) Botanical sprig appears (small accent above the eyebrow).
-      tl.from(`.${styles.sprig}`, {
-        scale: 0,
+      // 1) Logo scales in from the center as the headline reveal.
+      tl.from(`.${styles.logo}`, {
+        scale: 0.6,
         opacity: 0,
-        duration: 0.55,
-        ease: "back.out(2)",
+        duration: 0.9,
+        ease: "back.out(1.6)",
         transformOrigin: "center",
-      })
-        // 2) Eyebrow fades up.
-        .from(
-          `.${styles.eyebrow}`,
-          { y: 14, opacity: 0, duration: 0.5 },
-          "-=0.2"
-        )
-        // 3) Wordmark fades up — the headline reveal.
-        .from(
-          `.${styles.wordmark}`,
-          { y: 32, opacity: 0, duration: 0.8 },
-          "-=0.3"
-        );
+      });
 
       // 4) Gold line draws left → right in parallel with the counter ticking.
       tl.to(
@@ -81,13 +74,16 @@ export default function Preloader({ onComplete }) {
           duration: 1.4,
           ease: "power1.inOut",
           onUpdate() {
-            setCount(Math.round(this.targets()[0].v));
+            const el = countRef.current;
+            if (!el) return;
+            const n = Math.round(this.targets()[0].v);
+            el.textContent = `${String(n).padStart(2, "0")}%`;
           },
         },
         "<"
       );
 
-      // 5) Brief beat, then reveal — inner content fades up out, panels part.
+      // 5) Inner content clears first — then the panels part to reveal the page.
       tl.to(
         `.${styles.inner}`,
         { opacity: 0, y: -12, duration: 0.5 },
@@ -95,12 +91,12 @@ export default function Preloader({ onComplete }) {
       )
         .to(
           `.${styles.panelTop}`,
-          { yPercent: -100, duration: 0.9, ease: "power4.inOut" },
-          "<"
+          { yPercent: -100, duration: 1, ease: "power4.inOut" },
+          "+=0.15"
         )
         .to(
           `.${styles.panelBottom}`,
-          { yPercent: 100, duration: 0.9, ease: "power4.inOut" },
+          { yPercent: 100, duration: 1, ease: "power4.inOut" },
           "<"
         )
         .set(root.current, { display: "none" });
@@ -114,53 +110,19 @@ export default function Preloader({ onComplete }) {
       <div className={`${styles.panel} ${styles.panelBottom}`} />
 
       <div className={styles.inner}>
-        {/* Small horizontal botanical sprig — curved stem with three leaves. */}
-        <svg
-          className={styles.sprig}
-          viewBox="0 0 80 24"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M4 12 Q 40 4 76 12"
-            stroke="currentColor"
-            strokeWidth="0.8"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <ellipse
-            cx="20"
-            cy="9"
-            rx="4.5"
-            ry="2"
-            transform="rotate(-25 20 9)"
-            fill="currentColor"
-          />
-          <ellipse
-            cx="40"
-            cy="5"
-            rx="5"
-            ry="2.2"
-            fill="currentColor"
-          />
-          <ellipse
-            cx="60"
-            cy="9"
-            rx="4.5"
-            ry="2"
-            transform="rotate(25 60 9)"
-            fill="currentColor"
-          />
-        </svg>
-
-        <span className={styles.eyebrow}>The Atelier</span>
-        <h1 className={styles.wordmark}>Decornart</h1>
+        <Image
+          src={logo}
+          alt="Decor N Art"
+          className={styles.logo}
+          priority
+          sizes="(max-width: 860px) 160px, 220px"
+        />
 
         <div className={styles.lineWrap}>
           <div className={styles.line} />
         </div>
 
-        <span className={styles.count}>{String(count).padStart(2, "0")}%</span>
+        <span ref={countRef} className={styles.count}>00%</span>
       </div>
     </div>
   );

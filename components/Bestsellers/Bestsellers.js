@@ -1,12 +1,29 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { listProducts } from "@/lib/api/products";
 import { useCart } from "@/components/providers/CartProvider";
-import { resolveProductImage } from "@/lib/productImages";
+import prod1 from "@/assets/butterfly-gift-box/butterfly-1.jpeg";
+import prod2 from "@/assets/butterfly-luxury/luxury1.jpeg";
+import prod3 from "@/assets/butterfly-signature/signature1.jpeg";
+import prod4 from "@/assets/for-mother-gift/for-mother4.jpeg";
+import prod5 from "@/assets/for-you-bouquet/for-you4.jpeg";
+import prod6 from "@/assets/luxe-dual/luxe-dual3.jpeg";
+import prod7 from "@/assets/luxe-heart/luxe-heart2.jpeg";
+import prod8 from "@/assets/luxe-rose/luxe-rose4.jpeg";
 import styles from "./Bestsellers.module.css";
+
+const DEMO_PRODUCTS = [
+  { id: "d1", slug: "butterfly-gift-box",  name: "Butterfly Gift Box", price: 650, isNew: true,  image: prod1 },
+  { id: "d2", slug: "butterlfy-luxe-bouquet-basket", name: "Butterfly Luxury Bouquet Basket", price: 850, isNew: false, image: prod2 },
+  { id: "d3", slug: "butterfly-signature", name: "Butterfly Signature Hand Bag", price: 700, isNew: true,  image: prod3 },
+  { id: "d4", slug: "for-mom-with-love",   name: "For Mom With Love Gift Box", price: 750, isNew: false, image: prod4 },
+  { id: "d5", slug: "just-for-you-bouquet-basket", name: "Just For You Bouquet Basket", price: 900, isNew: false, image: prod5 },
+  { id: "d6", slug: "floral-gift-basket", name: "Floral Gift Basket", price: 1049, isNew: false, image: prod6 },
+  { id: "d7", slug: "heart-bouquet-basket", name: "Heart Bouquet Basket", price: 279, isNew: true, image: prod7 },
+  { id: "d8", slug: "rose-gift-box-with-led", name: "Rose Gift Box With LED", price: 459, isNew: false, image: prod8 },
+];
 
 const inr = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -14,45 +31,12 @@ const inr = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 0,
 });
 
-function Stars({ rating }) {
-  const pct = (rating / 5) * 100;
-  return (
-    <span className={styles.stars} aria-label={`Rated ${rating} out of 5`}>
-      <span className={styles.starsEmpty} aria-hidden="true">★★★★★</span>
-      <span
-        className={styles.starsFill}
-        aria-hidden="true"
-        style={{ width: `${pct}%` }}
-      >
-        ★★★★★
-      </span>
-    </span>
-  );
-}
-
 export default function Bestsellers() {
   const root = useRef(null);
-  const carouselRef = useRef(null);
   const { addItem } = useCart();
-  const [items, setItems] = useState([]);
   const [added, setAdded] = useState(() => new Set());
-
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      try {
-        const data = await listProducts({ bestseller: true, limit: 10, sort: "featured" });
-        if (cancelled) return;
-        setItems(data || []);
-      } catch {
-        if (!cancelled) setItems([]);
-      }
-    }
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const [wishlist, setWishlist] = useState(() => new Set());
+  const products = DEMO_PRODUCTS.slice(0, 6);
 
   const addToCart = async (e, productId) => {
     e.preventDefault();
@@ -69,150 +53,141 @@ export default function Bestsellers() {
     }
   };
 
-  const scrollByDir = (dir) => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    const card = carousel.querySelector(`.${styles.card}`);
-    const track = carousel.querySelector(`.${styles.track}`);
-    if (!card || !track) return;
-    const cardWidth = card.offsetWidth;
-    const gap = parseFloat(getComputedStyle(track).columnGap || "16");
-    const visible =
-      parseFloat(getComputedStyle(track).getPropertyValue("--visible")) || 4;
-    carousel.scrollBy({
-      left: dir * visible * (cardWidth + gap),
-      behavior: "smooth",
+  const toggleWishlist = (e, productId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setWishlist((prev) => {
+      const next = new Set(prev);
+      if (next.has(productId)) next.delete(productId);
+      else next.add(productId);
+      return next;
     });
   };
 
   useGSAP(
     () => {
+      if (!products.length) return;
       gsap.from(`.${styles.card}`, {
-        y: 40,
+        y: 32,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: "power3.out",
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: `.${styles.carousel}`,
-          start: "top 82%",
-        },
+        stagger: 0.06,
+        scrollTrigger: { trigger: `.${styles.grid}`, start: "top 85%" },
       });
     },
-    { scope: root, dependencies: [items.length] }
+    { scope: root, dependencies: [products.length] }
   );
 
   return (
     <section ref={root} className={styles.section}>
-      <div className="container">
+      <div className="container" style={{ maxWidth: "1480px" }}>
         <div className={styles.head}>
-          <div className={styles.headText}>
-            <span className={styles.eyebrow}>Loved this week</span>
-            <h2 className={styles.heading}>
-              Bestsellers
-              <svg
-                className={styles.heart}
-                viewBox="0 0 24 24"
-                width="22"
-                height="22"
-                aria-hidden="true"
-              >
-                <path
-                  d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"
-                  fill="currentColor"
-                />
-              </svg>
-            </h2>
-            <span className={styles.rule} aria-hidden="true" />
-            <p className={styles.lead}>
-              The bouquets our customers return to — hand-tied each
-              morning, never the same twice.
-            </p>
-          </div>
-
-          <div className={styles.arrows}>
-            <button
-              type="button"
-              className={styles.arrow}
-              onClick={() => scrollByDir(-1)}
-              aria-label="Previous"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M15 6l-6 6 6 6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button
-              type="button"
-              className={styles.arrow}
-              onClick={() => scrollByDir(1)}
-              aria-label="Next"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M9 6l6 6-6 6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
+          <span className={styles.viewAllSpacer} aria-hidden="true">
+            View all reviews <span>→</span>
+          </span>
+          <span className={styles.headRule} aria-hidden="true" />
+          <h2 className={styles.heading}>Best Sellers</h2>
+          <span className={styles.headRule} aria-hidden="true" />
+          <a href="/shop" className={styles.viewAll}>
+            View all <span aria-hidden="true">→</span>
+          </a>
         </div>
 
-        <div ref={carouselRef} className={styles.carousel}>
-          <div className={styles.track}>
-            {items.map((p) => {
-              const isAdded = added.has(p.id);
-              const rating = p.rating || 4.8;
-              const ratingCount = p.ratingCount || 96;
-              return (
-                <a
-                  key={p.id}
-                  href={`/product/${p.slug}`}
-                  className={styles.card}
-                >
-                  <div className={styles.imageWrap}>
+        <div className={styles.grid}>
+          {products.map((p) => {
+            const isAdded = added.has(p.id);
+            const isWished = wishlist.has(p.id);
+            return (
+              <a key={p.id} href={`/product/${p.slug}`} className={styles.card}>
+                <div className={styles.media}>
+                  {p.image ? (
                     <Image
-                      src={resolveProductImage(p)}
+                      src={p.image}
                       alt={p.name}
                       fill
-                      sizes="(max-width: 860px) 75vw, 300px"
+                      sizes="(max-width: 860px) 45vw, 240px"
+                      unoptimized
                     />
-                    <button
-                      type="button"
-                      onClick={(e) => addToCart(e, p.id)}
-                      className={`${styles.addToCart} ${
-                        isAdded ? styles.added : ""
-                      }`}
-                    >
-                      {isAdded ? "Added ✓" : "Add to cart"}
-                    </button>
-                  </div>
-                  <h3 className={styles.name}>{p.name}</h3>
-                  <span className={styles.price}>{inr.format(p.price)}</span>
-                  <div className={styles.ratingRow}>
-                    <Stars rating={rating} />
-                    <span className={styles.count}>({ratingCount})</span>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        </div>
+                  ) : (
+                    <span aria-hidden="true" />
+                  )}
+                  {p.isNew ? (
+                    <span className={styles.badge}>Best Seller</span>
+                  ) : null}
 
-        <div className={styles.foot}>
-          <a href="/shop" className={styles.viewAll}>
-            View all products <span aria-hidden="true">→</span>
-          </a>
+                  <button
+                    type="button"
+                    onClick={(e) => toggleWishlist(e, p.id)}
+                    className={`${styles.wish} ${isWished ? styles.wished : ""}`}
+                    aria-label={
+                      isWished
+                        ? `Remove ${p.name} from wishlist`
+                        : `Add ${p.name} to wishlist`
+                    }
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"
+                        fill={isWished ? "currentColor" : "none"}
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => addToCart(e, p.id)}
+                    className={`${styles.add} ${isAdded ? styles.added : ""}`}
+                    aria-label={
+                      isAdded ? "Added to cart" : `Add ${p.name} to cart`
+                    }
+                  >
+                    {isAdded ? (
+                      <>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M5 12.5l4.5 4.5L19 7"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        Added
+                      </>
+                    ) : (
+                      <>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M5 6h2l1.6 9.5a1.5 1.5 0 0 0 1.5 1.3h6.8a1.5 1.5 0 0 0 1.5-1.2L21 9H8"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <circle cx="10.5" cy="20" r="1.2" fill="currentColor" />
+                          <circle cx="17.5" cy="20" r="1.2" fill="currentColor" />
+                        </svg>
+                        Add to cart
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className={styles.info}>
+                  <h3 className={styles.name}>{p.name}</h3>
+                  <div className={styles.priceRow}>
+                    <span className={styles.price}>{inr.format(p.price)}</span>
+                  </div>
+                </div>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,9 +1,9 @@
 import WishlistView from "@/components/WishlistView/WishlistView";
 
 export const metadata = {
-  title: "Wishlist — Decornart Atelier",
+  title: "Wishlist — Decor N Art Atelier",
   description:
-    "The bouquets you've saved at Decornart — kept here until you're ready.",
+    "The bouquets you've saved at Decor N Art — kept here until you're ready.",
 };
 
 export default function WishlistPage() {

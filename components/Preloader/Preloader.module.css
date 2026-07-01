@@ -5,26 +5,27 @@
   display: grid;
   place-items: center;
   background: transparent;
-  color: var(--ivory);
+  color: var(--ink);
   overflow: hidden;
 }
 
 /* Repeat visits in the same session — flag is set by the inline script
    in layout.js before the body is parsed, so the loader never paints. */
-:global(html.decornart-skip-preloader) .loader {
+:global(html.Decor N Art-skip-preloader) .loader {
   display: none !important;
 }
 
-/* Two panels that part vertically to reveal the page beneath. The wine
+/* Two panels that part vertically to reveal the page beneath. Light-beige
    fill lives on the panels (not the loader) so when they slide off the
    gap between them shows the page underneath. */
 .panel {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 50.5%;
-  background: var(--forest);
+  height: 50%;
+  background: color-mix(in srgb, var(--beige) 12%, #ffffff);
   z-index: 2;
+  will-change: transform;
 }
 .panelTop {
   top: 0;
@@ -44,44 +45,25 @@
   padding: 0 1.5rem;
 }
 
-/* Botanical accent — small horizontal sprig in gold above the eyebrow. */
-.sprig {
-  width: clamp(80px, 10vw, 120px);
+/* Brand logo — replaces the text wordmark. */
+.logo {
+  width: clamp(140px, 18vw, 220px);
   height: auto;
-  color: var(--gold);
   display: block;
 }
 
-.eyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--blush-soft);
-}
-
-/* The headline — large display weight, wide tracking. */
-.wordmark {
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 7vw, 5.4rem);
-  letter-spacing: 0.06em;
-  font-weight: 380;
-  line-height: 1;
-  color: var(--ivory);
-  margin: 0;
-}
-
-/* Drawing line — track is faint ivory, fill is gold scaling 0→1 from left. */
+/* Drawing line — track is faint ink, fill is blush scaling 0→1 from left. */
 .lineWrap {
   width: clamp(240px, 32vw, 380px);
   height: 1px;
-  background: rgba(246, 241, 231, 0.18);
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
   overflow: hidden;
   margin-top: 0.6rem;
 }
 .line {
   width: 100%;
   height: 100%;
-  background: var(--gold);
+  background: var(--blush);
   transform: scaleX(0);
   transform-origin: left center;
 }
@@ -89,6 +71,6 @@
 .count {
   font-size: 0.74rem;
   letter-spacing: 0.32em;
-  color: var(--blush-soft);
+  color: var(--ink-soft);
   font-feature-settings: "tnum" 1;
 }

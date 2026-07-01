@@ -1,0 +1,152 @@
+.section {
+  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
+  color: var(--ink);
+  padding: clamp(3.5rem, 2vw, 2rem) 0;
+  max-width: 1420px;
+  margin: auto;
+  border-radius: 12px;
+  margin: 40px
+}
+
+/* Centered heading. */
+.head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+  margin-bottom: clamp(2.4rem, 5vw, 3.6rem);
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+  text-align: center;
+  line-height: 1.15;
+}
+
+/* Three spotlight cards side by side on desktop. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+.card {
+  position: relative;
+  display: block;
+  min-height: clamp(200px, 26vw, 280px);
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.imageWrap {
+  position: absolute;
+  inset: 0;
+}
+.imageWrap :global(img) {
+  object-fit: cover;
+  transition: transform 1.4s var(--ease);
+}
+.card:hover .imageWrap :global(img) {
+  transform: scale(1.05);
+}
+
+/* Left-anchored scrim + text. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(0rem, 1vw, 1rem);
+  /* background: linear-gradient(
+    90deg,
+    rgba(31, 18, 48, 0.55) 0%,
+    rgba(31, 18, 48, 0.68) 50%,
+    rgba(31, 18, 48, 0) 100%
+  ); */
+  background: transparent;
+  color: var(--ivory);
+}
+
+.title {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1vw, 1rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.15;
+  max-width: 26ch;
+  color: var(--forest);
+  font-weight: bold
+}
+
+.copy {
+  margin: 0.55rem 0 1.1rem;
+  font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 23ch;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.85rem 2rem;
+  background: var(--ivory);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+  font-weight: 700
+}
+.card:hover .ctaBtn {
+  background: var(--blush) !important;
+  color: var(--ivory) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageWrap :global(img),
+  .ctaBtn {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card {
+    min-height: clamp(320px, 38vw, 420px);
+  }
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    min-height: clamp(280px, 62vw, 380px);
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 1.3rem;
+  }
+  .overlay {
+    padding: 1.3rem;
+  }
+  .copy {
+    margin: 0.6rem 0 1.2rem;
+  }
+}

@@ -1,4 +1,4 @@
-# PROJECT_PLAN.md — Decornart Build Roadmap
+# PROJECT_PLAN.md — Decor N Art Build Roadmap
 
 Phased plan. Each phase ships something usable. The home front end (Phase 0) is already in this repo.
 

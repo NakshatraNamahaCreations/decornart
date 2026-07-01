@@ -2,7 +2,8 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0.55rem;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 600;
   white-space: nowrap;
   color: var(--ink);
 }

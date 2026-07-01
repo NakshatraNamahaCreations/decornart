@@ -1,17 +1,11 @@
-import ContactHero from "@/components/ContactHero/ContactHero";
-import ContactForm from "@/components/ContactForm/ContactForm";
+import ContactView from "@/components/ContactView/ContactView";
 
 export const metadata = {
-  title: "Contact — Decornart Atelier",
+  title: "Contact — Decor N Art Atelier",
   description:
-    "Write to the Decornart atelier — bespoke bouquets, press enquiries, wholesale, or simply a visit. We reply within a day, by hand.",
+    "Get in touch with Decor N Art — WhatsApp, call, email, visit or send us a message. We reply within a few hours.",
 };
 
 export default function ContactPage() {
-  return (
-    <main>
-      <ContactHero />
-      <ContactForm />
-    </main>
-  );
+  return <ContactView />;
 }

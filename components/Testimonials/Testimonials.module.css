@@ -1,135 +1,249 @@
 .section {
-  background: #faebe5;
+  position: relative;
   color: var(--ink);
-  padding: clamp(3.5rem, 7vw, 6rem) 0;
+  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
+  padding: clamp(3rem, 5vw, 4.5rem) 0;
+  max-width: 1420px;
+  margin: 40px auto;
+  border-radius: 12px;
 }
 
-/* Centered head. */
+/* Head — matches Bestsellers pattern. */
 .head {
-  display: flex;
-  justify-content: center;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto;
+  align-items: center;
+  column-gap: clamp(0.8rem, 1.6vw, 1.4rem);
+  margin-bottom: clamp(1.6rem, 3vw, 2.2rem);
+}
+.viewAllSpacer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  visibility: hidden;
+  pointer-events: none;
+}
+.headRule {
+  height: 1px;
+  background: color-mix(in srgb, var(--ink) 22%, transparent);
 }
 .heading {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
-  color: var(--ink);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.1;
   margin: 0;
   text-align: center;
-  line-height: 1.15;
+}
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.3s var(--ease);
+  white-space: nowrap;
+}
+.viewAll:hover {
+  color: var(--blush);
+}
+.viewAll span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.viewAll:hover span {
+  transform: translateX(4px);
 }
 
-/* Three blush cards in a row. */
+/* Grid — 4 review cards + 1 wider hero card. */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(1rem, 2vw, 1.6rem);
+  grid-template-columns: repeat(4, 1fr) 1.35fr;
+  gap: clamp(0.9rem, 1.4vw, 1.3rem);
+  align-items: stretch;
 }
 
+/* Review card. */
 .card {
-  background: var(--ivory);
-  border-radius: 16px;
-  padding: clamp(1.6rem, 2.4vw, 2.2rem);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  min-height: 240px;
-  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  gap: 0.9rem;
+  padding: clamp(1rem, 1.4vw, 1.3rem);
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--beige) 45%, transparent);
+  border-radius: 14px;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 36px -22px rgba(58, 18, 29, 0.25);
-}
-
-.stars {
-  display: flex;
-  gap: 2px;
-  color: var(--blush);
-  font-size: 1.05rem;
-  line-height: 1;
-}
-.starOff {
-  color: rgba(58, 18, 29, 0.18);
-}
-
-.quote {
-  font-family: var(--font-display);
-  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
-  line-height: 1.55;
-  color: var(--ink);
-  margin: 0;
-  flex: 1;
+  transform: translateY(-3px);
+  box-shadow: 0 20px 44px -30px rgba(42, 15, 43, 0.35);
 }
 
 .author {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  margin-top: auto;
+  gap: 0.7rem;
 }
-
-/* Initial-based avatar in blush — premium and consistent without needing
-   real photo assets. */
-.avatar {
+.monogram {
+  flex: 0 0 auto;
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--blush);
-  color: var(--ivory);
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 500;
-  flex: 0 0 auto;
+  background: color-mix(in srgb, var(--blush) 22%, #ffffff);
+  color: var(--blush);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
 }
-
-.authorName {
-  font-size: 0.92rem;
-  color: var(--ink);
-  letter-spacing: 0.01em;
-}
-
-/* Pagination dots. */
-.dots {
+.meta {
   display: flex;
-  justify-content: center;
-  gap: 0.55rem;
-  margin-top: clamp(2rem, 3.5vw, 2.8rem);
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
 }
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(58, 18, 29, 0.22);
+.authorName {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.verified {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+.stars {
+  display: inline-flex;
+  gap: 1px;
+  font-size: 0.78rem;
+  line-height: 1;
+  margin-top: 0.15rem;
+}
+.starOn { color: #E7B23A; }
+.starOff { color: rgba(42, 15, 43, 0.18); }
+
+.quote {
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+
+.thumbs {
+  list-style: none;
   padding: 0;
-  cursor: pointer;
-  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+  margin: auto 0 0;
+  display: flex;
+  gap: 0.4rem;
 }
-.dot:hover {
-  background: rgba(58, 18, 29, 0.4);
+.thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(46px, 5vw, 62px);
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--beige) 25%, #ffffff);
 }
-.dotActive {
-  background: var(--ink);
-  transform: scale(1.2);
+.thumbImg {
+  object-fit: cover;
+}
+
+/* Hero card. */
+.heroCard {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 100%;
+  background: color-mix(in srgb, var(--beige) 40%, #ffffff);
+}
+.heroImg {
+  object-fit: cover;
+}
+.heroCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(42, 15, 43, 0) 40%,
+    rgba(42, 15, 43, 0.55) 65%,
+    rgba(42, 15, 43, 0.82) 100%
+  );
+}
+.heroQuote {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: clamp(1.2rem, 2vw, 1.8rem) clamp(1rem, 1.6vw, 1.4rem);
+  margin: 0;
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  line-height: 1.15;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(42, 15, 43, 0.45);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .card,
-  .dot {
+  .viewAll span {
     transition: none;
     transform: none;
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1300px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .heroCard {
+    grid-column: span 3;
+    min-height: 220px;
+  }
+}
+@media (max-width: 900px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .heroCard {
+    grid-column: span 2;
+  }
 }
-@media (max-width: 680px) {
+@media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
   }
+  .heroCard {
+    grid-column: auto;
+  }
+  .head {
+    grid-template-columns: 1fr auto;
+    column-gap: 0.6rem;
+  }
+  .headRule,
+  .viewAllSpacer { display: none; }
+  .heading { text-align: left; }
 }
