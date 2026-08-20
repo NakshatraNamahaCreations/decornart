@@ -36,9 +36,21 @@ export function WishlistProvider({ children }) {
 
   const add = useCallback(
     async (productId) => {
-      if (!isAuthed) throw new Error("Sign in to save items to your wishlist.");
+      if (!isAuthed) {
+        // Not signed in — let the UI open the login modal instead of
+        // throwing an unhandled rejection into the console.
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("wishlist:login-required"));
+        }
+        return null;
+      }
       const data = await wishlistApi.addToWishlist(productId);
       setItems(data?.items || []);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("wishlist:item-added", { detail: { productId } })
+        );
+      }
       return data;
     },
     [isAuthed]

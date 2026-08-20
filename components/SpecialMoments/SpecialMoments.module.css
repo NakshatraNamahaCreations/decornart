@@ -1,11 +1,13 @@
 .section {
-  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
   color: var(--ink);
-  padding: clamp(3.5rem, 2vw, 2rem) 0;
-  max-width: 1420px;
-  margin: auto;
+  padding: clamp(0rem, 0vw, 0rem) 0;
+  margin: 20px
+}
+.section > :global(.container) {
+  background: color-mix(in srgb, var(--beige) 20%, var(--cream));
   border-radius: 12px;
-  margin: 40px
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  padding-inline: clamp(1.25rem, 3vw, 2.5rem);
 }
 
 /* Centered heading. */
@@ -76,22 +78,22 @@
 }
 
 .title {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 1vw, 1rem);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.8vw, 1.8rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin: 0;
   line-height: 1.15;
-  max-width: 26ch;
-  color: var(--forest);
-  font-weight: bold
+  max-width: 18ch;
+  color: var(--card-text, var(--ivory));
+  font-weight: bold;
 }
 
 .copy {
   margin: 0.55rem 0 1.1rem;
   font-size: clamp(0.78rem, 0.9vw, 0.88rem);
   line-height: 1.5;
-  color: var(--ink);
+  color: var(--card-text, var(--ivory));
   max-width: 23ch;
 }
 
@@ -106,7 +108,7 @@
   letter-spacing: 0.09em;
   text-transform: uppercase;
   transition: background 0.35s var(--ease), color 0.35s var(--ease);
-  font-weight: 700
+  font-weight: 700;
 }
 .card:hover .ctaBtn {
   background: var(--blush) !important;

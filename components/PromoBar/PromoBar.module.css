@@ -4,12 +4,11 @@
   left: 0;
   right: 0;
   z-index: 99;
-  background: var(--forest);
+  background: var(--deep-plum, #301038);
   color: var(--ivory);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  border-bottom: 1px solid rgba(251, 242, 236, 0.08);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   transition: transform 0.4s var(--ease);
 }
 .hidden {
@@ -19,35 +18,85 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 34px;
+  height: 38px;
+  overflow: hidden;
 }
 .list {
   display: flex;
   align-items: center;
-  gap: clamp(1.4rem, 3vw, 2.6rem);
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
   list-style: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   white-space: nowrap;
+  color: rgba(255, 255, 255, 0.92);
 }
 .item {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  color: rgba(251, 242, 236, 0.78);
+  gap: 0.55rem;
+  padding: 0 clamp(0.9rem, 2vw, 1.6rem);
+  position: relative;
+  font-size: 0.78rem;
+  line-height: 1;
 }
-.dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--gold);
-  flex: 0 0 auto;
+.item + .item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.22);
+}
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.95rem;
+}
+.text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+}
+.text strong {
+  color: #fff;
+  font-weight: 600;
+}
+.muted {
+  color: rgba(255, 255, 255, 0.62);
+}
+.code {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-/* On narrow screens show only the first message — the others would crowd. */
-@media (max-width: 860px) {
-  .item:nth-child(n + 2) {
+/* Progressively hide the less-critical announcements as the viewport
+   narrows, so what remains stays readable rather than crushing. */
+@media (max-width: 1200px) {
+  .item:nth-child(3) {
+    display: none;
+  }
+}
+@media (max-width: 960px) {
+  .item:nth-child(4) {
+    display: none;
+  }
+}
+@media (max-width: 720px) {
+  .item:nth-child(2),
+  .item:nth-child(5) {
     display: none;
   }
 }

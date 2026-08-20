@@ -1,11 +1,13 @@
 .section {
   position: relative;
   color: var(--ink);
-  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
-  padding: clamp(3rem, 5vw, 4.5rem) 0;
-  max-width: 1420px;
-  margin: 40px auto;
+  padding: clamp(2rem, 3vw, 3.5rem) 0;
+}
+.section > :global(.container) {
+  background: color-mix(in srgb, var(--beige) 20%, var(--cream));
   border-radius: 12px;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  padding-inline: clamp(1.25rem, 3vw, 2.5rem);
 }
 
 /* Head — matches Bestsellers pattern. */
@@ -35,12 +37,11 @@
 .heading {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: clamp(1.9rem, 2.4vw, 2.4rem);
   line-height: 1.1;
+  letter-spacing: -0.01em;
   margin: 0;
-  text-align: center;
+  text-transform: uppercase;
 }
 .viewAll {
   display: inline-flex;
@@ -79,7 +80,7 @@
   flex-direction: column;
   gap: 0.9rem;
   padding: clamp(1rem, 1.4vw, 1.3rem);
-  background: #ffffff;
+  background: var(--cream);
   border: 1px solid color-mix(in srgb, var(--beige) 45%, transparent);
   border-radius: 14px;
   transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
@@ -101,7 +102,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--blush) 22%, #ffffff);
+  background: color-mix(in srgb, var(--blush) 22%, var(--cream));
   color: var(--blush);
   font-family: var(--font-body);
   font-weight: 600;
@@ -134,7 +135,7 @@
   line-height: 1;
   margin-top: 0.15rem;
 }
-.starOn { color: #E7B23A; }
+.starOn { color: var(--blush); }
 .starOff { color: rgba(42, 15, 43, 0.18); }
 
 .quote {
@@ -159,7 +160,7 @@
   aspect-ratio: 1 / 1;
   border-radius: 6px;
   overflow: hidden;
-  background: color-mix(in srgb, var(--beige) 25%, #ffffff);
+  background: color-mix(in srgb, var(--beige) 25%, var(--cream));
 }
 .thumbImg {
   object-fit: cover;
@@ -172,7 +173,7 @@
   overflow: hidden;
   isolation: isolate;
   min-height: 100%;
-  background: color-mix(in srgb, var(--beige) 40%, #ffffff);
+  background: color-mix(in srgb, var(--beige) 40%, var(--cream));
 }
 .heroImg {
   object-fit: cover;
@@ -199,10 +200,10 @@
   padding: clamp(1.2rem, 2vw, 1.8rem) clamp(1rem, 1.6vw, 1.4rem);
   margin: 0;
   font-family: var(--font-script);
-  font-weight: 400;
+  font-weight: 600;
   font-size: clamp(1.15rem, 1.7vw, 1.5rem);
   line-height: 1.15;
-  color: #ffffff;
+  color: var(--cream);
   text-align: center;
   text-shadow: 0 2px 12px rgba(42, 15, 43, 0.45);
 }
@@ -217,11 +218,11 @@
 
 @media (max-width: 1300px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   .heroCard {
-    grid-column: span 3;
-    min-height: 220px;
+    grid-column: span 4;
+    min-height: 240px;
   }
 }
 @media (max-width: 900px) {

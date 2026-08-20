@@ -3,10 +3,10 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { handmade } from "@/lib/data/testimonials";
-import styles from "./HandmadeBouquets.module.css";
+import { beautiful } from "@/lib/data/testimonials";
+import styles from "./beautifulBouquets.module.css";
 
-export default function HandmadeBouquets() {
+export default function beautifulBouquets() {
   const root = useRef(null);
   const copyRef = useRef(null);
   const imgRef = useRef(null);
@@ -114,8 +114,8 @@ export default function HandmadeBouquets() {
               <span className={styles.badge}>This week's drop</span>
               <Image
                 ref={imgRef}
-                src={handmade.image}
-                alt={handmade.imageAlt}
+                src={beautiful.image}
+                alt={beautiful.imageAlt}
                 fill
                 sizes="(max-width: 860px) 100vw, 52vw"
               />
@@ -123,7 +123,7 @@ export default function HandmadeBouquets() {
           </div>
 
           <div ref={copyRef} className={styles.copy}>
-            <span className="eyebrow">Handmade, small batch</span>
+            <span className="eyebrow">beautiful, small batch</span>
             <h2 className={styles.heading}>
               No two are ever quite the same.
             </h2>
@@ -136,7 +136,7 @@ export default function HandmadeBouquets() {
               Each bouquet is wrapped, conditioned, and photographed before it
               leaves the studio, so the one you order is the one that arrives.
             </p>
-            <a href="/handmade" className={styles.cta}>
+            <a href="/beautiful" className={styles.cta}>
               See this week's drop
             </a>
           </div>

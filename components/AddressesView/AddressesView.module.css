@@ -1,0 +1,466 @@
+.page {
+  background: var(--cream);
+  color: var(--ink);
+  padding-top: 110px;
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+.container { max-width: var(--maxw); }
+
+/* ─────────── Hero ─────────── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+  isolation: isolate;
+  margin-bottom: clamp(1rem, 1.6vw, 1.4rem);
+}
+.heroDeco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.heroImg { object-fit: cover; object-position: center; }
+.heroDeco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* background: linear-gradient(
+    100deg,
+    rgba(255, 246, 234, 0.94) 0%,
+    rgba(255, 246, 234, 0.78) 32%,
+    rgba(255, 246, 234, 0.28) 62%,
+    rgba(255, 246, 234, 0) 100%
+  ); */
+  z-index: 1;
+}
+.heroInner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: inherit;
+  padding-top: clamp(1.8rem, 3vw, 2.6rem);
+  padding-bottom: clamp(1.8rem, 3vw, 2.6rem);
+}
+.heroCopy { display: flex; flex-direction: column; gap: 0.55rem; max-width: 52ch; }
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+.crumb a { color: var(--ink-soft); text-decoration: none; transition: color 0.2s var(--ease); }
+.crumb a:hover { color: var(--blush); }
+.crumb span[aria-current] { color: var(--ink); font-weight: 700; }
+.heroTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1;
+  color: var(--ink);
+  margin: 0.2rem 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 24ch
+}
+.heroHeart { display: inline-flex; color: var(--blush); font-size: 0.32em; }
+.heroLead {
+  margin: 0.35rem 0 0.6rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 1vw, 1rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 48ch;
+}
+.heroBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  background: var(--plum);
+  color: var(--cream);
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.heroBtn:hover { background: var(--purple); transform: translateY(-1px); }
+
+/* ─────────── Grid ─────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.85rem, 1.4vw, 1.2rem);
+  margin-bottom: clamp(1rem, 1.6vw, 1.4rem);
+}
+.card {
+  padding: clamp(1rem, 1.4vw, 1.2rem);
+  background: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--beige) 50%, transparent);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.card:hover {
+  border-color: color-mix(in srgb, var(--blush) 40%, transparent);
+  transform: translateY(-2px);
+}
+.cardHead {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: center;
+}
+.cardIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--blush) 12%, var(--cream));
+  color: var(--blush);
+  font-size: 1.05rem;
+}
+.cardTitleRow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.cardLabel {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.defaultChip {
+  padding: 0.15rem 0.55rem;
+  background: color-mix(in srgb, var(--blush) 15%, var(--cream));
+  color: var(--blush);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.cardPhone { color: var(--ink-soft); margin-top: 0.15rem; }
+.cardActions {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed color-mix(in srgb, var(--beige) 50%, transparent);
+}
+.linkBtn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--blush);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+.linkBtn:hover { color: var(--plum); text-decoration: underline; }
+.iconActions { display: inline-flex; gap: 0.35rem; margin-left: auto; }
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.iconBtn:hover {
+  border-color: var(--blush);
+  color: var(--blush);
+  background: color-mix(in srgb, var(--blush) 8%, transparent);
+}
+
+.addTile {
+  padding: clamp(1rem, 1.4vw, 1.2rem);
+  background: transparent;
+  border: 1.5px dashed color-mix(in srgb, var(--blush) 45%, transparent);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 180px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.addTile:hover {
+  background: color-mix(in srgb, var(--blush) 8%, transparent);
+  border-color: var(--blush);
+}
+.addTileIcon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 12%, var(--cream));
+  color: var(--blush);
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+}
+.addTile strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.addTile > span:last-child {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* Empty state */
+.empty {
+  grid-column: 1 / -1;
+  padding: clamp(2rem, 4vw, 3rem);
+  background: var(--cream);
+  border: 1px dashed color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.empty strong { font-family: var(--font-display); font-size: 1.1rem; color: var(--ink); margin-top: 0.5rem; }
+.empty > span { font-family: var(--font-body); font-size: 0.85rem; }
+.emptyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding: 0.7rem 1.2rem;
+  background: var(--plum);
+  color: var(--cream);
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* ─────────── Form ─────────── */
+.formCard {
+  padding: clamp(1.2rem, 1.8vw, 1.6rem);
+  background: color-mix(in srgb, var(--beige) 22%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 14px;
+  margin-bottom: clamp(1rem, 1.6vw, 1.4rem);
+}
+.formHead { margin-bottom: 0.9rem; }
+.formTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  color: var(--ink);
+  margin: 0 0 0.15rem;
+}
+.formLead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.form { display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+.formRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 0.7rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.field > span {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.field input,
+.field select {
+  width: 100%;
+  min-width: 0;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s var(--ease);
+}
+.field input:focus,
+.field select:focus { border-color: var(--blush); }
+
+.checkboxRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--ink);
+  cursor: pointer;
+  margin-top: 0.2rem;
+}
+.checkboxRow input {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid color-mix(in srgb, var(--beige) 65%, transparent);
+  border-radius: 4px;
+  background: var(--cream);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.checkboxRow input:checked {
+  background: var(--blush);
+  border-color: var(--blush);
+}
+.checkboxRow input:checked::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid var(--cream);
+  border-bottom: 2px solid var(--cream);
+  transform: rotate(45deg);
+  left: 4px;
+  top: 1px;
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.cancelBtn {
+  padding: 0.75rem 1.1rem;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 8px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.cancelBtn:hover { border-color: var(--blush); color: var(--blush); }
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.3rem;
+  background: var(--plum);
+  color: var(--cream);
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.saveBtn:hover { background: var(--purple); transform: translateY(-1px); }
+
+/* ─────────── Trust strip ─────────── */
+.trustStrip {
+  padding: clamp(0.85rem, 1.4vw, 1.1rem) clamp(1rem, 1.6vw, 1.3rem);
+  background: color-mix(in srgb, var(--blush) 8%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--blush) 22%, transparent);
+  border-radius: 12px;
+}
+.trustList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.7rem, 1vw, 1rem);
+}
+.trustRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: center;
+}
+.trustIcon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--blush);
+  font-size: 1rem;
+}
+.trustText { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.trustText strong { font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; color: var(--ink); }
+.trustText span { font-family: var(--font-body); font-size: 0.72rem; color: var(--ink-soft); }
+
+/* ─────────── Responsive ─────────── */
+@media (max-width: 1180px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .grid { grid-template-columns: 1fr; }
+  .formRow { grid-template-columns: 1fr; }
+  .trustList { grid-template-columns: 1fr; }
+  .formActions { justify-content: stretch; }
+  .cancelBtn, .saveBtn { flex: 1; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heroBtn, .card, .addTile, .saveBtn, .iconBtn { transition: none; transform: none; }
+}

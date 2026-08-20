@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import styles from "./HandmadePhilosophy.module.css";
+import styles from "./beautifulPhilosophy.module.css";
 
 const PRINCIPLES = [
   {
@@ -22,7 +22,7 @@ const PRINCIPLES = [
   },
 ];
 
-export default function HandmadePhilosophy() {
+export default function beautifulPhilosophy() {
   const root = useRef(null);
 
   useGSAP(
@@ -48,7 +48,7 @@ export default function HandmadePhilosophy() {
           </h2>
           <span className={styles.rule} aria-hidden="true" />
           <p className={styles.lead}>
-            Three rules the atelier holds to — for every handmade bouquet
+            Three rules the atelier holds to — for every beautiful bouquet
             that leaves the studio.
           </p>
         </div>

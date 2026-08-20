@@ -15,6 +15,227 @@
   }
 }
 
+/* List view — single column of landscape rows. Overrides the responsive
+   grid at every breakpoint so the layout stays a stacked list regardless
+   of viewport size. */
+.grid.list,
+.grid.list .cell {
+  min-width: 0;
+}
+.grid.list {
+  grid-template-columns: minmax(0, 900px);
+  justify-content: center;
+  gap: clamp(0.9rem, 1.6vw, 1.2rem);
+}
+@media (min-width: 1180px) {
+  .grid.list { grid-template-columns: minmax(0, 1000px); }
+}
+@media (max-width: 860px) {
+  .grid.list { grid-template-columns: 1fr; }
+}
+
+/* ── Landscape row card ── */
+.row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  padding: clamp(0.9rem, 1.6vw, 1.2rem);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px -22px rgba(48, 16, 88, 0.2);
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+.row:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--plum-accent) 28%, var(--border));
+  box-shadow: 0 22px 46px -26px rgba(48, 16, 88, 0.32);
+}
+
+.rowMedia {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--lavender);
+}
+.rowPrimaryImg,
+.rowHoverImg {
+  object-fit: cover;
+  transition: transform 0.8s var(--ease), opacity 0.4s var(--ease);
+}
+.rowHoverImg {
+  opacity: 0;
+}
+.row:hover .rowHoverImg {
+  opacity: 1;
+}
+.row:hover .rowPrimaryImg,
+.row:hover .rowHoverImg {
+  transform: scale(1.05);
+}
+@media (hover: none) {
+  .rowHoverImg { display: none; }
+}
+
+.rowBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.rowTop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.rowEyebrow {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--plum-accent);
+}
+.rowName {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--deep-plum);
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+.rowName a { color: inherit; }
+.rowName a:hover { color: var(--plum-accent); }
+.rowCopy {
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0.15rem 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rowFoot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.2rem;
+}
+.rowPrice {
+  min-width: 0;
+}
+.rowActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Circular icon-only wishlist. */
+.rowWish {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--deep-plum);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease), color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+.rowWish:hover {
+  border-color: var(--plum-accent);
+  color: var(--plum-accent);
+}
+.rowWishOn {
+  background: var(--plum-accent);
+  border-color: var(--plum-accent);
+  color: var(--white);
+}
+.rowWishOn:hover {
+  background: var(--deep-plum);
+  border-color: var(--deep-plum);
+  color: var(--white);
+}
+
+/* Filled plum add-to-cart pill (visible at rest — no hover reveal in list). */
+.rowAddBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 999px;
+  background: var(--plum-accent);
+  color: var(--white);
+  border: 1px solid var(--plum-accent);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.rowAddBtn:hover {
+  background: var(--deep-plum);
+  border-color: var(--deep-plum);
+}
+.rowAddBtnDone {
+  background: var(--deep-plum);
+  border-color: var(--deep-plum);
+}
+
+/* Ghost "View" link, matched height/pill shape. */
+.rowViewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--deep-plum);
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: border-color 0.25s var(--ease), color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+.rowViewBtn:hover {
+  border-color: var(--plum-accent);
+  color: var(--plum-accent);
+}
+
+/* Stack the row on narrow screens: image on top, body below. */
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .rowMedia {
+    aspect-ratio: 16 / 10;
+  }
+  .rowActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
 .cell {
   min-width: 0;
 }

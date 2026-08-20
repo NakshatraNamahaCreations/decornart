@@ -1,632 +1,660 @@
-/* ──────────────────────────────────────────────────────────────────
-   Collections page
-   • Editorial banner (image bg, blush eyebrow, display title with em)
-   • Trust strip (6 inline items, ivory card)
-   • Shop by Collection — 4×2 immersive image tiles
-   • Featured Collections — circular pill row, wraps on smaller screens
-   • Support tri-card (Bulk / Custom / Help)
-   ────────────────────────────────────────────────────────────────── */
-
 .page {
-  background: var(--ivory);
+  background: var(--cream);
   color: var(--ink);
-  padding: 0 0 clamp(3.5rem, 7vw, 6rem);
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
 }
 
-/* ──────── Banner ──────── */
-.banner {
+/* ────────────────── 1. Hero banner (full-bleed image + cream scrim) ────────────────── */
+.hero {
   position: relative;
   width: 100%;
-  min-height: clamp(320px, 42vw, 480px);
+  height: 100vh;
+  min-height: 640px;
   padding-top: 110px;
   overflow: hidden;
   isolation: isolate;
   color: var(--ink);
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
 }
-.bannerImg {
+.heroImg {
   object-fit: cover;
   object-position: 100% 30%;
   z-index: 0;
 }
-.bannerScrim {
+.heroScrim {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
+  /* background: linear-gradient(
     100deg,
-    rgba(255, 246, 234, 0.92) 0%,
-    rgba(255, 246, 234, 0.72) 0%,
-    rgba(255, 246, 234, 0.25) 20%,
+    rgba(255, 246, 234, 0.94) 0%,
+    rgba(255, 246, 234, 0.75) 22%,
+    rgba(255, 246, 234, 0.3) 48%,
     rgba(255, 246, 234, 0) 100%
-  );
+  ); */
 }
-.bannerInner {
+.heroInner {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  padding-top: clamp(1.4rem, 4vw, 2.6rem);
+  gap: 0.75rem;
+  padding-top: clamp(6.4rem, 4vw, 2.6rem);
   padding-bottom: clamp(1.4rem, 4vw, 2.6rem);
-  max-width: 1320px;
   align-items: flex-start;
 }
-.bannerEyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--blush);
-  font-weight: 500;
-}
-.bannerTitle {
-  font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
-  line-height: 1.05;
-  margin: 0;
-  color: var(--ink);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
-.bannerTitle em {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--blush);
-}
-.bannerIntro {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
-  line-height: 1.6;
-  max-width: 44ch;
-}
-.bannerCta {
+.heroEyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.95rem 1.5rem;
-  margin-top: 0.5rem;
-  background: var(--ink);
-  color: var(--ivory) !important;
-  border-radius: 999px;
+  gap: 0.4rem;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
+  color: var(--blush);
+  font-weight: 600;
+}
+.heroTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5.6vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin: 0;
+  max-width: 14ch;
+}
+.heroScript {
+  font-family: var(--font-script), cursive;
+  font-weight: 600;
+  font-size: clamp(1.7rem, 4.4vw, 4.6rem);
+  line-height: 1;
+  color: var(--blush);
+  margin: 0.1rem 0 0.5rem;
+}
+.heroLead {
+  margin: 0 0 0.4rem;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.05vw, 1rem);
+  line-height: 1.55;
+  max-width: 44ch;
+}
+.heroCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   text-decoration: none;
-  font-weight: 500;
   transition: background 0.3s var(--ease), transform 0.3s var(--ease);
 }
-.bannerCta:hover {
-  background: var(--blush);
-  transform: translateY(-2px);
-}
-.bannerCtaArrow {
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(255, 246, 234, 0.18);
-  color: var(--ivory);
-  font-size: 0.65rem;
-  transition: transform 0.3s var(--ease);
-}
-.bannerCta:hover .bannerCtaArrow { transform: translateX(3px); }
+.heroCta:hover { background: var(--purple); transform: translateY(-2px); }
 
-.banner :global(a),
-.banner :global(span) { color: var(--ink-soft); }
-.banner :global(a:hover) { color: var(--blush); }
-
-/* ──────── Trust strip ──────── */
+/* ────────────────── 2. Trust strip (6 items) ────────────────── */
 .trustWrap {
-  padding: 0 0 clamp(2.4rem, 5vw, 3.4rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
 }
-.trustStrip {
+.trustList {
   list-style: none;
+  padding: clamp(0.9rem, 1.6vw, 1.3rem) clamp(1rem, 2vw, 1.6rem);
   margin: 0;
-  padding: clamp(1rem, 2vw, 1.4rem) clamp(1.1rem, 2vw, 1.6rem);
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1rem;
-  background: #fff;
-  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
-  border-radius: 16px;
-  box-shadow: 0 16px 36px -28px rgba(42, 15, 43, 0.18);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(0.6rem, 1.2vw, 1.2rem);
+  background: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 10px;
 }
 .trustItem {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.6rem;
   min-width: 0;
 }
 .trustIcon {
+  flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
+  width: 32px;
+  height: 32px;
   color: var(--blush);
-  font-size: 0.95rem;
-  flex: 0 0 auto;
 }
-.trustCopy {
+.trustIcon svg { width: 20px; height: 20px; }
+.trustText {
   display: flex;
   flex-direction: column;
-  line-height: 1.2;
+  line-height: 1.25;
   min-width: 0;
 }
-.trustCopy strong {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: 0.04em;
+.trustText strong {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: var(--ink);
 }
-.trustCopy small {
+.trustText span {
+  font-family: var(--font-body);
   font-size: 0.72rem;
   color: var(--ink-soft);
-  margin-top: 0.2rem;
   line-height: 1.35;
 }
 
-/* ──────── Generic section heading ──────── */
-.section { padding: clamp(2.4rem, 5vw, 3.8rem) 0; }
+/* ────────────────── Section head (centered with heart ornaments) ────────────────── */
+.section {
+  padding: clamp(1.5rem, 3vw, 2rem) 0;
+}
 .sectionHead {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin-bottom: clamp(1.6rem, 3.4vw, 2.4rem);
-}
-.sectionHeadCenter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  text-align: center;
+  gap: clamp(0.8rem, 1.6vw, 1.4rem);
+  margin-bottom: clamp(1.2rem, 2vw, 1.8rem);
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.eyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--blush);
-  font-weight: 500;
+.headRule {
+  height: 1px;
+  background: color-mix(in srgb, var(--ink) 22%, transparent);
+  display: block;
 }
 .sectionTitle {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
-  line-height: 1.1;
-  margin: 0;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--ink);
-}
-.sectionTitle em {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--blush);
+  margin: 0;
+  text-align: center;
 }
 
-/* ──────── Shop by Collection grid ──────── */
+/* ────────────────── 3. Shop by Collection (5-col compact grid) ────────────────── */
 .collectionGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(1rem, 1.8vw, 1.6rem);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.2vw, 1.1rem);
+}
+
+/* ── Shop-by-Collection carousel ────────────────────────────────────
+   Horizontal snap scroller with prev/next arrows overlaid on the
+   sides. --visible controls how many cards are on screen; the track
+   sizes each slide off that + --card-gap using container queries so
+   the math scales with the wrapper, not the viewport. */
+.collectionCarouselWrap {
+  position: relative;
+}
+.collectionCarousel {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  container-type: inline-size;
+  scroll-padding-inline: clamp(0.5rem, 1vw, 1rem);
+}
+.collectionCarousel::-webkit-scrollbar { display: none; }
+.collectionTrack {
+  --card-gap: clamp(0.75rem, 1.4vw, 1.25rem);
+  --visible: 5;
+  display: flex;
+  gap: var(--card-gap);
+  padding: 0.5rem 0.2rem;
+  width: max-content;
+}
+.collectionSlide {
+  flex: 0 0
+    calc(
+      (100cqi - (var(--visible) - 1) * var(--card-gap)) / var(--visible)
+    );
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/* Floating arrow buttons — sit over the leading/trailing edges of the
+   carousel. Deep-plum circle, white icon; scale/tint on hover. */
+.carouselArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--deep-plum);
+  cursor: pointer;
+  box-shadow: 0 8px 20px -10px rgba(48, 16, 88, 0.28);
+  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+    border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.carouselArrow:hover {
+  background: var(--plum-accent);
+  border-color: var(--plum-accent);
+  color: var(--white);
+}
+.carouselArrow:active {
+  transform: translateY(-50%) scale(0.94);
+}
+.carouselArrow svg {
+  width: 18px;
+  height: 18px;
+}
+.carouselArrowPrev { left: -18px; }
+.carouselArrowNext { right: -18px; }
+
+@media (max-width: 1200px) {
+  .collectionTrack { --visible: 4; }
+}
+@media (max-width: 900px) {
+  .collectionTrack { --visible: 3; }
+  .carouselArrowPrev { left: 4px; }
+  .carouselArrowNext { right: 4px; }
+}
+@media (max-width: 640px) {
+  .collectionTrack { --visible: 2; }
+}
+@media (max-width: 460px) {
+  .collectionTrack { --visible: 1.15; }
+  .carouselArrow { display: none; } /* swipe only on the smallest screens */
 }
 .collectionCard {
-  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-width: 0;
-  background: #fff;
-  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
-  border-radius: 16px;
   overflow: hidden;
-  text-decoration: none;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--beige) 22%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
   color: var(--ink);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease),
-    border-color 0.4s var(--ease);
+  text-decoration: none;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease);
 }
 .collectionCard:hover {
   transform: translateY(-4px);
+  box-shadow: 0 24px 44px -28px rgba(42, 15, 43, 0.35);
   border-color: color-mix(in srgb, var(--blush) 40%, transparent);
-  box-shadow: 0 30px 50px -32px rgba(42, 15, 43, 0.32);
 }
-.cardImage {
+.cardMedia {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  aspect-ratio: 16 / 11;
   overflow: hidden;
-  background: var(--ivory-deep);
+  background: color-mix(in srgb, var(--beige) 30%, var(--cream));
 }
-.cardImage :global(img) {
+.cardImg {
   object-fit: cover;
-  transition: transform 1s var(--ease);
+  transition: transform 0.6s var(--ease);
 }
-.collectionCard:hover .cardImage :global(img) { transform: scale(1.06); }
-.cardIndex {
-  position: absolute;
-  top: 0.7rem;
-  left: 0.7rem;
-  display: grid;
-  place-items: center;
-  min-width: 32px;
-  height: 28px;
-  padding: 0 0.55rem;
-  border-radius: 999px;
-  background: rgba(255, 246, 234, 0.92);
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-.cardCopy {
+.collectionCard:hover .cardImg { transform: scale(1.05); }
+.cardBody {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem 1.1rem 1.1rem;
-  flex: 1;
+  gap: 0.35rem;
+  padding: clamp(0.9rem, 1.4vw, 1.2rem);
 }
 .cardName {
-  font-family: var(--font-display);
-  font-size: clamp(1rem, 1.2vw, 1.12rem);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.2;
 }
 .cardNote {
-  font-size: 0.82rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
   color: var(--ink-soft);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 .cardMeta {
-  margin-top: auto;
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-  padding-top: 0.55rem;
-  border-top: 1px dashed color-mix(in srgb, var(--ink) 12%, transparent);
-}
-.cardCount {
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--blush);
-  font-weight: 600;
+  transition: gap 0.3s var(--ease);
 }
-.cardArrow {
-  display: inline-grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--blush) 14%, var(--ivory));
-  color: var(--blush);
-  font-size: 0.7rem;
-  transition: transform 0.3s var(--ease), background 0.3s var(--ease),
-    color 0.3s var(--ease);
-}
-.collectionCard:hover .cardArrow {
-  background: var(--blush);
-  color: var(--ivory);
-  transform: translateX(3px);
-}
+.collectionCard:hover .cardMeta { gap: 0.65rem; }
 
-/* ──────── Featured pills section ──────── */
-.pillsSection {
-  position: relative;
-  isolation: isolate;
-  margin: clamp(2rem, 4vw, 3rem) 0;
-  padding: clamp(3rem, 6vw, 4.5rem) 0;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--blush) 8%, var(--ivory)) 0%,
-    color-mix(in srgb, var(--blush) 14%, var(--ivory)) 60%,
-    color-mix(in srgb, var(--blush) 6%, var(--ivory)) 100%
-  );
-  overflow: hidden;
-}
-/* .pillsSection::before,
-.pillsSection::after {
-  content: "";
-  position: absolute;
-  width: clamp(220px, 24vw, 380px);
-  height: clamp(220px, 24vw, 380px);
-  border-radius: 50%;
-  z-index: -1;
-  filter: blur(80px);
-  opacity: 0.55;
-}
-.pillsSection::before {
-  top: -120px;
-  left: -120px;
-  background: color-mix(in srgb, var(--blush) 60%, transparent);
-}
-.pillsSection::after {
-  bottom: -160px;
-  right: -120px;
-  background: color-mix(in srgb, var(--blush) 45%, transparent);
-} */
-
-/* Small ornamental dot-line-dot flourish above the eyebrow */
-.flourish {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.6rem;
-}
-.flourishDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--blush);
-}
-.flourishLine {
-  width: clamp(40px, 6vw, 70px);
-  height: 1px;
-  background: var(--blush);
-  opacity: 0.55;
-}
-
-.sectionLead {
-  margin: 0.6rem auto 0;
-  max-width: 50ch;
-  font-size: clamp(0.92rem, 1.05vw, 1rem);
-  line-height: 1.6;
-  color: var(--ink-soft);
-}
-
-.pillsTrack {
-  position: relative;
+/* ────────────────── 4. Featured Collections (circular badges) ────────────────── */
+.featuredGrid {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: clamp(0.8rem, 1.5vw, 1.4rem);
+  gap: clamp(0.6rem, 1.2vw, 1.2rem);
 }
-/* Faint hairline behind the pills, tying them together visually */
-.pillsTrack::before {
-  content: "";
-  position: absolute;
-  top: clamp(55px, 5.5vw, 70px);
-  left: 4%;
-  right: 4%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--blush) 50%, transparent) 14%,
-    color-mix(in srgb, var(--blush) 50%, transparent) 86%,
-    transparent
-  );
-  z-index: 0;
+.featuredItem {
+  min-width: 0;
 }
-
-.pill {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-}
-.pillLink {
+.featuredLink {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 0.3rem;
-  border-radius: 16px;
+  gap: 0.45rem;
   text-decoration: none;
   color: var(--ink);
-  transition: transform 0.35s var(--ease);
-  width: 100%;
-  position: relative;
+  transition: transform 0.3s var(--ease);
 }
-.pillLink:hover { transform: translateY(-4px); }
-
-/* Outer halo that lights up on hover */
-.pillFrame {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: clamp(108px, 10.5vw, 140px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  transform: translateX(-50%);
-  background: radial-gradient(
-    circle at center,
-    color-mix(in srgb, var(--blush) 28%, transparent),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-  pointer-events: none;
-  z-index: 0;
-}
-.pillLink:hover .pillFrame { opacity: 1; }
-
-.pillImage {
+.featuredLink:hover { transform: translateY(-3px); }
+.featuredMedia {
   position: relative;
-  width: clamp(90px, 9vw, 120px);
-  aspect-ratio: 1;
+  width: clamp(80px, 10vw, 128px);
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
-  background: var(--ivory);
-  padding: 4px;
-  box-shadow:
-    inset 0 0 0 2px var(--ivory),
-    0 0 0 1px color-mix(in srgb, var(--blush) 35%, transparent),
-    0 10px 22px -12px rgba(42, 15, 43, 0.22);
-  transition: box-shadow 0.4s var(--ease), transform 0.5s var(--ease);
-  z-index: 1;
+  background: color-mix(in srgb, var(--beige) 22%, var(--cream));
+  border: 3px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  transition: border-color 0.3s var(--ease);
 }
-.pillImage :global(img) {
-  object-fit: cover;
-  border-radius: 50%;
-}
-.pillLink:hover .pillImage {
-  box-shadow:
-    inset 0 0 0 2px var(--ivory),
-    0 0 0 2px var(--blush),
-    0 18px 32px -14px color-mix(in srgb, var(--blush) 55%, transparent);
-  transform: scale(1.02);
-}
-
-.pillOrdinal {
-  font-family: var(--font-display);
-  font-style: italic;
+.featuredLink:hover .featuredMedia { border-color: var(--blush); }
+.featuredImg { object-fit: cover; }
+.featuredName {
+  font-family: var(--font-body);
   font-size: 0.78rem;
-  color: var(--blush);
-  letter-spacing: 0.05em;
-  margin-top: 0.55rem;
-}
-
-.pillName {
-  font-family: var(--font-display);
-  font-size: clamp(0.9rem, 1vw, 0.8rem);
-  font-weight: 600;
-  text-align: center;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  line-height: 1.25;
-}
-
-.pillShop {
-  font-size: 0.62rem;
-  letter-spacing: 0.22em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.15;
+}
+.featuredNote {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.3;
+}
+.featuredCount {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   color: var(--blush);
-  font-weight: 600;
-  opacity: 0;
-  transform: translateY(-3px);
-  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
-.pillLink:hover .pillShop {
-  opacity: 1;
-  transform: translateY(0);
+
+/* ────────────────── 5. Get Inspired Everyday ────────────────── */
+.inspiredCard {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.6fr);
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+  padding: clamp(1.2rem, 2vw, 1.8rem);
+  background: color-mix(in srgb, var(--beige) 22%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 12px;
+  align-items: stretch;
 }
-/* ──────── Support tri-card ──────── */
+.inspiredCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: clamp(0.5rem, 1vw, 1rem);
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: flex-start;
+}
+.inspiredTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin: 0;
+}
+.inspiredLead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--cream) 82%, transparent);
+}
+.inspiredCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.4rem;
+  padding: 0.7rem 1.1rem;
+  background: var(--cream);
+  color: var(--plum);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.3s var(--ease);
+}
+.inspiredCta:hover { transform: translateY(-2px); }
+.inspiredCta svg { font-size: 1rem; }
+
+.instaGrid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(0.5rem, 0.9vw, 0.9rem);
+}
+.instaTile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--beige) 25%, var(--cream));
+}
+.instaImg {
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.instaTile:hover .instaImg { transform: scale(1.08); }
+
+/* ────────────────── 6. Why DecorNArt? ────────────────── */
+.whyList {
+  list-style: none;
+  padding: clamp(0.9rem, 1.6vw, 1.3rem) clamp(1rem, 2vw, 1.6rem);
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(0.6rem, 1.2vw, 1.2rem);
+  background: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 10px;
+}
+.whyItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.whyIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: var(--blush);
+}
+.whyIcon svg { width: 22px; height: 22px; }
+.whyText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  min-width: 0;
+}
+.whyText strong {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.whyText span {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+
+/* ────────────────── 7. Support cards (Bulk / Custom / Help) ────────────────── */
 .supportGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1rem, 1.8vw, 1.4rem);
+  gap: clamp(0.9rem, 1.5vw, 1.4rem);
 }
 .supportCard {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 1rem;
-  align-items: stretch;
-  padding: 1.4rem 1.5rem;
-  border-radius: 16px;
-  background: linear-gradient(
-    120deg,
-    color-mix(in srgb, var(--blush) 14%, var(--ivory)),
-    color-mix(in srgb, var(--blush) 4%, var(--ivory))
-  );
-  border: 1px solid color-mix(in srgb, var(--blush) 22%, transparent);
-  text-decoration: none;
-  color: var(--ink);
-  overflow: hidden;
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
-}
-.supportCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 30px 50px -28px color-mix(in srgb, var(--blush) 55%, transparent);
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(0.75rem, 1.2vw, 1rem);
+  align-items: center;
+  padding: clamp(1rem, 1.6vw, 1.4rem);
+  background: color-mix(in srgb, var(--beige) 22%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 12px;
 }
 .supportCopy {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 0.4rem;
   min-width: 0;
 }
 .supportEyebrow {
-  font-size: 0.66rem;
-  letter-spacing: 0.28em;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--blush);
-  font-weight: 600;
-}
-.supportTitle {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  line-height: 1.35;
-  font-weight: 500;
   color: var(--ink);
 }
+.supportTitle {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
 .supportCta {
-  margin-top: auto;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-self: flex-start;
-  padding: 0.55rem 1rem;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--ivory);
-  font-size: 0.66rem;
-  letter-spacing: 0.22em;
+  margin-top: 0.4rem;
+  padding: 0.55rem 0.95rem;
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 600;
-  transition: background 0.3s var(--ease);
+  text-decoration: none;
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
 }
-.supportCta svg { font-size: 0.65rem; }
-.supportCard:hover .supportCta { background: var(--blush); }
-
-.supportImage {
+.supportCta:hover { background: var(--purple); transform: translateY(-2px); }
+.supportMedia {
   position: relative;
-  border-radius: 12px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
   overflow: hidden;
-  background: var(--ivory-deep);
-  min-height: 130px;
+  background: color-mix(in srgb, var(--beige) 30%, var(--cream));
 }
-.supportImage :global(img) {
-  object-fit: cover;
-}
+.supportImg { object-fit: cover; }
 .supportIconBg {
   display: grid;
   place-items: center;
-  background: color-mix(in srgb, var(--blush) 22%, var(--ivory));
+  background: var(--plum);
+  color: var(--cream);
 }
 .supportBigIcon {
-  font-size: clamp(2.4rem, 4vw, 3rem);
-  color: var(--blush);
+  display: grid;
+  place-items: center;
+  font-size: clamp(2rem, 4vw, 3rem);
 }
 
-/* ──────── Responsive ──────── */
-@media (max-width: 1180px) {
-  .trustStrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .collectionGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .pillsTrack { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .pillsTrack::before { display: none; }
-  .supportGrid { grid-template-columns: minmax(0, 1fr); }
-}
-@media (max-width: 760px) {
-  .trustStrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .collectionGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pillsTrack { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 480px) {
-  .trustStrip { grid-template-columns: 1fr; }
-  .collectionGrid { grid-template-columns: 1fr; }
-  .pillsTrack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .supportCard { grid-template-columns: 1fr; }
-  .supportImage { min-height: 160px; }
+/* Sr-only utility for the support section's title (visually hidden). */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
+/* ────────────────── Motion + responsive ────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .collectionCard,
-  .cardImage :global(img),
-  .pillLink,
-  .pillImage,
-  .supportCard,
-  .cardArrow,
-  .bannerCta,
-  .bannerCtaArrow {
+  .cardImg,
+  .featuredLink,
+  .featuredMedia,
+  .heroCta,
+  .instaTile,
+  .instaImg,
+  .supportCta,
+  .inspiredCta {
     transition: none;
     transform: none;
   }
+}
+
+@media (max-width: 1200px) {
+  .trustList { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .whyList { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .featuredGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .collectionGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .instaGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .instaGrid > :nth-child(n+5) { display: none; }
+  .supportGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .hero {
+    min-height: clamp(280px, 60vw, 400px);
+    padding-top: 96px;
+  }
+  .trustList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .whyList { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .featuredGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .collectionGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .inspiredCard { grid-template-columns: 1fr; }
+  .instaGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .trustList,
+  .whyList { grid-template-columns: 1fr; }
+  .featuredGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collectionGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .supportCard { grid-template-columns: 1fr; }
 }

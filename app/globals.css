@@ -1,56 +1,69 @@
 :root {
-  /* ─── Client palette — STRICT 5-colour set ──────────────────────────
-     #2A0F2B  deepest plum / ink
-     #4B1F4F  dark purple
-     #6F2A5E  magenta-purple (accent)
-     #D8C2A8  warm beige (neutral)
-     #FFF6EA  cream (page bg)
+  /* ─── Client palette — 8-colour set ─────────────────────────────────
+     #301058  Deep Plum   — primary dark / ink
+     #6E1C91  Plum        — accent (eyebrows, rules, pills, links)
+     #F3E6FA  Lavender    — tinted accent / soft chip backgrounds
+     #FAF8F8  Soft Lilac  — page background
+     #ECE6F1  Border      — hairline dividers / card outlines
+     #606060  Muted Gray  — secondary text
+     #909090  Muted Soft  — tertiary text / captions
+     #FFFFFF  White       — card backgrounds
      Legacy token names kept so existing components inherit the rebrand
      without touching every file. */
 
-  --ivory: #FFFFFF;        /* page background (whitened) */
-  --ivory-deep: #FFFFFF;   /* section background / mat (whitened) */
-  --forest: #2A0F2B;       /* deepest plum — primary dark */
-  --forest-soft: #4B1F4F;  /* dark purple */
-  --moss: #6F2A5E;         /* magenta accent (legacy moss alias) */
-  --blush: #6F2A5E;        /* magenta accent (used for eyebrows, rules, pills) */
-  --blush-soft: color-mix(in srgb, #6F2A5E 22%, #FFFFFF); /* tinted accent */
-  --gold: #D8C2A8;         /* beige (legacy gold alias — avoid in new code) */
-  --ink: #2A0F2B;          /* deepest plum — body text */
-  --ink-soft: rgba(42, 15, 43, 0.65);
-  --line: rgba(42, 15, 43, 0.12);
+  /* ── New named tokens (prefer these in new code) ── */
+  --deep-plum: #301038;
+  --plum-accent: #6E1C91;
+  --lavender: #F3E6FA;
+  --soft-lilac: #FAF8F8;
+  --border: #ECE6F1;
+  --muted: #606060;
+  --muted-soft: #909090;
+  --white: #FFFFFF;
 
-  /* Named palette aliases — prefer these in new code. */
-  --plum: #2A0F2B;
-  --purple: #4B1F4F;
-  --magenta: #6F2A5E;
-  --beige: #D8C2A8;
-  --cream: #FFFFFF;
-  --warm-white: #FFFFFF;   /* legacy alias retained */
-  --lavender: #6F2A5E;     /* legacy alias retained */
-  --wine: #4B1F4F;         /* legacy alias retained */
-  --rose: #6F2A5E;         /* legacy alias retained */
+  /* ── Semantic roles ── */
+  --ivory: #FAF8F8;        /* Soft Lilac — page/card backgrounds */
+  --ivory-deep: #F3E6FA;   /* Lavender — section background / mat */
+  --forest: #301038;       /* Deep Plum — primary dark */
+  --forest-soft: #301038;  /* Deep Plum — no in-between shade in this palette */
+  --moss: #6E1C91;         /* Plum accent (legacy moss alias) */
+  --blush: #6E1C91;        /* Plum accent (eyebrows, rules, pills) */
+  --blush-soft: #F3E6FA;   /* Lavender tint */
+  --gold: #F3E6FA;         /* Lavender (legacy gold alias — avoid in new code) */
+  --ink: #301038;          /* Deep Plum — body text */
+  --ink-soft: #606060;     /* Muted Gray — secondary text */
+  --line: #ECE6F1;         /* Border hairline */
+
+  /* ── Legacy aliases ── */
+  --plum: #301038;         /* Deep Plum (dark role — do not repoint) */
+  --purple: #301038;
+  --magenta: #6E1C91;
+  --beige: #F3E6FA;
+  --cream: #FAF8F8;
+  --warm-white: #FAF8F8;
+  --wine: #301038;
+  --rose: #6E1C91;
 
   /* Fonts (family injected by next/font in layout.js) */
   --font-display: var(--font-cormorant), "Cormorant Garamond", "Times New Roman", serif;
   --font-body: var(--font-poppins), "Poppins", "Helvetica Neue", Arial, sans-serif;
   --font-script: var(--font-allura), "Allura", cursive;
 
-  --maxw: 1480px;
+  --maxw: 1420px;
   --gutter: clamp(1.25rem, 1vw, 1rem);
   --radius: 4px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Height of the fixed Navbar. Used by pinned sections to push their
-     content out from behind it. Two rows on desktop, search wraps below
-     on mobile so the height stays similar. */
-  --nav-h: 152px;
+  /* Height of the fixed PromoBar + Navbar. Nav links now sit inline
+     with the logo, so it's a single main row. Desktop: 38px promo +
+     ~72px main row. Mobile: search wraps under the top row. */
+  --nav-h: 112px;
 }
 @media (max-width: 860px) {
-  :root { --nav-h: 138px; }
+  :root { --nav-h: 128px; }
 }
 @media (max-width: 480px) {
-  :root { --nav-h: 124px; }
+  :root { --nav-h: 120px; }
 }
 
 * {
@@ -65,7 +78,7 @@ html {
 }
 
 body {
-  background: color-mix(in srgb, var(--beige) 14%, #ffffff);
+  background: var(--cream);
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 400; /* Poppins Regular — body text */
@@ -91,6 +104,15 @@ h4 {
   font-weight: 700; /* Cormorant Garamond Bold — main headings */
   line-height: 1.08;
   letter-spacing: -0.005em;
+}
+
+/* Banner / page-title headings: Cormorant Garamond tops out at 700, so
+   we thicken h1s visually with a hairline text-stroke instead of a
+   heavier font weight. Kept subtle so body copy inside cards using h2/h3
+   is unaffected. */
+h1 {
+  -webkit-text-stroke: 0.6px currentColor;
+  paint-order: stroke fill;
 }
 
 button {
@@ -121,7 +143,7 @@ footer a {
 /* Script accent utility — Allura for accented headline words. */
 .script {
   font-family: var(--font-script);
-  font-weight: 400;
+  font-weight: 600;
 }
 
 a {

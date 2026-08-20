@@ -3,9 +3,9 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
-import a1 from "@/assets/collect-1.png";
-import a2 from "@/assets/collect-4.png";
-import a3 from "@/assets/collect-5.png";
+import a1 from "@/assets/butterfly-signature/signature1.jpeg";
+import a2 from "@/assets/luxe-heart/luxe-heart1.jpeg";
+import a3 from "@/assets/for-mother-gift/for-mother1.jpeg";
 import styles from "./AboutAtelier.module.css";
 
 export default function AboutAtelier() {
@@ -111,7 +111,7 @@ export default function AboutAtelier() {
             <a href="/shop" className={styles.cta}>
               Shop the collection <span aria-hidden="true">→</span>
             </a>
-            <a href="/handmade" className={styles.ghost}>
+            <a href="/beautiful" className={styles.ghost}>
               See this week's drop
             </a>
           </div>

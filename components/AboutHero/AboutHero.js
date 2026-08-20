@@ -3,11 +3,14 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
-import heroImg from "@/assets/about-img.png";
+import heroImg from "@/assets/luxe-rose/luxe-rose1.jpeg";
+import { useBannerContent } from "@/hooks/useBannerContent";
 import styles from "./AboutHero.module.css";
 
 export default function AboutHero() {
   const root = useRef(null);
+  const banner = useBannerContent("about-hero");
+  const heroSrc = banner.loaded ? banner.image || heroImg : null;
 
   useGSAP(
     () => {
@@ -58,21 +61,32 @@ export default function AboutHero() {
 
       <div className={`container ${styles.inner}`}>
         <div className={styles.copy}>
-          <span className={styles.eyebrow}>The Atelier</span>
+          <span className={styles.eyebrow}>
+            {banner.text("eyebrow", "The Atelier")}
+          </span>
 
           <h1 className={styles.heading}>
-            <span className={styles.lineWrap}>
-              <span className={styles.line}>Flowers <em>worth</em></span>
-              
-              <span className={styles.line}>waiting for.</span>
-            </span>
+            {banner.loaded && (
+              banner.title ? (
+                <span className={styles.lineWrap}>
+                  <span className={styles.line}>{banner.title}</span>
+                </span>
+              ) : (
+                <span className={styles.lineWrap}>
+                  <span className={styles.line}>Flowers <em>worth</em></span>
+                  <span className={styles.line}>waiting for.</span>
+                </span>
+              )
+            )}
           </h1>
 
           <span className={styles.rule} aria-hidden="true" />
 
           <p className={styles.lead}>
-            A small atelier composing hand-tied bouquets each morning — for one
-            door, on one day, by the people who chose the stems.
+            {banner.text(
+              "subtitle",
+              "A small atelier composing hand-tied bouquets each morning — for one door, on one day, by the people who chose the stems."
+            )}
           </p>
 
           <div className={styles.figures}>
@@ -92,13 +106,15 @@ export default function AboutHero() {
         </div>
 
         <div className={styles.media}>
-          <Image
-            src={heroImg}
-            alt="A hand-tied Decornart bouquet"
-            fill
-            sizes="(max-width: 860px) 90vw, 45vw"
-            priority
-          />
+          {heroSrc && (
+            <Image
+              src={heroSrc}
+              alt="A hand-tied Decornart bouquet"
+              fill
+              sizes="(max-width: 860px) 90vw, 45vw"
+              priority
+            />
+          )}
           
         </div>
       </div>

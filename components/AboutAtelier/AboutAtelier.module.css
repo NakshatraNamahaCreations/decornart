@@ -67,7 +67,7 @@
 .imgWrap {
   position: relative;
   width: 100%;
-  background: #f6e7df;
+  background: var(--cream);
   border-radius: 6px;
   overflow: hidden;
 }

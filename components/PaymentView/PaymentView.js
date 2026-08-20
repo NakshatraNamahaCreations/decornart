@@ -1,38 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
-  FaShieldAlt,
-  FaTruck,
-  FaUndo,
-  FaSmile,
-  FaHeart,
-  FaLock,
-  FaCheckCircle,
-  FaMobileAlt,
-  FaCreditCard,
-  FaUniversity,
-  FaWallet,
-  FaMoneyBillWave,
-  FaRegClock,
-  FaCopy,
-  FaChevronDown,
-  FaWhatsapp,
-  FaEnvelope,
-  FaCommentDots,
-  FaArrowRight,
-  FaQrcode,
-  FaTag,
-} from "react-icons/fa";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { FaWhatsapp, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import { useCart } from "@/components/providers/CartProvider";
-import { useAuth } from "@/components/providers/AuthProvider";
-import { createOrder, verifyOrder } from "@/lib/api/orders";
-import { openRazorpay } from "@/lib/razorpay";
 import { resolveProductImage } from "@/lib/productImages";
-import helpImg from "@/assets/bouquet-img.png";
+import { hexForColor } from "@/lib/colorSwatches";
+import heroImg from "@/assets/checkoutbg.png";
+import helpImg from "@/assets/promobg.png";
+import avatar1 from "@/assets/butterfly-gift-box/butterfly-1.jpeg";
+import avatar2 from "@/assets/luxe-heart/luxe-heart2.jpeg";
+import avatar3 from "@/assets/for-mother-gift/for-mother4.jpeg";
+import avatar4 from "@/assets/butterfly-luxury/luxury2.jpeg";
 import styles from "./PaymentView.module.css";
 
 const inr = new Intl.NumberFormat("en-IN", {
@@ -41,744 +21,782 @@ const inr = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 0,
 });
 
+const CRUMBS = [
+  { label: "Cart", active: false },
+  { label: "Information", active: false },
+  { label: "Shipping", active: false },
+  { label: "Payment", active: true },
+];
+
 const PAYMENT_METHODS = [
   {
     id: "upi",
-    icon: <FaMobileAlt />,
-    label: "UPI / QR payment",
+    title: "UPI / QR Payment",
     sub: "Pay instantly using any UPI app",
-    brands: ["GPay", "PhonePe", "Paytm", "BHIM"],
+    badges: ["G Pay", "PhonePe", "Paytm", "BHIM"],
   },
   {
     id: "card",
-    icon: <FaCreditCard />,
-    label: "Card payment",
-    sub: "Pay securely using your debit / credit card",
-    brands: ["Visa", "Mastercard", "RuPay", "Amex"],
+    title: "Card Payment",
+    sub: "Pay securely using your debit/credit card",
+    badges: ["VISA", "MC", "RuPay", "Amex"],
   },
   {
-    id: "netbanking",
-    icon: <FaUniversity />,
-    label: "Net banking",
+    id: "netbank",
+    title: "Net Banking",
     sub: "Pay directly from your bank account",
-    brands: ["All major banks"],
+    right: "All major banks supported",
   },
   {
-    id: "wallet",
-    icon: <FaWallet />,
-    label: "Wallets",
+    id: "wallets",
+    title: "Wallets",
     sub: "Pay using your preferred wallet",
-    brands: ["Paytm", "PhonePe", "Amazon Pay"],
+    badges: ["Paytm", "PhonePe", "Amazon Pay"],
   },
   {
     id: "cod",
-    icon: <FaMoneyBillWave />,
-    label: "Cash on delivery (COD)",
+    title: "Cash on Delivery (COD)",
     sub: "Pay when your order is delivered",
-    brands: ["Available for eligible orders"],
+    right: "Available for all eligible orders",
   },
   {
     id: "bnpl",
-    icon: <FaRegClock />,
-    label: "Buy now, pay later",
-    sub: "Pay in easy instalments",
-    brands: ["Zest", "Simpl", "LazyPay"],
+    title: "Buy Now, Pay Later",
+    sub: "Pay in easy installments",
+    badges: ["Zest", "Simpl", "LazyPay"],
   },
 ];
 
-const OFFERS = [
-  { code: "SAVE100", desc: "Get ₹100 off on orders above ₹999" },
-  { code: "FIRST15", desc: "Flat 15% off on your first order" },
-  { code: "BUNDLE10", desc: "Buy 3+ bundles and save 10%" },
-];
+const METHOD_ICON = {
+  upi: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="4" width="7" height="7" rx="1" />
+      <rect x="13" y="4" width="7" height="7" rx="1" />
+      <rect x="4" y="13" width="7" height="7" rx="1" />
+      <path d="M14 14h3v3M17 20l3-3" />
+    </svg>
+  ),
+  card: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+      <rect x="3" y="6" width="18" height="12" rx="1" />
+      <path d="M3 10h18" />
+    </svg>
+  ),
+  netbank: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+      <path d="M3 10L12 4l9 6v2H3z" />
+      <path d="M5 12v7M9 12v7M15 12v7M19 12v7M3 21h18" strokeLinecap="round" />
+    </svg>
+  ),
+  wallets: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <path d="M3 10h18" />
+      <circle cx="17" cy="14" r="1.4" fill="currentColor" />
+    </svg>
+  ),
+  cod: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+      <rect x="3" y="7" width="18" height="12" rx="1" />
+      <circle cx="12" cy="13" r="2.5" />
+    </svg>
+  ),
+  bnpl: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  ),
+};
 
 const SUMMARY_TRUST = [
-  { id: "secure", icon: <FaLock />, title: "Secure payments", note: "100% protected payments" },
-  { id: "ret", icon: <FaUndo />, title: "Easy returns", note: "7 days hassle-free returns" },
-  { id: "ship", icon: <FaTruck />, title: "On-time delivery", note: "Fast & reliable shipping" },
-  { id: "hand", icon: <FaHeart />, title: "Handmade with love", note: "Crafted with passion & care" },
+  {
+    id: "secure",
+    title: "Secure Payments",
+    copy: "100% protected payments",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+        <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" />
+        <path d="M9 12l2 2 4-4" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    id: "returns",
+    title: "Damage Protection",
+    copy: "Replacement for transit-damaged items",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 12a8 8 0 0 1 14-5" />
+        <path d="M18 3v4h-4" />
+        <path d="M20 12a8 8 0 0 1-14 5" />
+        <path d="M6 21v-4h4" />
+      </svg>
+    ),
+  },
+  {
+    id: "delivery",
+    title: "On-time Delivery",
+    copy: "Fast & reliable shipping",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+        <path d="M3 7h11v9H3z" />
+        <path d="M14 10h4l3 3v3h-7" />
+        <circle cx="7" cy="18" r="1.6" />
+        <circle cx="17" cy="18" r="1.6" />
+      </svg>
+    ),
+  },
+  {
+    id: "beautiful",
+    title: "Curated with Love",
+    copy: "Crafted with passion & care",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+        <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z" />
+      </svg>
+    ),
+  },
 ];
 
-const FOOTER_TRUST = [
-  { id: "secure", icon: <FaLock />, title: "100% secure payments", note: "Your data is always protected" },
-  { id: "delivery", icon: <FaTruck />, title: "Pan-India delivery", note: "Fast & reliable shipping" },
-  { id: "returns", icon: <FaUndo />, title: "7-day easy returns", note: "Hassle-free returns" },
-  { id: "premium", icon: <FaShieldAlt />, title: "Premium quality", note: "Handmade with love" },
-  { id: "india", icon: <FaHeart />, title: "Proudly made in India", note: "Supporting local artisans" },
+const BOTTOM_TRUST = [
+  {
+    id: "secure",
+    title: "100% Secure Payments",
+    copy: "Your data is always protected",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+        <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" />
+        <path d="M9 12l2 2 4-4" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    id: "delivery",
+    title: "PAN India Delivery",
+    copy: "Fast & reliable shipping",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+        <path d="M3 7h11v9H3z" />
+        <path d="M14 10h4l3 3v3h-7" />
+        <circle cx="7" cy="18" r="1.6" />
+        <circle cx="17" cy="18" r="1.6" />
+      </svg>
+    ),
+  },
+  {
+    id: "returns",
+    title: "Damage Protection",
+    copy: "Replacement for transit-damaged items",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 12a8 8 0 0 1 14-5" />
+        <path d="M18 3v4h-4" />
+        <path d="M20 12a8 8 0 0 1-14 5" />
+        <path d="M6 21v-4h4" />
+      </svg>
+    ),
+  },
+  {
+    id: "premium",
+    title: "Premium Quality",
+    copy: "Curated with Love",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+        <circle cx="12" cy="9" r="6" />
+        <path d="M8.5 13.5L7 21l5-3 5 3-1.5-7.5" />
+      </svg>
+    ),
+  },
+  {
+    id: "india",
+    title: "Proudly Made in India",
+    copy: "Supporting local artisans",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" strokeLinecap="round" />
+      </svg>
+    ),
+  },
 ];
 
-const AVATAR_TINTS = ["#f5c6c6", "#e0c5dc", "#cfd9c8", "#f0d8b8", "#c8d8e8"];
+const AVATARS = [avatar1, avatar2, avatar3, avatar4];
 
 export default function PaymentView() {
   const root = useRef(null);
   const router = useRouter();
-  const { user, isAuthed, isLoading: authLoading } = useAuth();
-  const { cart, refresh: refreshCart, applyPromo } = useCart();
+  const { cart } = useCart();
+  const items = cart?.items || [];
+  const subtotal =
+    cart?.subtotal ??
+    items.reduce((sum, l) => sum + (l.price ?? 0) * (l.qty ?? 1), 0);
 
   const [method, setMethod] = useState("upi");
-  const [processing, setProcessing] = useState(false);
-  const [error, setError] = useState("");
-
-  const [billingSame, setBillingSame] = useState(true);
+  const [openMethod, setOpenMethod] = useState("upi");
+  const [sameAsShipping, setSameAsShipping] = useState(true);
   const [billing, setBilling] = useState({
     name: "",
     phone: "",
     email: "",
-    gst: "",
   });
-
   const [coupon, setCoupon] = useState("");
-  const [couponApplying, setCouponApplying] = useState(false);
-  const [couponMsg, setCouponMsg] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState("SAVE100");
   const [upiCopied, setUpiCopied] = useState(false);
 
-  useEffect(() => {
-    if (!authLoading && !isAuthed) {
-      router.replace("/login?next=/payment");
-    }
-  }, [authLoading, isAuthed, router]);
+  const discount = appliedCoupon === "SAVE100" && subtotal >= 999 ? 100 : 0;
+  const shippingCost = 0;
+  const total = Math.max(0, subtotal + shippingCost - discount);
 
-  useEffect(() => {
-    if (user?.email && !billing.email) {
-      setBilling((b) => ({
-        ...b,
-        email: user.email || "",
-        name: user.name || b.name,
-      }));
-    }
-  }, [user, billing.email]);
+  const setBill = (k, v) => setBilling((prev) => ({ ...prev, [k]: v }));
 
-  const items = cart.items || [];
-  const summary = cart.summary || {};
-  const subtotal = summary.subtotal ?? 0;
-  const gst = summary.gst ?? 0;
-  const shippingFee = summary.shipping ?? 0;
-  const discount = summary.discount ?? 0;
-  const total = subtotal + gst + shippingFee - discount;
-
-  const shippingAddress = useMemo(() => {
-    const def = (user?.addresses || []).find((a) => a.isDefault) ||
-      (user?.addresses || [])[0];
-    return def || null;
-  }, [user]);
-
-  const onApplyCoupon = async () => {
-    if (!coupon.trim()) {
-      setCouponMsg("Enter a coupon code first.");
-      return;
-    }
-    setCouponApplying(true);
-    setCouponMsg("");
-    try {
-      await applyPromo(coupon.trim());
-      setCouponMsg("Coupon applied successfully.");
-    } catch (err) {
-      setCouponMsg(err?.message || "We couldn't apply that code.");
-    } finally {
-      setCouponApplying(false);
-    }
-  };
-
-  const copyUpi = async () => {
-    try {
-      await navigator.clipboard.writeText("decornart@upi");
-      setUpiCopied(true);
-      setTimeout(() => setUpiCopied(false), 1600);
-    } catch {
-      /* noop */
-    }
-  };
-
-  const onBilling = (key) => (e) =>
-    setBilling((b) => ({ ...b, [key]: e.target.value }));
-
-  const onPay = async (e) => {
-    e?.preventDefault?.();
-    setError("");
-
-    if (!shippingAddress) {
-      router.push("/checkout");
-      return;
-    }
-
-    setProcessing(true);
-    let placedOrderNumber = null;
-    try {
-      const { order, payment: pay } = await createOrder({ shippingAddress });
-      placedOrderNumber = order.orderNumber;
-
-      let verifyPayload;
-      if (method === "cod") {
-        verifyPayload = {
-          razorpayOrderId: pay.orderId,
-          razorpayPaymentId: `pay_cod_${Date.now()}`,
-          razorpaySignature: "cod_signature",
-        };
-      } else if (pay.mock) {
-        verifyPayload = {
-          razorpayOrderId: pay.orderId,
-          razorpayPaymentId: `pay_mock_${Date.now()}`,
-          razorpaySignature: "mock_signature",
-        };
-      } else {
-        verifyPayload = await openRazorpay({
-          orderId: pay.orderId,
-          amount: pay.amount,
-          currency: pay.currency,
-          user: { ...user, email: billing.email || user?.email },
-        });
-      }
-
-      await verifyOrder(verifyPayload);
-
-      refreshCart();
-      const paidTotal = order.summary?.total || total;
-      const qs = new URLSearchParams({
-        order: order.orderNumber,
-        total: String(paidTotal),
-      });
-      router.push(`/thank-you?${qs.toString()}`);
-    } catch (err) {
-      const reason = err.message || "Could not process your payment. Please try again.";
-      const qs = new URLSearchParams({ reason });
-      if (placedOrderNumber) qs.set("order", placedOrderNumber);
-      router.push(`/payment-failed?${qs.toString()}`);
-    } finally {
-      setProcessing(false);
-    }
-  };
-
-  useGSAP(
-    () => {
-      gsap.from(`.${styles.head} > *`, {
-        y: 18,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.05,
-        ease: "power3.out",
-      });
-      gsap.from(`.${styles.block}, .${styles.summary}, .${styles.summaryCard}, .${styles.helpCard}, .${styles.avatarsCard}`, {
-        opacity: 0,
-        y: 18,
-        duration: 0.55,
-        stagger: 0.06,
-        ease: "power2.out",
-        delay: 0.1,
-      });
-    },
-    { scope: root }
+  const cartItems = useMemo(
+    () =>
+      items.map((it) => ({
+        ...it,
+        image: it.image || resolveProductImage(it),
+      })),
+    [items]
   );
 
-  if (authLoading || !isAuthed) {
-    return (
-      <section className={styles.page}>
-        <div className="container" style={{ padding: "8rem 0", opacity: 0.7 }}>
-          Checking your session…
-        </div>
-      </section>
-    );
-  }
+  const handleCopyUpi = () => {
+    navigator.clipboard?.writeText("decornart@upi");
+    setUpiCopied(true);
+    setTimeout(() => setUpiCopied(false), 1500);
+  };
 
-  if (!items.length) {
-    return (
-      <section className={styles.page}>
-        <div className="container" style={{ padding: "8rem 0", textAlign: "center" }}>
-          <h1 className={styles.heading}>Nothing to pay for yet.</h1>
-          <p className={styles.headSub} style={{ marginTop: "0.6rem" }}>
-            Your cart is empty — add a product, then return to pay.
-          </p>
-          <a href="/shop" className={styles.primaryCta} style={{ marginTop: "1.2rem" }}>
-            Browse the shop <FaArrowRight />
-          </a>
-        </div>
-      </section>
-    );
-  }
+  const handleApplyCoupon = () => {
+    const code = coupon.trim().toUpperCase();
+    if (code) setAppliedCoupon(code);
+  };
+
+  const handlePaySecurely = () => {
+    router.push("/thank-you");
+  };
+
+  const toggleMethod = (id) => {
+    setMethod(id);
+    setOpenMethod((cur) => (cur === id ? null : id));
+  };
 
   return (
     <main ref={root} className={styles.page}>
-      <div className={`container ${styles.shell}`}>
-        {/* ───────────── Head ───────────── */}
-        <header className={styles.head}>
-          <div className={styles.headRow}>
-            <div>
-              <h1 className={styles.heading}>Payment</h1>
-              <nav className={styles.crumbs} aria-label="Checkout progress">
-                <a href="/cart">Cart</a>
-                <span className={styles.crumbSep} aria-hidden="true">›</span>
-                <a href="/checkout">Information</a>
-                <span className={styles.crumbSep} aria-hidden="true">›</span>
-                <span>Shipping</span>
-                <span className={styles.crumbSep} aria-hidden="true">›</span>
-                <span className={styles.crumbActive}>Payment</span>
-              </nav>
-            </div>
-            <span className={styles.secure}>
-              <span className={styles.secureIcon} aria-hidden="true">
-                <FaShieldAlt />
-              </span>
-              <span className={styles.secureCopy}>
-                <strong>100% secure payment</strong>
-                <small>Your payment information is safe with us</small>
-              </span>
+      {/* ─────────── Page banner ─────────── */}
+      <section className={styles.pageHead} aria-label="Payment">
+        <div className={styles.pageHeadDeco} aria-hidden="true">
+          <Image
+            src={heroImg}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={styles.pageHeadDecoImg}
+          />
+        </div>
+        <div className={`container ${styles.pageHeadInner}`}>
+          <div className={styles.pageHeadCopy}>
+            <h1 className={styles.pageTitle}>Payment</h1>
+            <nav className={styles.crumbs} aria-label="Checkout progress">
+              {CRUMBS.map((c, i) => (
+                <span key={c.label} className={styles.crumb}>
+                  <span className={c.active ? styles.crumbActive : styles.crumbText}>
+                    {c.label}
+                  </span>
+                  {i < CRUMBS.length - 1 && (
+                    <span aria-hidden="true" className={styles.crumbSep}>
+                      &rsaquo;
+                    </span>
+                  )}
+                </span>
+              ))}
+            </nav>
+          </div>
+          <div className={styles.pageSecure}>
+            <span className={styles.secureIcon} aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+                <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" />
+                <path d="M9 12l2 2 4-4" strokeLinecap="round" />
+              </svg>
+            </span>
+            <span className={styles.secureText}>
+              <strong>100% Secure Payment</strong>
+              <span>Your payment information is safe with us</span>
             </span>
           </div>
-        </header>
+        </div>
+      </section>
 
-        <form className={styles.layout} onSubmit={onPay}>
-          <div className={styles.formCol}>
-            {/* ─────── 01 Choose Payment Method ─────── */}
-            <section className={styles.block}>
-              <header className={styles.blockHead}>
-                <span className={styles.blockNum}>1</span>
-                <h2 className={styles.blockTitle}>Choose a payment method</h2>
+      <div className={`container ${styles.container}`}>
+        <div className={styles.layout}>
+          {/* ═════ LEFT ═════ */}
+          <div className={styles.leftCol}>
+            {/* 1. Choose a Payment Method */}
+            <section className={styles.stepCard}>
+              <header className={styles.stepHead}>
+                <span className={styles.stepNum} aria-hidden="true">1</span>
+                <h2 className={styles.stepTitle}>Choose a Payment Method</h2>
               </header>
 
               <ul className={styles.methodList}>
                 {PAYMENT_METHODS.map((m) => {
-                  const active = method === m.id;
+                  const isOpen = openMethod === m.id;
+                  const isSelected = method === m.id;
                   return (
                     <li
                       key={m.id}
-                      className={`${styles.method} ${active ? styles.methodActive : ""}`}
+                      className={`${styles.methodItem} ${
+                        isSelected ? styles.methodSelected : ""
+                      }`}
                     >
-                      <label className={styles.methodHead}>
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          value={m.id}
-                          checked={active}
-                          onChange={() => setMethod(m.id)}
+                      <button
+                        type="button"
+                        className={styles.methodHead}
+                        onClick={() => toggleMethod(m.id)}
+                        aria-expanded={isOpen}
+                      >
+                        <span
+                          className={`${styles.methodRadio} ${
+                            isSelected ? styles.methodRadioOn : ""
+                          }`}
+                          aria-hidden="true"
                         />
-                        <span className={styles.methodRadio} aria-hidden="true" />
                         <span className={styles.methodIcon} aria-hidden="true">
-                          {m.icon}
+                          {METHOD_ICON[m.id]}
                         </span>
-                        <span className={styles.methodCopy}>
-                          <strong>{m.label}</strong>
-                          <small>{m.sub}</small>
+                        <span className={styles.methodBody}>
+                          <strong>{m.title}</strong>
+                          <span>{m.sub}</span>
                         </span>
-                        <span className={styles.methodBrands}>
-                          {m.brands.map((b) => (
-                            <span key={b} className={styles.brandChip}>
-                              {b}
-                            </span>
-                          ))}
+                        {m.badges && (
+                          <span className={styles.methodBadges}>
+                            {m.badges.map((b) => (
+                              <span key={b} className={styles.payBadge}>
+                                {b}
+                              </span>
+                            ))}
+                          </span>
+                        )}
+                        {m.right && (
+                          <span className={styles.methodRight}>{m.right}</span>
+                        )}
+                        <span
+                          className={`${styles.methodChev} ${
+                            isOpen ? styles.methodChevOpen : ""
+                          }`}
+                          aria-hidden="true"
+                        >
+                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
                         </span>
-                        <span className={styles.methodChevron} aria-hidden="true">
-                          <FaChevronDown />
-                        </span>
-                      </label>
+                      </button>
 
-                      {active ? (
-                        <div className={styles.methodPanel}>
-                          {m.id === "upi" ? (
-                            <div className={styles.upiPanel}>
+                      {isOpen && m.id === "upi" && (
+                        <div className={styles.methodContent}>
+                          <div className={styles.upiGrid}>
+                            <div className={styles.qrPanel}>
                               <div className={styles.qrBox} aria-hidden="true">
-                                <div className={styles.qrTile}>
-                                  <FaQrcode />
+                                <div className={styles.qrPattern}>
+                                  {Array.from({ length: 121 }).map((_, i) => (
+                                    <span
+                                      key={i}
+                                      style={{
+                                        opacity:
+                                          [0, 1, 4, 6, 9, 10, 12, 14, 17, 20, 21, 24, 27, 28, 32, 35, 37, 41, 44, 47, 50, 53, 55, 58, 60, 62, 64, 66, 70, 71, 73, 76, 79, 82, 85, 88, 91, 93, 95, 98, 101, 105, 109, 113, 117].includes(
+                                            i
+                                          )
+                                            ? 1
+                                            : 0.15,
+                                      }}
+                                    />
+                                  ))}
                                 </div>
-                                <span className={styles.qrCaption}>
-                                  Scan &amp; pay using any UPI app
-                                </span>
+                                <span className={styles.qrCentre}>&#8377;</span>
                               </div>
-                              <div className={styles.upiSide}>
-                                <span className={styles.upiLabel}>
-                                  Or pay using UPI ID
+                              <span className={styles.qrCaption}>
+                                Scan &amp; pay using any UPI app
+                              </span>
+                            </div>
+                            <div className={styles.upiSide}>
+                              <span className={styles.upiSideLabel}>
+                                Or pay using UPI ID
+                              </span>
+                              <div className={styles.upiIdRow}>
+                                <input
+                                  type="text"
+                                  className={styles.upiIdInput}
+                                  value="decornart@upi"
+                                  readOnly
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleCopyUpi}
+                                  className={styles.upiCopyBtn}
+                                  aria-label="Copy UPI ID"
+                                >
+                                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+                                    <rect x="7" y="7" width="12" height="12" rx="1" />
+                                    <path d="M5 15V5h10" />
+                                  </svg>
+                                  {upiCopied && <span className={styles.upiCopiedFlash}>Copied</span>}
+                                </button>
+                              </div>
+                              <div className={styles.upiHelp}>
+                                <span className={styles.upiHelpTitle}>
+                                  How to pay?
                                 </span>
-                                <div className={styles.upiInputRow}>
-                                  <input
-                                    type="text"
-                                    value="decornart@upi"
-                                    readOnly
-                                    className={styles.upiInput}
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={copyUpi}
-                                    className={styles.upiCopy}
-                                    aria-label="Copy UPI ID"
-                                  >
-                                    {upiCopied ? <FaCheckCircle /> : <FaCopy />}
-                                  </button>
-                                </div>
-                                <ol className={styles.upiSteps}>
-                                  <li>Open any UPI app on your phone.</li>
-                                  <li>Scan the QR code or enter the UPI ID.</li>
-                                  <li>Verify the amount and pay.</li>
-                                  <li>You'll be redirected after confirmation.</li>
+                                <ol>
+                                  <li>Open any UPI app</li>
+                                  <li>Scan the QR code or enter UPI ID</li>
+                                  <li>Verify the amount &amp; pay</li>
+                                  <li>You&rsquo;ll be redirected after successful payment</li>
                                 </ol>
-                                <p className={styles.upiWaiting}>
-                                  <FaRegClock /> Waiting for payment — confirmation is
-                                  automatic.
-                                </p>
+                              </div>
+                              <div className={styles.upiWaiting}>
+                                <span className={styles.upiWaitingIcon} aria-hidden="true">
+                                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M12 7v5l3 2" />
+                                  </svg>
+                                </span>
+                                <span className={styles.upiWaitingText}>
+                                  <strong>Waiting for payment&hellip;</strong>
+                                  <span>Payment will be confirmed automatically</span>
+                                </span>
                               </div>
                             </div>
-                          ) : null}
-
-                          {m.id === "card" ? (
-                            <p className={styles.methodNote}>
-                              You'll be redirected to a secure Razorpay window
-                              to enter your card details.
-                            </p>
-                          ) : null}
-
-                          {m.id === "netbanking" ? (
-                            <p className={styles.methodNote}>
-                              You'll be redirected to a secure Razorpay window
-                              to pick your bank and log in.
-                            </p>
-                          ) : null}
-
-                          {m.id === "wallet" ? (
-                            <p className={styles.methodNote}>
-                              Choose your wallet provider in the Razorpay
-                              window that opens next.
-                            </p>
-                          ) : null}
-
-                          {m.id === "cod" ? (
-                            <p className={styles.methodNote}>
-                              Pay the full order amount in cash when our
-                              courier hands over your parcel.
-                            </p>
-                          ) : null}
-
-                          {m.id === "bnpl" ? (
-                            <p className={styles.methodNote}>
-                              Pick your BNPL provider in the next window —
-                              eligibility is decided by the provider.
-                            </p>
-                          ) : null}
+                          </div>
                         </div>
-                      ) : null}
+                      )}
+
+                      {isOpen && m.id !== "upi" && (
+                        <div className={styles.methodContent}>
+                          <p className={styles.methodPlaceholder}>
+                            You&rsquo;ll be redirected to the secure {m.title.toLowerCase()} portal
+                            after clicking <strong>Pay Securely</strong>.
+                          </p>
+                        </div>
+                      )}
                     </li>
                   );
                 })}
               </ul>
             </section>
 
-            {/* ─────── 02 Billing details ─────── */}
-            <section className={styles.block}>
-              <header className={styles.blockHead}>
-                <span className={styles.blockNum}>2</span>
-                <h2 className={styles.blockTitle}>Billing details</h2>
+            {/* 2. Billing Details */}
+            <section className={styles.stepCard}>
+              <header className={styles.stepHead}>
+                <span className={styles.stepNum} aria-hidden="true">2</span>
+                <h2 className={styles.stepTitle}>Billing Details</h2>
               </header>
-
-              <label className={styles.check}>
+              <label className={styles.checkRow}>
                 <input
                   type="checkbox"
-                  checked={billingSame}
-                  onChange={(e) => setBillingSame(e.target.checked)}
+                  checked={sameAsShipping}
+                  onChange={(e) => setSameAsShipping(e.target.checked)}
                 />
-                <span className={styles.checkBox} aria-hidden="true">
-                  {billingSame ? <FaCheckCircle /> : null}
-                </span>
-                Same as shipping address
+                <span>Same as shipping address</span>
               </label>
-
-              {!billingSame ? (
-                <div className={styles.billingGrid}>
-                  <label className={`${styles.field} ${styles.fieldFull}`}>
-                    <input
-                      type="text"
-                      value={billing.name}
-                      onChange={onBilling("name")}
-                      placeholder="Full name"
-                      className={styles.input}
-                    />
-                  </label>
-                  <div className={styles.row2}>
-                    <label className={styles.field}>
-                      <input
-                        type="tel"
-                        value={billing.phone}
-                        onChange={onBilling("phone")}
-                        placeholder="Phone number"
-                        className={styles.input}
-                      />
-                    </label>
-                    <label className={styles.field}>
-                      <input
-                        type="email"
-                        value={billing.email}
-                        onChange={onBilling("email")}
-                        placeholder="Email address"
-                        className={styles.input}
-                      />
-                    </label>
-                  </div>
-                  <label className={`${styles.field} ${styles.fieldFull}`}>
-                    <input
-                      type="text"
-                      value={billing.gst}
-                      onChange={onBilling("gst")}
-                      placeholder="GST number (optional)"
-                      className={styles.input}
-                    />
-                  </label>
-                </div>
-              ) : null}
-
-              <p className={styles.billingLock}>
-                <FaLock /> Your information is safe and encrypted.
+              <div className={styles.formGrid}>
+                <input
+                  type="text"
+                  className={`${styles.input} ${styles.spanTwo}`}
+                  placeholder="Full Name"
+                  value={billing.name}
+                  onChange={(e) => setBill("name", e.target.value)}
+                  disabled={sameAsShipping}
+                />
+                <input
+                  type="tel"
+                  className={styles.input}
+                  placeholder="Phone Number"
+                  value={billing.phone}
+                  onChange={(e) => setBill("phone", e.target.value)}
+                  disabled={sameAsShipping}
+                />
+                <input
+                  type="email"
+                  className={styles.input}
+                  placeholder="Email Address"
+                  value={billing.email}
+                  onChange={(e) => setBill("email", e.target.value)}
+                  disabled={sameAsShipping}
+                />
+              </div>
+              <p className={styles.securedNote}>
+                <span aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+                    <rect x="4" y="10" width="16" height="10" rx="1.5" />
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                  </svg>
+                </span>
+                Your information is safe and encrypted
               </p>
             </section>
 
-            {/* ─────── 03 Apply coupon ─────── */}
-            <section className={styles.block}>
-              <header className={styles.blockHead}>
-                <span className={styles.blockNum}>3</span>
-                <h2 className={styles.blockTitle}>Apply coupon</h2>
+            {/* 3. Apply Coupon */}
+            <section className={styles.stepCard}>
+              <header className={styles.stepHead}>
+                <span className={styles.stepNum} aria-hidden="true">3</span>
+                <h2 className={styles.stepTitle}>Apply Coupon</h2>
               </header>
-
-              <div className={styles.couponLayout}>
-                <div className={styles.couponInputBox}>
-                  <div className={styles.couponRow}>
-                    <input
-                      type="text"
-                      value={coupon}
-                      onChange={(e) => setCoupon(e.target.value)}
-                      placeholder="Enter coupon code"
-                      className={styles.couponInput}
-                    />
-                    <button
-                      type="button"
-                      onClick={onApplyCoupon}
-                      disabled={couponApplying}
-                      className={styles.couponBtn}
-                    >
-                      {couponApplying ? "…" : "Apply"}
-                    </button>
-                  </div>
-                  {couponMsg ? (
-                    <p className={styles.couponMsg}>{couponMsg}</p>
-                  ) : null}
-                </div>
-
-                <div className={styles.offers}>
-                  <span className={styles.offersHead}>Available offers</span>
-                  <ul>
-                    {OFFERS.map((o) => (
-                      <li key={o.code}>
-                        <span className={styles.offerCode}>
-                          <FaTag /> {o.code}
-                        </span>
-                        — {o.desc}
-                      </li>
-                    ))}
-                  </ul>
+              <div className={styles.couponRow}>
+                <input
+                  type="text"
+                  className={styles.couponInput}
+                  placeholder="Enter coupon code"
+                  value={coupon}
+                  onChange={(e) => setCoupon(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={styles.couponApply}
+                  onClick={handleApplyCoupon}
+                >
+                  Apply
+                </button>
+                <div className={styles.offerCard}>
+                  <strong>Available Offers</strong>
+                  <span>
+                    <span className={styles.offerBadge}>SAVE100</span>{" "}
+                    &ndash; Get ₹100 off on orders above ₹2500
+                  </span>
                 </div>
               </div>
             </section>
 
-            {/* ─────── Almost there banner ─────── */}
-            <div className={styles.almostBanner}>
+            {/* Almost there */}
+            <section className={styles.almostCard}>
               <span className={styles.almostIcon} aria-hidden="true">
-                <FaShieldAlt />
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+                  <rect x="4" y="10" width="16" height="10" rx="1" />
+                  <path d="M2 6h20v4H2z" />
+                  <path d="M12 6v14" strokeLinecap="round" />
+                  <path d="M8 6c-1-2 0-4 2-4s3 2 2 4M16 6c1-2 0-4-2-4s-3 2-2 4" />
+                </svg>
               </span>
               <div className={styles.almostCopy}>
-                <strong>Almost there! 🎉</strong>
-                <small>
-                  Complete your payment to confirm your order. You'll be
-                  redirected after a successful payment.
-                </small>
+                <strong>
+                  Almost there! <span aria-hidden="true">&#127881;</span>
+                </strong>
+                <span>Complete your payment to confirm your order.</span>
               </div>
               <button
-                type="submit"
+                type="button"
                 className={styles.payBtn}
-                disabled={processing}
+                onClick={handlePaySecurely}
               >
-                {processing ? (
-                  <>
-                    <span className={styles.spinner} aria-hidden="true" />
-                    Processing…
-                  </>
-                ) : (
-                  <>
-                    <FaLock /> Pay securely · {inr.format(total)}
-                  </>
-                )}
+                <span aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+                    <rect x="5" y="10" width="14" height="10" rx="1" />
+                    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                  </svg>
+                </span>
+                Pay Securely
               </button>
-            </div>
-            {error ? (
-              <p className={styles.errorLine} role="alert">{error}</p>
-            ) : null}
+              <span className={styles.payFoot}>
+                You will be redirected after successful payment
+              </span>
+            </section>
           </div>
 
-          {/* ─────────────────── Summary column ─────────────────── */}
-          <aside className={styles.summaryCol}>
-            <div className={styles.summary}>
+          {/* ═════ RIGHT ═════ */}
+          <aside className={styles.rightCol}>
+            <section className={styles.summaryCard}>
               <header className={styles.summaryHead}>
                 <h2 className={styles.summaryTitle}>
-                  Order summary <span>({items.length} items)</span>
+                  Order Summary{" "}
+                  <span className={styles.summaryCount}>
+                    ({cartItems.length} Items)
+                  </span>
                 </h2>
                 <a href="/cart" className={styles.editCart}>
-                  Edit cart
+                  Edit Cart
                 </a>
               </header>
 
-              <ul className={styles.itemsMini}>
-                {items.map((p) => (
-                  <li key={p.productId} className={styles.itemMini}>
-                    <span className={styles.thumb}>
-                      <Image
-                        src={resolveProductImage(p)}
-                        alt={p.name}
-                        fill
-                        sizes="64px"
-                      />
-                    </span>
-                    <span className={styles.itemMeta}>
-                      <span className={styles.itemName}>{p.name}</span>
-                      <span className={styles.itemSub}>
-                        {p.variantLabel || p.category}
+              <ul className={styles.itemsList}>
+                {cartItems.map((it) => {
+                  const color = it.color || null;
+                  const key = `${it.productId ?? it.id}:${
+                    it.variantId ?? "base"
+                  }:${color ?? "nocolor"}`;
+                  return (
+                    <li key={key} className={styles.item}>
+                      <div className={styles.itemMedia}>
+                        {it.image && (
+                          <Image
+                            src={it.image}
+                            alt={it.name || ""}
+                            fill
+                            sizes="72px"
+                            className={styles.itemImg}
+                          />
+                        )}
+                      </div>
+                      <div className={styles.itemBody}>
+                        <strong>{it.name}</strong>
+                        {it.variant && <span>{it.variant}</span>}
+                        {color && (
+                          <span className={styles.itemColor}>
+                            <span
+                              className={styles.itemColorDot}
+                              style={{ background: hexForColor(color) }}
+                              aria-hidden="true"
+                            />
+                            Color: {color}
+                          </span>
+                        )}
+                        <span>Qty: {it.qty ?? 1}</span>
+                      </div>
+                      <span className={styles.itemPrice}>
+                        {inr.format((it.price ?? 0) * (it.qty ?? 1))}
                       </span>
-                      <span className={styles.itemQty}>Qty: {p.qty}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <ul className={styles.totalsList}>
+                <li>
+                  <span>Subtotal</span>
+                  <strong>{inr.format(subtotal)}</strong>
+                </li>
+                <li>
+                  <span>Shipping</span>
+                  <strong>{shippingCost === 0 ? "FREE" : inr.format(shippingCost)}</strong>
+                </li>
+                {discount > 0 && (
+                  <li>
+                    <span>Discount ({appliedCoupon})</span>
+                    <strong className={styles.discountAmount}>
+                      &minus; {inr.format(discount)}
+                    </strong>
+                  </li>
+                )}
+              </ul>
+
+              <div className={styles.grandTotalRow}>
+                <span className={styles.grandTotalLabel}>Total</span>
+                <span className={styles.grandTotalValue}>{inr.format(total)}</span>
+              </div>
+              <p className={styles.taxLine}>(Inclusive of all taxes)</p>
+            </section>
+
+            <section className={styles.summaryTrust}>
+              <ul>
+                {SUMMARY_TRUST.map((t) => (
+                  <li key={t.id} className={styles.trustRow}>
+                    <span className={styles.trustIcon} aria-hidden="true">
+                      {t.icon}
                     </span>
-                    <span className={styles.itemPrice}>
-                      {inr.format(p.lineTotal ?? p.price * p.qty)}
+                    <span className={styles.trustText}>
+                      <strong>{t.title}</strong>
+                      <span>{t.copy}</span>
                     </span>
                   </li>
                 ))}
               </ul>
+            </section>
 
-              <dl className={styles.lines}>
-                <div className={styles.line}>
-                  <dt>Subtotal</dt>
-                  <dd>{inr.format(subtotal)}</dd>
-                </div>
-                <div className={styles.line}>
-                  <dt>Shipping</dt>
-                  <dd>
-                    {shippingFee === 0 ? (
-                      <span className={styles.free}>FREE</span>
-                    ) : (
-                      inr.format(shippingFee)
-                    )}
-                  </dd>
-                </div>
-                {gst > 0 ? (
-                  <div className={styles.line}>
-                    <dt>GST</dt>
-                    <dd>{inr.format(gst)}</dd>
-                  </div>
-                ) : null}
-                {discount > 0 ? (
-                  <div className={styles.line}>
-                    <dt>Discount{cart.promoCode ? ` (${cart.promoCode})` : ""}</dt>
-                    <dd className={styles.discount}>− {inr.format(discount)}</dd>
-                  </div>
-                ) : null}
-              </dl>
-
-              <div className={styles.totalRow}>
-                <span className={styles.totalLabel}>Total</span>
-                <span className={styles.totalValue}>{inr.format(total)}</span>
+            <section className={styles.helpCard}>
+              <div className={styles.helpMedia} aria-hidden="true">
+                <Image
+                  src={helpImg}
+                  alt=""
+                  fill
+                  sizes="240px"
+                  className={styles.helpImg}
+                />
               </div>
-              <span className={styles.totalNote}>(Inclusive of all taxes)</span>
-            </div>
-
-            <ul className={styles.summaryCard} aria-label="Order guarantees">
-              {SUMMARY_TRUST.map((t) => (
-                <li key={t.id}>
-                  <span className={styles.summaryCardIcon} aria-hidden="true">
-                    {t.icon}
-                  </span>
-                  <span>
-                    <strong>{t.title}</strong>
-                    <small>{t.note}</small>
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            <div className={styles.helpCard}>
               <div className={styles.helpCopy}>
-                <h3 className={styles.helpTitle}>
-                  Need help? <br />
-                  <em>We're here for you!</em>
-                </h3>
+                <strong className={styles.helpTitle}>Need Help?</strong>
+                <span className={styles.helpSub}>We&rsquo;re here for you!</span>
                 <ul className={styles.helpList}>
                   <li>
-                    <a
-                      href="https://wa.me/919876543210"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a href="https://wa.me/919876543210" className={styles.helpItemLink}>
                       <span className={styles.helpIcon} aria-hidden="true">
                         <FaWhatsapp />
                       </span>
-                      <span>
-                        <strong>WhatsApp us</strong>
-                        <small>+91 98765 43210</small>
+                      <span className={styles.helpText}>
+                        <strong>WhatsApp Us</strong>
+                        <span>+91 9986988786</span>
+                      </span>
+                      <span aria-hidden="true" className={styles.helpArrow}>
+                        &rsaquo;
                       </span>
                     </a>
                   </li>
                   <li>
-                    <a href="mailto:support@decornart.in">
+                    <a href="mailto:official@decornart.in" className={styles.helpItemLink}>
                       <span className={styles.helpIcon} aria-hidden="true">
                         <FaEnvelope />
                       </span>
-                      <span>
-                        <strong>Email us</strong>
-                        <small>support@decornart.in</small>
+                      <span className={styles.helpText}>
+                        <strong>Email Us</strong>
+                        <span>official@decornart.in</span>
+                      </span>
+                      <span aria-hidden="true" className={styles.helpArrow}>
+                        &rsaquo;
                       </span>
                     </a>
                   </li>
                   <li>
-                    <a href="/contact">
+                    <a href="#chat" className={styles.helpItemLink}>
                       <span className={styles.helpIcon} aria-hidden="true">
                         <FaCommentDots />
                       </span>
-                      <span>
-                        <strong>24/7 support</strong>
-                        <small>We reply within minutes</small>
+                      <span className={styles.helpText}>
+                        <strong>24/7 Customer Support</strong>
+                        <span>We reply within minutes</span>
+                      </span>
+                      <span aria-hidden="true" className={styles.helpArrow}>
+                        &rsaquo;
                       </span>
                     </a>
                   </li>
                 </ul>
               </div>
-              <div className={styles.helpImage}>
-                <Image src={helpImg} alt="" fill sizes="180px" />
-              </div>
-            </div>
+            </section>
 
-            <div className={styles.avatarsCard}>
-              <ul className={styles.avatars} aria-hidden="true">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <li
-                    key={i}
-                    className={styles.avatar}
-                    style={{ background: AVATAR_TINTS[i] }}
-                  >
-                    {String.fromCharCode(65 + i)}
-                  </li>
-                ))}
-                <li className={`${styles.avatar} ${styles.avatarCount}`}>10K+</li>
-              </ul>
-              <span className={styles.avatarsCopy}>
+            <section className={styles.trustedCard}>
+              <div className={styles.trustedCopy}>
                 <strong>Trusted by 10,000+</strong>
-                <small>Happy customers</small>
-              </span>
-            </div>
+                <span>Happy Customers</span>
+              </div>
+              <div className={styles.trustedAvatars} aria-hidden="true">
+                {AVATARS.map((src, i) => (
+                  <span key={i} className={styles.trustedAvatar}>
+                    <Image
+                      src={src}
+                      alt=""
+                      fill
+                      sizes="32px"
+                      className={styles.trustedAvatarImg}
+                    />
+                  </span>
+                ))}
+                <span className={styles.trustedMore}>10K+</span>
+              </div>
+            </section>
           </aside>
-        </form>
+        </div>
 
-        {/* ───────────── Footer trust strip ───────────── */}
-        <ul className={styles.footerTrust}>
-          {FOOTER_TRUST.map((f) => (
-            <li key={f.id} className={styles.footerTrustItem}>
-              <span className={styles.footerTrustIcon} aria-hidden="true">
-                {f.icon}
-              </span>
-              <span>
-                <strong>{f.title}</strong>
-                <small>{f.note}</small>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <section className={styles.bottomSection}>
+          <ul className={styles.bottomTrustList}>
+            {BOTTOM_TRUST.map((t) => (
+              <li key={t.id} className={styles.trustRow}>
+                <span className={styles.trustIcon} aria-hidden="true">
+                  {t.icon}
+                </span>
+                <span className={styles.trustText}>
+                  <strong>{t.title}</strong>
+                  <span>{t.copy}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
     </main>
   );

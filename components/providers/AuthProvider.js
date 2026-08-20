@@ -42,9 +42,9 @@ export function AuthProvider({ children }) {
   );
 
   const register = useCallback(async (payload) => {
+    // No token side-effects: the caller (RegisterModal) routes the shopper to
+    // the login screen after a successful signup.
     const data = await authApi.register(payload);
-    setUser(data.user);
-    setStatus("authed");
     return data.user;
   }, []);
 

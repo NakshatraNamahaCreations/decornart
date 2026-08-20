@@ -20,7 +20,7 @@
 }
 .script {
   font-family: var(--font-script);
-  font-weight: 400;
+  font-weight: 600;
   font-size: clamp(1.5rem, 2.2vw, 2rem);
   line-height: 1;
   color: var(--blush-soft);
@@ -105,10 +105,10 @@
   text-align: right;
 }
 .error {
-  color: #f7b9b1;
+  color: var(--blush-soft);
 }
 .success {
-  color: #d2e6c8;
+  color: var(--blush-soft);
 }
 
 @media (max-width: 860px) {

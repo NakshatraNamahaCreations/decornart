@@ -49,17 +49,17 @@ export default function OccasionView({ occasion, products }) {
           <a href="/">Home</a>
         
           <span className={styles.crumbSep}>/</span>
-          <span className={styles.crumbActive}>{occasion.title}</span>
+          <span className={styles.crumbActive}>{occasion.label}</span>
         </nav>
 
         {/* Head */}
         <header className={styles.head}>
           <span className={styles.eyebrow}>— Curated for the occasion</span>
           <h1 className={styles.heading}>
-            Bouquets for <em>{occasion.title.toLowerCase()}</em>.
+            Bouquets for <em>{(occasion.label || "").toLowerCase()}</em>.
           </h1>
           <span className={styles.rule} aria-hidden="true" />
-          <p className={styles.lead}>{occasion.copy}</p>
+          <p className={styles.lead}>{occasion.blurb}</p>
           <span className={styles.count}>
             {String(products.length).padStart(2, "0")} pieces in this edit
           </span>

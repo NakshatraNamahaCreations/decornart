@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import styles from "./HandmadeProcess.module.css";
+import styles from "./beautifulProcess.module.css";
 
 const STEPS = [
   {
@@ -27,7 +27,7 @@ const STEPS = [
   },
 ];
 
-export default function HandmadeProcess() {
+export default function beautifulProcess() {
   const root = useRef(null);
 
   useGSAP(

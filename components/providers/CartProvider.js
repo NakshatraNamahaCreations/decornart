@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import * as cartApi from "@/lib/api/cart";
+import { clearGuestCartId } from "@/lib/api/client";
 import { useAuth } from "./AuthProvider";
 
 const EMPTY = {
@@ -10,8 +11,6 @@ const EMPTY = {
   promoCode: null,
   summary: {
     subtotal: 0,
-    gst: 0,
-    gstRate: 0.05,
     shipping: 0,
     discount: 0,
     total: 0,
@@ -28,6 +27,11 @@ export function CartProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const inFlight = useRef(0);
+  const prevStatusRef = useRef(status);
+  const cartRef = useRef(cart);
+  useEffect(() => {
+    cartRef.current = cart;
+  }, [cart]);
 
   const refresh = useCallback(async () => {
     setLoading(true);
@@ -43,9 +47,46 @@ export function CartProvider({ children }) {
     }
   }, []);
 
-  // Refetch whenever auth state resolves (guest -> authed or vice versa).
+  // Refetch whenever auth state resolves. On a fresh guest -> authed transition
+  // we first replay any items the shopper had in their guest cart into their
+  // authed cart, since the backend keys guest carts on the x-cart-id UUID and
+  // an authed GET /cart returns only the user's server-side cart.
   useEffect(() => {
+    const prev = prevStatusRef.current;
+    prevStatusRef.current = status;
     if (status === "loading") return;
+
+    if (prev === "guest" && status === "authed") {
+      const guestItems = (cartRef.current.items || [])
+        .map((it) => ({
+          productId: it.productId ?? it.id,
+          qty: it.qty ?? 1,
+          variantId: it.variantId ?? null,
+          color: it.color ?? null,
+        }))
+        .filter((it) => it.productId && it.qty > 0);
+
+      if (!guestItems.length) {
+        refresh();
+        return;
+      }
+
+      setLoading(true);
+      (async () => {
+        for (const it of guestItems) {
+          try {
+            await cartApi.addCartItem(it);
+          } catch {
+            // Skip individual failures (e.g. out-of-stock) so the rest of the
+            // guest cart still merges.
+          }
+        }
+        clearGuestCartId();
+        await refresh();
+      })();
+      return;
+    }
+
     refresh();
   }, [status, refresh]);
 
@@ -62,18 +103,20 @@ export function CartProvider({ children }) {
   }, []);
 
   const addItem = useCallback(
-    (productId, qty = 1) =>
-      guard(() => cartApi.addCartItem({ productId, qty })),
+    (productId, qty = 1, variantId = null, color = null) =>
+      guard(() => cartApi.addCartItem({ productId, qty, variantId, color })),
     [guard]
   );
 
   const updateItem = useCallback(
-    (productId, qty) => guard(() => cartApi.updateCartItem(productId, qty)),
+    (productId, qty, variantId = null, color = null) =>
+      guard(() => cartApi.updateCartItem(productId, qty, variantId, color)),
     [guard]
   );
 
   const removeItem = useCallback(
-    (productId) => guard(() => cartApi.removeCartItem(productId)),
+    (productId, variantId = null, color = null) =>
+      guard(() => cartApi.removeCartItem(productId, variantId, color)),
     [guard]
   );
 

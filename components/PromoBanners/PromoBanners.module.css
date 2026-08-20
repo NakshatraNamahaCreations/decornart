@@ -1,11 +1,14 @@
 .section {
-  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
-  padding: clamp(2.5rem, 2vw, 2rem) 0;
+  background: color-mix(in srgb, var(--beige) 20%, var(--cream));
+  padding: clamp(2rem, 3vw, 3.5rem) 0;
+  max-width: 1480px;
+  margin: auto;
+  border-radius: 12px
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   gap: clamp(1rem, 1.6vw, 1.5rem);
 }
 
@@ -14,8 +17,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  min-height: clamp(240px, 24vw, 300px);
-  background: color-mix(in srgb, var(--beige) 22%, #ffffff);
+  min-height: clamp(330px, 24vw, 330px);
+  background: color-mix(in srgb, var(--beige) 22%, var(--cream));
   border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
   border-radius: 14px;
   overflow: hidden;
@@ -30,7 +33,7 @@
 }
 .mediaImg {
   object-fit: cover;
-  object-position: 100% 80%;
+object-position: center;
 }
 
 /* Left-anchored scrim — solid at the left where the copy sits, fading
@@ -81,9 +84,10 @@
   margin: 0;
 }
 .wide .title {
-  font-size: clamp(1.4rem, 2vw, 1.6rem);
+  font-size: clamp(1.4rem, 3vw, 3rem);
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  max-width: 26ch;
 }
 .narrow .title {
   font-size: clamp(1.5rem, 2.4vw, 2rem);
@@ -114,7 +118,7 @@
   margin-top: 0.6rem;
   padding: 0.75rem 1.15rem;
   background: var(--ink);
-  color: #ffffff;
+  color: var(--cream);
   font-family: var(--font-body);
   font-size: 0.72rem;
   letter-spacing: 0.22em;
@@ -165,8 +169,8 @@
   .card::before {
     background: linear-gradient(
       90deg,
-      color-mix(in srgb, var(--beige) 88%, #ffffff) 0%,
-      color-mix(in srgb, var(--beige) 65%, #ffffff) 50%,
+      color-mix(in srgb, var(--beige) 88%, var(--cream)) 0%,
+      color-mix(in srgb, var(--beige) 65%, var(--cream)) 50%,
       rgba(255, 255, 255, 0) 100%
     );
   }

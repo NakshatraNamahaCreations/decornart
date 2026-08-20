@@ -23,7 +23,7 @@
   left: 0;
   width: 100%;
   height: 50%;
-  background: color-mix(in srgb, var(--beige) 12%, #ffffff);
+  background: color-mix(in srgb, var(--beige) 12%, var(--cream));
   z-index: 2;
   will-change: transform;
 }
@@ -47,7 +47,7 @@
 
 /* Brand logo — replaces the text wordmark. */
 .logo {
-  width: clamp(140px, 18vw, 220px);
+  width: clamp(140px, 28vw, 280px);
   height: auto;
   display: block;
 }

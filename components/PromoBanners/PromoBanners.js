@@ -5,10 +5,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { promoBanners } from "@/lib/data/promoBanners";
+import { useBannerList } from "@/hooks/useBannerList";
 import styles from "./PromoBanners.module.css";
+
+// Shape an admin banner row into the object PromoBanners already renders.
+// `features` is a static-data field (bulleted list on the card) — banner
+// rows don't have that field, so admin-added cards just skip the bullets.
+function fromApiRow(row) {
+  return {
+    id: `api-${row.id}`,
+    variant: "wide",
+    eyebrow: row.eyebrow || "",
+    title: row.title || "",
+    features: [],
+    cta: {
+      label: row.ctaLabel || "Shop now",
+      href: row.href || "/shop",
+    },
+    image: row.image || "",
+    imageAlt: row.title || "",
+  };
+}
 
 export default function PromoBanners() {
   const root = useRef(null);
+  const { rows: banners } = useBannerList("promo-banner", promoBanners, fromApiRow);
 
   useGSAP(
     () => {
@@ -29,7 +50,7 @@ export default function PromoBanners() {
     <section ref={root} className={styles.section}>
       <div className="container" style={{ maxWidth: "1480px" }}>
         <div className={styles.grid}>
-          {promoBanners.map((b) => (
+          {banners.map((b) => (
             <article
               key={b.id}
               className={`${styles.card} ${
@@ -65,17 +86,19 @@ export default function PromoBanners() {
                 </Link>
               </div>
               <div className={styles.media}>
-                <Image
-                  src={b.image}
-                  alt={b.imageAlt}
-                  fill
-                  sizes={
-                    b.variant === "wide"
-                      ? "(max-width: 900px) 90vw, 55vw"
-                      : "(max-width: 900px) 90vw, 30vw"
-                  }
-                  className={styles.mediaImg}
-                />
+                {b.image && (
+                  <Image
+                    src={b.image}
+                    alt={b.imageAlt}
+                    fill
+                    sizes={
+                      b.variant === "wide"
+                        ? "(max-width: 900px) 90vw, 55vw"
+                        : "(max-width: 900px) 90vw, 30vw"
+                    }
+                    className={styles.mediaImg}
+                  />
+                )}
               </div>
             </article>
           ))}

@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { useBannerContent } from "@/hooks/useBannerContent";
 import styles from "./ContactHero.module.css";
 
 const CARDS = [
@@ -26,8 +28,8 @@ const CARDS = [
   {
     id: "email",
     label: "Email",
-    value: "hello@decornart.in",
-    href: "mailto:hello@decornart.in",
+    value: "official@decornart.in",
+    href: "mailto:official@decornart.in",
     icon: (
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <rect
@@ -80,6 +82,21 @@ const CARDS = [
 
 export default function ContactHero() {
   const root = useRef(null);
+  // Optional admin-uploaded background AND text overrides — falls back to
+  // the bundled copy below when the admin hasn't published this slot.
+  const banner = useBannerContent("contact-hero");
+  const heroSrc = banner.image || null;
+  // Resolve every banner-driven field at once and gate on `loaded` so
+  // shoppers never see the coded fallback flash to the admin's real
+  // copy. Empty strings while loading keep the JSX shape intact.
+  const eyebrow = banner.loaded ? banner.eyebrow || "— Get in touch" : "";
+  const titleText = banner.loaded
+    ? banner.title || "We're here to compose with you."
+    : "";
+  const subtitle = banner.loaded
+    ? banner.subtitle ||
+      "A bespoke piece, a wedding morning, a press request, or simply tying the right stems together for a quiet Tuesday — write to us and we'll reply, by hand, within a day."
+    : "";
 
   useGSAP(
     () => {
@@ -112,17 +129,25 @@ export default function ContactHero() {
 
   return (
     <section ref={root} className={styles.section}>
+      {heroSrc && (
+        <>
+          <Image
+            src={heroSrc}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={styles.bgImg}
+            unoptimized={typeof heroSrc === "string"}
+          />
+          <span className={styles.bgScrim} aria-hidden="true" />
+        </>
+      )}
       <div className={`container ${styles.inner}`}>
-        <span className={styles.eyebrow}>— Get in touch</span>
-        <h1 className={styles.heading}>
-          We're here to <em>compose</em> with you.
-        </h1>
+        <span className={styles.eyebrow}>{eyebrow}</span>
+        <h1 className={styles.heading}>{titleText}</h1>
         <span className={styles.rule} aria-hidden="true" />
-        <p className={styles.lead}>
-          A bespoke piece, a wedding morning, a press request, or simply tying
-          the right stems together for a quiet Tuesday — write to us and we'll
-          reply, by hand, within a day.
-        </p>
+        <p className={styles.lead}>{subtitle}</p>
 
         <div className={styles.cards}>
           {CARDS.map((c) => {

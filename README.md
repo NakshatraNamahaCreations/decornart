@@ -24,7 +24,7 @@ The home page composes these sections (top → bottom):
 | **Hero** | **3 auto-advancing banners** with crossfade, clickable progress bars, and **scroll parallax** on the media. |
 | **Featured Collections** | **Pinned horizontal scroll** on desktop (`gsap.matchMedia`); native scroll-snap on mobile. |
 | **Shop by Occasion** | Staggered scroll-reveal grid (birthdays, anniversaries, sympathy, congratulations). |
-| **Handmade Bouquets** | **Pinned** feature with scrubbed image parallax + sequenced copy reveal (desktop); simple reveal on mobile. |
+| **beautiful Bouquets** | **Pinned** feature with scrubbed image parallax + sequenced copy reveal (desktop); simple reveal on mobile. |
 | **Bestsellers** | Product cards with working wishlist toggle + add-to-cart UI state, INR pricing. |
 | **Testimonials** | Auto-rotating quote with crossfade. |
 | **Newsletter** | Email signup with client-side validation (no `<form>` reload). |
@@ -41,7 +41,7 @@ Decor N Art-bouquets/
 ├── components/
 │   ├── providers/SmoothScrollProvider.js   # Lenis ↔ ScrollTrigger sync
 │   ├── Preloader/  Navbar/  Hero/
-│   ├── FeaturedCollections/  ShopByOccasion/  HandmadeBouquets/
+│   ├── FeaturedCollections/  ShopByOccasion/  beautifulBouquets/
 │   ├── Bestsellers/  Testimonials/  Newsletter/  Footer/
 │   └── (each module = Component.js + Component.module.css, self-contained)
 ├── lib/
@@ -73,4 +73,4 @@ All image URLs live in `lib/data/*.js`. They point at Unsplash for the design ph
 
 - Cart/wishlist: replace the local `useState` in `Bestsellers.js` with your cart service (context/Zustand + Node API).
 - Newsletter: POST from `Newsletter.js` to your `/api/subscribe` route.
-- Build out the routes already linked in the nav/footer (`/shop`, `/handmade`, `/product/[slug]`, `/cart`, `/checkout`, etc.) following the same module pattern.
+- Build out the routes already linked in the nav/footer (`/shop`, `/beautiful`, `/product/[slug]`, `/cart`, `/checkout`, etc.) following the same module pattern.

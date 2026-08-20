@@ -33,7 +33,7 @@ export default function Newsletter() {
           <span className={styles.script}>Stay in touch</span>
           <h2 className={styles.heading}>Seasonal drops, in your inbox.</h2>
           <p className={styles.copy}>
-            Weekly handmade bouquets and occasion guides. No noise.
+            Weekly beautiful bouquets and occasion guides. No noise.
           </p>
         </div>
 

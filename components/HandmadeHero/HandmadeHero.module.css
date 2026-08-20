@@ -35,6 +35,7 @@
   line-height: 1.05;
   margin: 0;
   font-weight: 400;
+  max-width: 14ch;
 }
 .heading em {
   font-style: italic;

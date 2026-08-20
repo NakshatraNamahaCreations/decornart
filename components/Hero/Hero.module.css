@@ -8,7 +8,7 @@
 
 .heroWrap {
   --hero-bg: var(--blush-soft);
-  --accent: #d99fa0;
+  --accent: var(--blush-soft);
   display: block;
   color: var(--ink);
 }
@@ -28,7 +28,8 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  padding: clamp(1.4rem, 3.2vw, 1rem) clamp(1.4rem, 5vw, 4.5rem);
+  padding: clamp(1rem, 3.2vw, 7.4rem) clamp(1.4rem, 4vw, .5rem);
+  padding-left: 70px
 }
 .mark {
   font-family: var(--font-display);
@@ -40,23 +41,76 @@
 .main {
   flex: 1;
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: clamp(1.5rem, 4vw, 4rem);
 }
 
-/* ── Full-bleed background ── */
+/* ── Full-bleed background — layered per slide, crossfaded via opacity ── */
 .bgStage {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  top: 120px;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+}
+.bgImg {
+  object-fit: cover;
+  object-position: center;
+}
+.bgStageActive {
+  opacity: 1;
+}
+
+/* Dot indicators — bottom-centered, click to jump between slides. */
+.dots {
+  position: absolute;
+  bottom: clamp(1.5rem, 3vw, 2.4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(in srgb, var(--cream) 65%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 999px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 25%, transparent);
+  cursor: pointer;
+  transition: background 0.3s var(--ease), width 0.35s var(--ease);
+}
+.dot:hover {
+  background: color-mix(in srgb, var(--ink) 50%, transparent);
+}
+.dotActive {
+  width: 24px;
+  border-radius: 999px;
+  background: var(--blush);
+}
+.dotActive:hover {
+  background: var(--blush);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bgStage,
+  .dot,
+  .dotActive {
+    transition: none;
+  }
 }
 
 /* ── Copy (left) ── */
@@ -66,50 +120,67 @@
   gap: clamp(2rem, 4vw, 3.2rem);
 }
 .copy {
-  max-width: 34rem;
-  margin-top: 90px;
+  max-width: 45rem;
+  margin-top: 145px;
 }
 .eyebrow {
   display: block;
   font-size: 0.72rem;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1.2rem;
+  color: var(--ink);
+  font-weight: 700
 }
 .title {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   font-size: clamp(2.8rem, 5.4vw, 5.2rem);
   line-height: 1.05;
   letter-spacing: 0;
   white-space: pre-line;
   color: var(--ink);
-  margin-top: 30px;
+  margin-top: 10px;
 }
+/* Base positioning / colour — style-specific tokens live in scriptStyle_*. */
 .script {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.35rem;
-  font-family: var(--font-allura), cursive;
-  font-style: italic;
-  font-weight: 500;
   color: var(--blush);
-  font-size: clamp(1.7rem, 5vw, 4.2rem);
   line-height: 1;
   letter-spacing: -0.005em;
 }
-.scriptHeart {
+/* Cursive Allura (default matches the original hero brand). */
+.scriptStyle_script {
+  font-family: var(--font-allura), cursive;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 5vw, 4.2rem);
+}
+/* Italic Cormorant — echoes the title's serif face at a smaller size. */
+.scriptStyle_serif {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+  color: var(--plum, #2a0f2b);
+}
+/* Uppercase Poppins — small caps for a modern editorial tag. */
+.scriptStyle_uppercase {
+  font-family: var(--font-poppins), Poppins, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: clamp(0.78rem, 1vw, 0.92rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
   color: var(--blush);
-  font-size: 0.7em;
-  line-height: 1;
 }
 .subtitle {
   margin-top: 1.3rem;
   font-size: clamp(1rem, 1.2vw, 1.14rem);
   line-height: 1.55;
-  color: var(--ink-soft);
+  color: var(--ink);
   max-width: 40ch;
 }
 
@@ -163,7 +234,7 @@
 .ctaGhost:hover {
   border-color: var(--blush);
   color: var(--blush);
-  background: #fff;
+  background: var(--cream);
 }
 
 /* Trusted-by row */
@@ -189,7 +260,7 @@
   font-weight: 700;
   font-size: 0.86rem;
   color: var(--ink);
-  border: 2px solid #fff;
+  border: 2px solid var(--cream);
   margin-left: -10px;
   box-shadow: 0 4px 8px -4px rgba(42, 15, 43, 0.25);
 }
@@ -214,7 +285,7 @@
 .stars {
   display: inline-flex;
   gap: 1px;
-  color: #f5a623;
+  color: var(--blush);
 }
 .stars svg { width: 14px; height: 14px; }
 .ratingText {
@@ -304,7 +375,7 @@
 .idxActive .idxNum {
   background: var(--blush);
   border-color: var(--blush);
-  color: #fff;
+  color: var(--cream);
 }
 .idxActive .idxFill {
   transform: scaleX(1);
@@ -314,7 +385,7 @@
 .trustSection {
   position: relative;
   width: 100%;
-  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
+  background: color-mix(in srgb, var(--beige) 20%, var(--cream));
   border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
   border-radius: 0;
   padding: clamp(1rem, 2vw, 1.6rem) clamp(1.4rem, 4vw, 3rem);
@@ -404,6 +475,16 @@
 
 /* ── Mobile: no pin (handled in JS) ── */
 @media (max-width: 860px) {
+  .hero {
+    /* svh accounts for mobile browser chrome — avoids the vh jump when the
+       address bar collapses. Lower min-height so landscape phones don't
+       force excessive scroll. */
+    height: 100svh;
+    min-height: 560px;
+  }
+  .bgStage {
+    top: 80px;
+  }
   .inner {
     padding: clamp(1.2rem, 5vw, 2rem);
     justify-content: center;
@@ -418,11 +499,34 @@
     align-items: flex-start;
     gap: 1.6rem;
   }
+  .copy {
+    margin-top: 40px;
+  }
+  .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+  }
   .title {
-    font-size: clamp(2.4rem, 11vw, 3.6rem);
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    line-height: 1.08;
   }
   .subtitle {
-    max-width: 90%;
+    max-width: 100%;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+  .ctaRow {
+    gap: 0.6rem;
+    margin-top: 1.4rem;
+  }
+  .cta,
+  .ctaGhost {
+    padding: 0.8rem 1.35rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+  }
+  .dots {
+    bottom: 1.2rem;
   }
   .index {
     gap: 0.6rem 1rem;
@@ -455,8 +559,35 @@
 }
 
 @media (max-width: 480px) {
+  .hero {
+    min-height: 480px;
+  }
+  .bgStage {
+    top: 64px;
+  }
   .mark {
     display: none;
+  }
+  .copy {
+    margin-top: 24px;
+  }
+  .title {
+    font-size: clamp(2rem, 9.2vw, 2.7rem);
+  }
+  .subtitle {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .ctaRow {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .cta,
+  .ctaGhost {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem 1rem;
   }
   .trustSub {
     display: none;

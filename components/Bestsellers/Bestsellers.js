@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useCart } from "@/components/providers/CartProvider";
+import { listProducts } from "@/lib/api/products";
+import { resolveProductImage } from "@/lib/productImages";
 import prod1 from "@/assets/butterfly-gift-box/butterfly-1.jpeg";
 import prod2 from "@/assets/butterfly-luxury/luxury1.jpeg";
 import prod3 from "@/assets/butterfly-signature/signature1.jpeg";
@@ -36,20 +38,68 @@ export default function Bestsellers() {
   const { addItem } = useCart();
   const [added, setAdded] = useState(() => new Set());
   const [wishlist, setWishlist] = useState(() => new Set());
-  const products = DEMO_PRODUCTS.slice(0, 6);
+  // Real bestsellers from the backend. Falls back to the local DEMO_PRODUCTS
+  // so the section still renders during dev / on API failure — but real
+  // products carry a Mongo `id` that the cart accepts.
+  const [apiProducts, setApiProducts] = useState(null);
 
-  const addToCart = async (e, productId) => {
+  useEffect(() => {
+    let cancelled = false;
+    listProducts({ limit: 6, status: "active", bestseller: true })
+      .then((res) => {
+        const rows = Array.isArray(res) ? res : res?.items || [];
+        if (!cancelled) setApiProducts(rows);
+      })
+      .catch(() => {
+        if (!cancelled) setApiProducts([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const products = apiProducts && apiProducts.length
+    ? apiProducts.slice(0, 6).map((p) => ({
+        id: p.id,
+        slug: p.slug,
+        name: p.name,
+        price: p.price,
+        isNew: p.isBestseller || p.isNew,
+        image: resolveProductImage(p),
+        real: true,
+      }))
+    : DEMO_PRODUCTS.slice(0, 6).map((p) => ({ ...p, real: false }));
+
+  const addToCart = async (e, product) => {
     e.preventDefault();
     e.stopPropagation();
-    setAdded((prev) => new Set(prev).add(productId));
+    if (!product?.real) return;
+    setAdded((prev) => new Set(prev).add(product.id));
     try {
-      await addItem(productId, 1);
+      await addItem(product.id, 1);
+      // Dispatch the same event the Shop page uses so the Navbar's cart
+      // toast (with thumbnail + name + price) fires — keeps every "added
+      // to cart" affordance visually consistent across the site.
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("cart:item-added", {
+            detail: {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image: product.image,
+              qty: 1,
+            },
+          })
+        );
+      }
     } catch {
       setAdded((prev) => {
         const next = new Set(prev);
-        next.delete(productId);
+        next.delete(product.id);
         return next;
       });
+      /* silently ignore — the Navbar toast only fires on success */
     }
   };
 
@@ -58,8 +108,16 @@ export default function Bestsellers() {
     e.stopPropagation();
     setWishlist((prev) => {
       const next = new Set(prev);
-      if (next.has(productId)) next.delete(productId);
-      else next.add(productId);
+      if (next.has(productId)) {
+        next.delete(productId);
+      } else {
+        next.add(productId);
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("wishlist:item-added", { detail: { productId } })
+          );
+        }
+      }
       return next;
     });
   };
@@ -115,74 +173,68 @@ export default function Bestsellers() {
                   {p.isNew ? (
                     <span className={styles.badge}>Best Seller</span>
                   ) : null}
-
-                  <button
-                    type="button"
-                    onClick={(e) => toggleWishlist(e, p.id)}
-                    className={`${styles.wish} ${isWished ? styles.wished : ""}`}
-                    aria-label={
-                      isWished
-                        ? `Remove ${p.name} from wishlist`
-                        : `Add ${p.name} to wishlist`
-                    }
-                  >
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path
-                        d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"
-                        fill={isWished ? "currentColor" : "none"}
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={(e) => addToCart(e, p.id)}
-                    className={`${styles.add} ${isAdded ? styles.added : ""}`}
-                    aria-label={
-                      isAdded ? "Added to cart" : `Add ${p.name} to cart`
-                    }
-                  >
-                    {isAdded ? (
-                      <>
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path
-                            d="M5 12.5l4.5 4.5L19 7"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        Added
-                      </>
-                    ) : (
-                      <>
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path
-                            d="M5 6h2l1.6 9.5a1.5 1.5 0 0 0 1.5 1.3h6.8a1.5 1.5 0 0 0 1.5-1.2L21 9H8"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <circle cx="10.5" cy="20" r="1.2" fill="currentColor" />
-                          <circle cx="17.5" cy="20" r="1.2" fill="currentColor" />
-                        </svg>
-                        Add to cart
-                      </>
-                    )}
-                  </button>
                 </div>
 
                 <div className={styles.info}>
                   <h3 className={styles.name}>{p.name}</h3>
                   <div className={styles.priceRow}>
                     <span className={styles.price}>{inr.format(p.price)}</span>
+                    <div className={styles.actions}>
+                      <button
+                        type="button"
+                        onClick={(e) => toggleWishlist(e, p.id)}
+                        className={`${styles.iconBtn} ${isWished ? styles.wished : ""}`}
+                        aria-label={
+                          isWished
+                            ? `Remove ${p.name} from wishlist`
+                            : `Add ${p.name} to wishlist`
+                        }
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"
+                            fill={isWished ? "currentColor" : "none"}
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => addToCart(e, p)}
+                        className={`${styles.iconBtn} ${isAdded ? styles.added : ""}`}
+                        aria-label={
+                          isAdded ? "Added to cart" : `Add ${p.name} to cart`
+                        }
+                      >
+                        {isAdded ? (
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M5 12.5l4.5 4.5L19 7"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        ) : (
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              d="M5 6h2l1.6 9.5a1.5 1.5 0 0 0 1.5 1.3h6.8a1.5 1.5 0 0 0 1.5-1.2L21 9H8"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <circle cx="10.5" cy="20" r="1.2" fill="currentColor" />
+                            <circle cx="17.5" cy="20" r="1.2" fill="currentColor" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </a>

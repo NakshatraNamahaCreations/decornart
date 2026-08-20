@@ -7,9 +7,5 @@ export const metadata = {
 };
 
 export default function WishlistPage() {
-  return (
-    <main>
-      <WishlistView />
-    </main>
-  );
+  return <WishlistView />;
 }

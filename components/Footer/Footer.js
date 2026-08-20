@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { FiTruck, FiShield, FiRotateCcw, FiAward } from "react-icons/fi";
 import {
+  FaFacebookF,
   FaInstagram,
   FaYoutube,
   FaPinterestP,
@@ -11,9 +13,17 @@ import {
   FaGift,
   FaLightbulb,
   FaStar,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
-import logo from "@/assets/logo-1.png";
-import newsletterArt from "@/assets/luxe-heart/luxe-heart2.jpeg";
+import logo from "@/assets/new-logo-1.png";
+import newsletterArt from "@/assets/vase.png";
+import visaImg from "@/assets/payment/visa.jpg";
+import mastercardImg from "@/assets/payment/mastercard.jpg";
+import upiImg from "@/assets/payment/upi.jpg";
+import paytmImg from "@/assets/payment/paytm.jpg";
+import rupayImg from "@/assets/payment/rupay.jpg";
 import styles from "./Footer.module.css";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -77,21 +87,20 @@ const COLUMNS = [
       { label: "Pipe Cleaners", href: "/shop?category=pipe-cleaners" },
       { label: "Ribbons", href: "/shop?category=ribbons" },
       { label: "Wrapping Sheets", href: "/shop?category=wrapping-papers" },
-      { label: "Flower Boxes & Bags", href: "/shop?category=flower-basket-materials" },
+      { label: "Flower Boxes & Bags", href: "/shop?category=flower-boxes-bags" },
       { label: "Gift Boxes", href: "/shop?category=gift-box" },
-      { label: "Craft Essentials", href: "/shop?category=craft-essentials" },
-      { label: "Artificial Plants", href: "/shop?category=artificial-plants" },
-      { label: "New Arrivals", href: "/shop?sort=new" },
+      { label: "Craft Essentials", href: "/craft-essentials" },
+      { label: "New Arrivals", href: "/collections" },
+      { label: "Offers", href: "/offers" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "About Us", href: "/about" },
-      { label: "Our Story", href: "/about#story" },
-      { label: "Sustainability", href: "/about#sustainability" },
+      // { label: "Brand Partners", href: "/brand-partners" },
       { label: "Wholesale", href: "/wholesale" },
-      { label: "Blog & DIY", href: "/blog" },
+      { label: "Gallery", href: "/gallery" },
       { label: "Contact Us", href: "/contact" },
     ],
   },
@@ -99,35 +108,45 @@ const COLUMNS = [
     title: "Help & Support",
     links: [
       { label: "FAQs", href: "/faq" },
-      { label: "Track Your Order", href: "/track-order" },
-      { label: "Returns & Refunds", href: "/returns" },
-      { label: "Shipping Policy", href: "/shipping" },
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms & Conditions", href: "/terms" },
+      { label: "Track Your Order", href: "/order" },
+      { label: "Returns & Refunds", href: "/policies" },
+      { label: "Shipping Policy", href: "/policies" },
+      { label: "Payment Policy", href: "/policies" },
+      { label: "Privacy Policy", href: "/policies" },
+      { label: "Terms & Conditions", href: "/policies" },
       { label: "Wholesale Enquiries", href: "/wholesale" },
+      { label: "AI Search", href: "/search" }
     ],
   },
   {
     title: "My Account",
     links: [
       { label: "My Account", href: "/account" },
-      { label: "Order History", href: "/account#orders" },
+      { label: "Order History", href: "/order" },
       { label: "Wishlist", href: "/wishlist" },
-      { label: "Addresses", href: "/account#addresses" },
-      { label: "Cart", href: "/cart" },
+      { label: "Addresses", href: "/addresses" },
+      { label: "Payment Methods", href: "/account" },
+      { label: "Rewards & Credit", href: "/offers" },
+      { label: "Logout", href: "/" },
     ],
   },
 ];
 
 const TRUST = [
-  { id: "ship", title: "Free Shipping", sub: "On orders above ₹999", icon: <ShipIcon /> },
+  { id: "ship", title: "Free Shipping", sub: "On orders above ₹2500", icon: <ShipIcon /> },
   { id: "secure", title: "Secure Payments", sub: "100% safe & secure", icon: <ShieldIcon /> },
-  { id: "returns", title: "Easy Returns", sub: "7 days hassle-free returns", icon: <ReturnIcon /> },
-  { id: "handmade", title: "Curated with Care", sub: "Hand-picked supplies", icon: <HandHeartIcon /> },
-  
+  { id: "returns", title: "Damage Protection", sub: "Replacement for damaged items", icon: <ReturnIcon /> },
+  { id: "beautiful", title: "Curated with Love", sub: "Crafted with passion", icon: <HandHeartIcon /> },
+  { id: "happy", title: "10,000+ Happy Customers", sub: "Thank you for trusting us", icon: <UsersIcon /> },
 ];
 
-const PAYMENTS = ["VISA", "Mastercard", "UPI", "Paytm", "RuPay"];
+const PAYMENTS = [
+  { id: "visa", label: "Visa", image: visaImg },
+  { id: "mastercard", label: "Mastercard", image: mastercardImg },
+  { id: "upi", label: "UPI", image: upiImg },
+  { id: "paytm", label: "Paytm", image: paytmImg },
+  { id: "rupay", label: "RuPay", image: rupayImg },
+];
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -156,12 +175,12 @@ export default function Footer() {
 
             <div className={styles.newsCopy}>
               <h2 className={styles.newsTitle}>
-                Stay Inspired, Stay in Touch
+                Unravel Something New
                 <span className={styles.newsHeart} aria-hidden="true"><HeartIcon /></span>
               </h2>
               <p className={styles.newsLead}>
-                Subscribe to get exclusive offers, new arrivals, DIY ideas &amp;
-                creative inspiration.
+                First peeks at fresh yarn shades, exclusive drops &amp; DIY
+                threads for your next make &mdash; straight to your inbox.
               </p>
             </div>
 
@@ -210,7 +229,7 @@ export default function Footer() {
                 <span className={styles.newsPerkDot} aria-hidden="true">
                   <FaLightbulb />
                 </span>
-                DIY Tips &amp; Inspiration
+                Product Showcase
               </li>
               <li>
                 <span className={styles.newsPerkDot} aria-hidden="true">
@@ -254,12 +273,75 @@ export default function Footer() {
                 />
               </a>
               <p className={styles.tagline}>
-                Premium raw materials and supplies for floral design, crafting,
-                gift-wrapping and decor — shipped across India with love.
+                Curating beautiful moments and timeless memories with love.
               </p>
               <ul className={styles.social} aria-label="Follow Decor N Art">
-                <li><a href="#" aria-label="Instagram"><FaInstagram size={18} aria-hidden="true" /></a></li>
-                <li><a href="#" aria-label="Pinterest"><FaPinterestP size={18} aria-hidden="true" /></a></li>
+                <li>
+                  <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+                    <FaFacebookF size={18} aria-hidden="true" />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+                    <FaInstagram size={18} aria-hidden="true" />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube">
+                    <FaYoutube size={18} aria-hidden="true" />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://pinterest.com" target="_blank" rel="noreferrer" aria-label="Pinterest">
+                    <FaPinterestP size={18} aria-hidden="true" />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://wa.me/919986988786" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+                    <FaWhatsapp size={18} aria-hidden="true" />
+                  </a>
+                </li>
+              </ul>
+
+              {/* Feature badges — matches the design spec's 2x2 grid of
+                  trust markers directly beneath the social icons. */}
+              <ul className={styles.features} aria-label="Why shop with us">
+                <li className={styles.featureItem}>
+                  <span className={styles.featureIcon} aria-hidden="true">
+                    <FiTruck />
+                  </span>
+                  <span className={styles.featureText}>
+                    <strong>Pan India</strong>
+                    <span>Shipping</span>
+                  </span>
+                </li>
+                <li className={styles.featureItem}>
+                  <span className={styles.featureIcon} aria-hidden="true">
+                    <FiShield />
+                  </span>
+                  <span className={styles.featureText}>
+                    <strong>Secure</strong>
+                    <span>Payments</span>
+                  </span>
+                </li>
+                <li className={styles.featureItem}>
+                  <span className={styles.featureIcon} aria-hidden="true">
+                    <FiRotateCcw />
+                  </span>
+                  <span className={styles.featureText}>
+                    <strong>Easy</strong>
+                    <span>Replacement</span>
+                  </span>
+                </li>
+                <li className={styles.featureItem}>
+                  <span className={styles.featureIcon} aria-hidden="true">
+                    <FiAward />
+                  </span>
+                  <span className={styles.featureText}>
+                    <strong>Premium</strong>
+                    <span>Quality</span>
+                  </span>
+                </li>
               </ul>
             </div>
 
@@ -284,23 +366,47 @@ export default function Footer() {
               <span className={styles.colRule} aria-hidden="true" />
               <ul className={styles.contactList}>
                 <li>
-                  <span className={styles.contactLabel}>+91 78925 45678</span>
-                  <span className={styles.contactSub}>Mon – Sat | 9AM – 7PM</span>
+                  <span className={styles.contactIcon} aria-hidden="true">
+                    <FaPhoneAlt size={14} />
+                  </span>
+                  <span className={styles.contactBody}>
+                    <a href="tel:+917892545678" className={styles.contactLabel}>
+                      +91 9986988786
+                    </a>
+                    <span className={styles.contactSub}>Mon – Sat | 9AM – 7PM</span>
+                  </span>
                 </li>
                 <li>
-                  <a href="mailto:hello@decornart.in" className={styles.contactLabel}>
-                    hello@decornart.in
-                  </a>
-                  <span className={styles.contactSub}>We reply within 24 hours</span>
+                  <span className={styles.contactIcon} aria-hidden="true">
+                    <FaEnvelope size={14} />
+                  </span>
+                  <span className={styles.contactBody}>
+                    <a href="mailto:official@decornart.in" className={styles.contactLabel}>
+                      official@decornart.in
+                    </a>
+                    <a href="mailto:support@decornart.in" className={styles.contactLabel}>
+                      support@decornart.in 
+                    </a>
+                    <span className={styles.contactSub}>We reply within 24 hours</span>
+                  </span>
                 </li>
                 <li>
-                  <span className={styles.contactLabel}>Bengaluru, Karnataka</span>
-                  <span className={styles.contactSub}>India · 560001</span>
+                  <span className={styles.contactIcon} aria-hidden="true">
+                    <FaMapMarkerAlt size={14} />
+                  </span>
+                  <span className={styles.contactBody}>
+                    <span className={styles.contactLabel}>
+                      #828, Sri Hanuma Dhaye,<br />
+                      2nd Main 10th Cross,<br />
+                      Sir M Visvesvaraya Layout Block 1,<br />
+                      Bengaluru-560056
+                    </span>
+                  </span>
                 </li>
               </ul>
 
               <a
-                href="https://wa.me/919999999999"
+                href="https://wa.me/919986988786"
                 target="_blank"
                 rel="noreferrer"
                 className={styles.chatBox}
@@ -325,7 +431,15 @@ export default function Footer() {
               <span className={styles.paymentsLabel}>We Accept</span>
               <ul aria-label="Accepted payment methods">
                 {PAYMENTS.map((p) => (
-                  <li key={p}>{p}</li>
+                  <li key={p.id} className={styles.paymentLogo}>
+                    <Image
+                      src={p.image}
+                      alt={p.label}
+                      width={44}
+                      height={26}
+                      sizes="44px"
+                    />
+                  </li>
                 ))}
                 <li className={styles.paymentsMore}>&amp; more</li>
               </ul>
@@ -338,6 +452,18 @@ export default function Footer() {
             <span className={styles.copyright}>
               © {new Date().getFullYear()} Decor N Art. All Rights Reserved.
             </span>
+          </div>
+
+          <div className={styles.credit}>
+            Developed by{" "}
+            <a
+              href="https://www.nakshatranamahacreations.com/"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.creditLink}
+            >
+              Nakshatra Namaha Creations
+            </a>
           </div>
         </div>
       </div>

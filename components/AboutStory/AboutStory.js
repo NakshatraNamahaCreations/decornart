@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
-import storyImg from "@/assets/collect-4.png";
+import storyImg from "@/assets/for-mother-gift/for-mother2.jpeg";
 import styles from "./AboutStory.module.css";
 
 export default function AboutStory() {

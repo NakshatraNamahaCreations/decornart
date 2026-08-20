@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import { getProduct, getRelatedProducts } from "@/lib/api/products";
 import ProductView from "@/components/ProductView/ProductView";
-import ProductReviews from "@/components/ProductReviews/ProductReviews";
+// import ProductReviews from "@/components/ProductReviews/ProductReviews";
 import RelatedProducts from "@/components/RelatedProducts/RelatedProducts";
 
 export default function ProductPageClient({ slug }) {
@@ -62,8 +62,10 @@ export default function ProductPageClient({ slug }) {
   return (
     <main>
       <ProductView product={product} related={related} />
-      <ProductReviews productId={product.id} />
-      <RelatedProducts product={product} related={related} />
+      {/* Reviews are shown inside ProductView's Reviews tab for now.
+          Re-enable the standalone section below when the API is ready. */}
+      {/* <ProductReviews productId={product.id} /> */}
+      {/* <RelatedProducts product={product} related={related} /> */}
     </main>
   );
 }

@@ -3,6 +3,10 @@ import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { CartProvider } from "@/components/providers/CartProvider";
 import { WishlistProvider } from "@/components/providers/WishlistProvider";
+import { LoginModalProvider } from "@/components/LoginModal/LoginModalContext";
+import LoginModal from "@/components/LoginModal/LoginModal";
+import RegisterModal from "@/components/LoginModal/RegisterModal";
+import ForgotPasswordModal from "@/components/LoginModal/ForgotPasswordModal";
 import PromoBar from "@/components/PromoBar/PromoBar";
 import Navbar from "@/components/Navbar/Navbar";
 import ServicesStrip from "@/components/ServicesStrip/ServicesStrip";
@@ -18,7 +22,7 @@ const cormorant = Cormorant_Garamond({
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-poppins",
   display: "swap",
 });
@@ -58,13 +62,18 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>
-              <SmoothScrollProvider>
-                <PromoBar />
-                <Navbar />
-                {children}
-                {/* <ServicesStrip /> */}
-                <Footer />
-              </SmoothScrollProvider>
+              <LoginModalProvider>
+                <SmoothScrollProvider>
+                  <PromoBar />
+                  <Navbar />
+                  {children}
+                  {/* <ServicesStrip /> */}
+                  <Footer />
+                  <LoginModal />
+                  <RegisterModal />
+                  <ForgotPasswordModal />
+                </SmoothScrollProvider>
+              </LoginModalProvider>
             </WishlistProvider>
           </CartProvider>
         </AuthProvider>

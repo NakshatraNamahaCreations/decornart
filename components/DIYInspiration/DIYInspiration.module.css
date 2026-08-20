@@ -1,69 +1,80 @@
 ﻿.section {
-  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  padding: clamp(0rem, 0vw, 0rem) 0;
   color: var(--ink);
-  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
-  max-width: 1420px;
-  margin: auto;
-  border-radius: 12px
+}
+.section > :global(.container) {
+  background: color-mix(in srgb, var(--beige) 20%, var(--cream));
+  border-radius: 12px;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  padding-inline: clamp(1.25rem, 3vw, 2.5rem);
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(200px, 240px) 1fr;
-  gap: clamp(1.5rem, 3vw, 2.6rem);
-  align-items: center;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+  align-items: stretch;
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€ Left copy column â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Left copy column — solid dark plum card with white text. */
 .copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.8rem;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: clamp(1.4rem, 2vw, 2rem);
+  background: var(--plum);
+  border-radius: 12px;
+  color: var(--cream);
+  height: 100%;
 }
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--blush);
+  color: var(--cream);
+  opacity: 0.85;
 }
 .heading {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
   line-height: 1.15;
   letter-spacing: 0.005em;
   margin: 0;
-  color: var(--ink);
+  color: var(--cream);
 }
-.script {
-  font-family: var(--font-script); /* Allura â€” script accent */
-  font-weight: 400;
-  color: var(--blush);
-  font-size: 1.5em;
-  line-height: 0.85;
-  letter-spacing: 0;
-  display: inline-block;
+.lead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.82rem, 0.95vw, 0.95rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .cta {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
   padding: 0.75rem 1.15rem;
-  background: var(--ink);
-  color: #ffffff;
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   font-family: var(--font-body);
   font-size: 0.7rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   border-radius: 6px;
-  transition: background 0.3s var(--ease), transform 0.3s var(--ease);
+  transition: background 0.3s var(--ease), color 0.3s var(--ease),
+    border-color 0.3s var(--ease), transform 0.3s var(--ease);
 }
 .cta:hover {
-  background: var(--forest-soft);
+  background: var(--cream);
+  color: var(--plum);
+  border-color: var(--cream);
   transform: translateY(-2px);
 }
 .ctaArrow {
@@ -75,22 +86,29 @@
   transform: translateX(3px);
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€ Right video grid â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Right video grid — every card uses the same aspect-ratio media so
+   admin thumbnails of varying dimensions (portrait / landscape / square)
+   all render at the same size instead of stretching to fill unused
+   column space. */
 .grid {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(0.75rem, 1.4vw, 1.2rem);
+  align-content: start;
 }
 .card {
   display: block;
+  min-width: 0;
+  width: 100%;
 }
 .cardLink {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  width: 100%;
   text-decoration: none;
   color: inherit;
 }
@@ -99,11 +117,13 @@
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 0;
+  padding-bottom: 100%; /* 1:1 square — compact card, uniform sizing */
   border-radius: 10px;
   overflow: hidden;
-  background: color-mix(in srgb, var(--beige) 22%, #ffffff);
+  background: color-mix(in srgb, var(--beige) 22%, var(--cream));
   isolation: isolate;
+  flex-shrink: 0;
 }
 .mediaImg {
   object-fit: cover;
@@ -125,8 +145,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #E7B23A;
-  color: #ffffff;
+  background: var(--blush);
+  color: var(--cream);
   box-shadow: 0 8px 20px -10px rgba(42, 15, 43, 0.55);
   transition: transform 0.3s var(--ease), background 0.3s var(--ease);
 }
@@ -135,7 +155,7 @@
 }
 .cardLink:hover .play {
   transform: translate(-50%, -50%) scale(1.08);
-  background: #D9A128;
+  background: var(--purple);
 }
 
 .info {
@@ -156,6 +176,81 @@
   font-size: clamp(0.72rem, 0.82vw, 0.82rem);
   color: var(--ink-soft);
   line-height: 1.3;
+}
+
+/* The card can be either an <a> (static fallback) or a <button> when the
+   row has an admin-uploaded video URL — reset button styles so both
+   render the same in the grid. `width: 100%` is critical: buttons
+   default to fit-content, which would collapse the card to its
+   image's intrinsic width and break the grid layout. */
+button.cardLink {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+}
+
+/* Video lightbox — matches the ProductView modal so both share look. */
+.videoModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(20, 12, 24, 0.82);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  animation: diyVideoFadeIn 160ms ease-out;
+}
+.videoModalInner {
+  position: relative;
+  width: min(960px, 100%);
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.videoModalInner iframe,
+.videoModalInner video {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #000;
+}
+.videoModalClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--plum, #4a1d5a);
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+  z-index: 3;
+  backdrop-filter: blur(4px);
+}
+.videoModalClose:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+@keyframes diyVideoFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (max-width: 640px) {
+  .videoModal { padding: 0.75rem; }
+  .videoModalClose { top: 8px; right: 8px; }
 }
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€ Motion â”€â”€â”€â”€â”€â”€â”€â”€ */

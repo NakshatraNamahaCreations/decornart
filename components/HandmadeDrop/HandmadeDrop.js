@@ -5,7 +5,7 @@ import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { listProducts } from "@/lib/api/products";
 import { resolveProductImage } from "@/lib/productImages";
-import styles from "./HandmadeDrop.module.css";
+import styles from "./beautifulDrop.module.css";
 
 const inr = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -13,7 +13,7 @@ const inr = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 0,
 });
 
-export default function HandmadeDrop() {
+export default function beautifulDrop() {
   const root = useRef(null);
   const carouselRef = useRef(null);
   const [items, setItems] = useState([]);
@@ -23,11 +23,11 @@ export default function HandmadeDrop() {
     let cancelled = false;
     async function load() {
       try {
-        const data = await listProducts({ category: "handmade", limit: 12 });
+        const data = await listProducts({ category: "beautiful", limit: 12 });
         // Defensive client-side filter in case the backend ever returns a
-        // mixed payload — the carousel must only ever show handmade pieces.
-        const handmadeOnly = (data || []).filter((p) => p.category === "handmade");
-        if (!cancelled) setItems(handmadeOnly);
+        // mixed payload — the carousel must only ever show beautiful pieces.
+        const beautifulOnly = (data || []).filter((p) => p.category === "beautiful");
+        if (!cancelled) setItems(beautifulOnly);
       } catch {
         if (!cancelled) setItems([]);
       }
@@ -166,7 +166,7 @@ export default function HandmadeDrop() {
         </div>
 
         <div className={styles.foot}>
-          <a href="/shop?category=handmade" className={styles.viewAll}>
+          <a href="/shop?category=beautiful" className={styles.viewAll}>
             View all editions <span aria-hidden="true">→</span>
           </a>
         </div>

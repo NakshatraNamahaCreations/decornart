@@ -4,6 +4,11 @@ import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { resolveProductImage } from "@/lib/productImages";
+import demo1 from "@/assets/butterfly-gift-box/butterfly-1.jpeg";
+import demo2 from "@/assets/butterfly-luxury/luxury1.jpeg";
+import demo3 from "@/assets/for-you-bouquet/for-you4.jpeg";
+import demo4 from "@/assets/luxe-heart/luxe-heart2.jpeg";
+import demo5 from "@/assets/luxe-rose/luxe-rose4.jpeg";
 import styles from "./RelatedProducts.module.css";
 
 const inr = new Intl.NumberFormat("en-IN", {
@@ -12,8 +17,61 @@ const inr = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 0,
 });
 
+// Fallback related items — used when the API returns nothing so the section
+// always renders 5 tiles instead of collapsing.
+const DEMO_RELATED = [
+  {
+    id: "demo1",
+    slug: "butterfly-gift-box",
+    name: "Butterfly Gift Box",
+    occasion: "Signature Edit",
+    price: 650,
+    isNew: true,
+    image: demo1,
+  },
+  {
+    id: "demo2",
+    slug: "butterlfy-luxe-bouquet-basket",
+    name: "Butterfly Luxury Basket",
+    occasion: "Bestseller",
+    price: 850,
+    isNew: false,
+    image: demo2,
+  },
+  {
+    id: "demo3",
+    slug: "just-for-you-bouquet-basket",
+    name: "Just For You Basket",
+    occasion: "Thinking of You",
+    price: 900,
+    isNew: false,
+    image: demo3,
+  },
+  {
+    id: "demo4",
+    slug: "heart-bouquet-basket",
+    name: "Heart Bouquet Basket",
+    occasion: "Best Wishes",
+    price: 279,
+    isNew: true,
+    image: demo4,
+  },
+  {
+    id: "demo5",
+    slug: "rose-gift-box-with-led",
+    name: "Rose Gift Box with LED",
+    occasion: "Anniversary",
+    price: 459,
+    isNew: false,
+    image: demo5,
+  },
+];
+
 export default function RelatedProducts({ related = [] }) {
   const root = useRef(null);
+  // Fall back to the demo set when no API data is available so 5 tiles
+  // still render on the product page.
+  const items = related && related.length > 0 ? related.slice(0, 5) : DEMO_RELATED;
 
   useGSAP(
     () => {
@@ -28,8 +86,6 @@ export default function RelatedProducts({ related = [] }) {
     },
     { scope: root }
   );
-
-  if (!related || related.length === 0) return null;
 
   return (
     <section ref={root} className={styles.section}>
@@ -47,11 +103,11 @@ export default function RelatedProducts({ related = [] }) {
         </div>
 
         <div className={styles.grid}>
-          {related.slice(0, 4).map((p) => (
+          {items.map((p) => (
             <a key={p.id} href={`/product/${p.slug}`} className={styles.card}>
               <div className={styles.imageWrap}>
                 <Image
-                  src={resolveProductImage(p)}
+                  src={p.image || resolveProductImage(p)}
                   alt={p.name}
                   fill
                   sizes="(max-width: 760px) 90vw, 24vw"

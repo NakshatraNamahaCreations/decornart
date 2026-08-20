@@ -5,6 +5,10 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { sendContactMessage } from "@/lib/api/contact";
 import styles from "./ContactForm.module.css";
 
+// Business WhatsApp number (same one used in the footer chat CTA). Digits
+// only, with country code — required by the wa.me deep-link format.
+const WHATSAPP_NUMBER = "919986988786";
+
 const REASONS = [
   {
     id: "bespoke",
@@ -107,27 +111,50 @@ const REASONS = [
 export default function ContactForm() {
   const root = useRef(null);
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSubmitting(true);
+    if (sending) return;
     const data = new FormData(e.currentTarget);
+    const name = (data.get("name") || "").toString().trim();
+    const email = (data.get("email") || "").toString().trim();
+    const phone = (data.get("phone") || "").toString().trim();
+    const message = (data.get("message") || "").toString().trim();
+
+    setSending(true);
+    setError("");
     try {
+      // Save the enquiry to the admin inbox first — the WhatsApp handoff
+      // below is a secondary channel, not the source of record.
       await sendContactMessage({
-        name: data.get("name"),
-        email: data.get("email"),
-        phone: data.get("phone") || undefined,
-        message: data.get("message"),
+        name,
+        email,
+        phone: phone || undefined,
+        subject: "Contact form enquiry",
+        message,
         type: "contact",
       });
+
+      const lines = [
+        `Hi Decor N Art, I'd like to get in touch.`,
+        "",
+        `Name: ${name}`,
+        `Email: ${email}`,
+      ];
+      if (phone) lines.push(`Phone: ${phone}`);
+      lines.push("", `Message:`, message);
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+        lines.join("\n")
+      )}`;
+      window.open(url, "_blank", "noopener,noreferrer");
       setSubmitted(true);
     } catch (err) {
-      setError(err.message || "Could not send your message.");
+      setError(err?.message || "Could not send your enquiry. Please try again.");
     } finally {
-      setSubmitting(false);
+      setSending(false);
     }
   };
 
@@ -164,14 +191,11 @@ export default function ContactForm() {
                   ✓
                 </span>
                 <h3 className={styles.thankyouHeading}>
-                  Your note is on its way.
+                  Continue on WhatsApp.
                 </h3>
                 <p className={styles.thankyouCopy}>
-                  We'll respond within a day. In the meantime, may we suggest{" "}
-                  <a href="/handmade" className={styles.thankyouLink}>
-                    this week's drop
-                  </a>
-                  .
+                  We've opened WhatsApp with your message ready to send — just
+                  tap send there and we'll respond within a day.
                 </p>
                 <button
                   type="button"
@@ -228,22 +252,27 @@ export default function ContactForm() {
                 </label>
 
                 {error && (
-                  <span className={styles.actionsNote} style={{ color: "#b00" }}>
+                  <p className={styles.errorMsg} role="alert">
                     {error}
-                  </span>
+                  </p>
                 )}
 
                 <div className={styles.actions}>
-                  <button type="submit" className={styles.submit} disabled={submitting}>
-                    {submitting ? "Sending…" : <>Send the note <span aria-hidden="true">→</span></>}
+                  <button
+                    type="submit"
+                    className={styles.submit}
+                    disabled={sending}
+                  >
+                    {sending ? "Sending…" : "Send on WhatsApp"}{" "}
+                    <span aria-hidden="true">→</span>
                   </button>
                   <span className={styles.actionsNote}>
                     Or write to{" "}
                     <a
-                      href="mailto:hello@decornart.in"
+                      href="mailto:official@decornart.in"
                       className={styles.actionsLink}
                     >
-                      hello@decornart.in
+                      official@decornart.in
                     </a>
                   </span>
                 </div>

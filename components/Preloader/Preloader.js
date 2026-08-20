@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
-import logo from "@/assets/decor-logo.png";
+import logo from "@/assets/new-logo.png";
 import styles from "./Preloader.module.css";
 
 const SESSION_KEY = "Decor N Art:preloaded";

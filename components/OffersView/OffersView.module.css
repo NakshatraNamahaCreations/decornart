@@ -1,0 +1,759 @@
+.page {
+  background: var(--cream);
+  color: var(--ink);
+  padding-top: 110px;
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+.container { max-width: var(--maxw); }
+.srOnly {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ─────────── 1. Hero ─────────── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+  isolation: isolate;
+  margin-bottom: clamp(1.4rem, 2.4vw, 2rem);
+}
+.heroDeco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.heroImg { object-fit: cover; object-position: center; }
+.heroInner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  min-height: inherit;
+  padding-top: clamp(1.8rem, 3vw, 2.6rem);
+  padding-bottom: clamp(1.8rem, 3vw, 2.6rem);
+}
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 44ch;
+}
+.heroEyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+.heroTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 4.6vw, 3.8rem);
+  line-height: 1.05;
+  color: var(--ink);
+  margin: 0;
+  max-width: 14ch;
+}
+.heroTitleAccent {
+  color: var(--plum);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.heroHeart {
+  display: inline-flex;
+  color: var(--blush);
+  font-size: 0.32em;
+}
+.heroLead {
+  margin: 0.35rem 0 0.6rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.05vw, 1rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 40ch;
+}
+.heroCta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1.5rem;
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.heroCta:hover { background: var(--purple); transform: translateY(-1px); }
+
+/* Coupon card (right side of hero) */
+.coupon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: clamp(1.2rem, 2vw, 1.8rem) clamp(1.4rem, 2.4vw, 2rem);
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 12px;
+  text-align: center;
+  min-width: 220px;
+  box-shadow: 0 24px 48px -28px rgba(42, 15, 43, 0.55);
+}
+.couponEdgeLeft,
+.couponEdgeRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cream);
+}
+.couponEdgeLeft { left: -9px; }
+.couponEdgeRight { right: -9px; }
+.couponTag {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cream) 78%, transparent);
+}
+.couponValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 4vw, 3.4rem);
+  line-height: 1;
+  color: var(--cream);
+  margin: 0.1rem 0 0.2rem;
+}
+.couponCondition {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cream) 78%, transparent);
+  margin-bottom: 0.7rem;
+}
+.couponCode {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  background: var(--cream);
+  color: var(--plum);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+/* ─────────── 2. Trust strip ─────────── */
+.trustStrip {
+  padding: clamp(0.9rem, 1.5vw, 1.3rem) clamp(1rem, 1.8vw, 1.6rem);
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--beige) 50%, transparent);
+  border-radius: 14px;
+  margin-bottom: clamp(1.4rem, 2.4vw, 2rem);
+}
+.trustList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.7rem, 1.2vw, 1.1rem);
+}
+.trustRow { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+.trustIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--blush) 12%, var(--cream));
+  color: var(--blush);
+  font-size: 1.05rem;
+}
+.trustText { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
+.trustText strong {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.trustText span {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+/* ─────────── Section head (shared) ─────────── */
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(0.9rem, 1.4vw, 1.2rem);
+  flex-wrap: wrap;
+}
+.sectionTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 1.9vw, 1.7rem);
+  color: var(--ink);
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.sectionHeart { display: inline-flex; color: var(--blush); font-size: 0.55em; }
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--blush);
+  text-decoration: none;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.viewAll:hover { background: var(--blush); color: var(--cream); }
+
+/* ─────────── 3. Top Offers ─────────── */
+.topSection { margin-bottom: clamp(1.4rem, 2.4vw, 2rem); }
+.offerGrid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.4vw, 1.2rem);
+}
+.offerItem {
+  display: flex;
+  flex-direction: column;
+}
+.offerCard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  border-radius: 16px 16px 0 0;
+  padding: clamp(1.1rem, 1.6vw, 1.4rem);
+  background: color-mix(in srgb, var(--beige) 15%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--beige) 45%, transparent);
+  border-bottom: 0;
+}
+.tone_lavender { background: color-mix(in srgb, #6F2A5E 8%, var(--cream)); }
+.tone_blush { background: color-mix(in srgb, var(--blush) 10%, var(--cream)); }
+.tone_sand { background: color-mix(in srgb, var(--beige) 28%, var(--cream)); }
+
+/* Background image behind the card */
+.offerBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.offerBgImg {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s var(--ease);
+}
+.offerCard:hover .offerBgImg { transform: scale(1.03); }
+.offerCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--cream) 92%, transparent) 0%,
+    color-mix(in srgb, var(--cream) 78%, transparent) 42%,
+    color-mix(in srgb, var(--cream) 35%, transparent) 78%,
+    rgba(255, 246, 234, 0) 100%
+  ); */
+  pointer-events: none;
+}
+
+.offerBody {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 68%;
+}
+.offerEyebrow {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.offerHeadline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  line-height: 1;
+  color: var(--ink);
+}
+.offerDiscount {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 2.8vw, 2.6rem);
+  line-height: 1;
+  color: var(--plum);
+  margin-bottom: 0.3rem;
+}
+.offerCopy {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.offerCode {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: background 0.25s var(--ease);
+}
+.offerCode em {
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+.offerCode:hover { background: var(--purple); }
+.offerCta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s var(--ease);
+}
+.offerCta:hover { background: var(--purple); }
+.offerFoot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  align-self: stretch;
+  padding: 0.7rem 1rem;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-top: 1px dashed color-mix(in srgb, var(--beige) 65%, transparent);
+  border-radius: 0 0 16px 16px;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.offerFoot svg { color: var(--blush); }
+
+/* ─────────── 4. Seasonal Sale ─────────── */
+.seasonal {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr) clamp(160px, 18vw, 230px);
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  padding: clamp(1.6rem, 2.4vw, 2.2rem) clamp(1.6rem, 2.4vw, 2.4rem);
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 16px;
+  margin-bottom: clamp(1.4rem, 2.4vw, 2rem);
+}
+.seasonalCopy { display: flex; flex-direction: column; gap: 0.55rem; max-width: 30ch; }
+.seasonalTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 2.4vw, 2.2rem);
+  color: var(--cream);
+  margin: 0;
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+.seasonalScript {
+  font-family: var(--font-script, var(--font-display));
+  font-style: italic;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--beige) 80%, var(--cream));
+}
+.seasonalHeart { display: inline-flex; color: var(--blush); font-size: 0.55em; }
+.seasonalLead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--cream) 82%, transparent);
+}
+.seasonalCta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.3rem;
+  background: var(--cream);
+  color: var(--plum);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin-top: 0.3rem;
+  transition: transform 0.25s var(--ease);
+}
+.seasonalCta:hover { transform: translateY(-1px); }
+
+.seasonalDiscount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+.seasonalPre {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cream) 82%, transparent);
+}
+.seasonalBigWrap { display: inline-flex; align-items: baseline; gap: 0.35rem; line-height: 1; }
+.seasonalBig {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(4.5rem, 8vw, 6.5rem);
+  line-height: 0.85;
+  color: var(--cream);
+}
+.seasonalUnit {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.8vw, 1.7rem);
+  color: var(--cream);
+}
+.seasonalOn {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cream) 82%, transparent);
+}
+
+.seasonalPerks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.seasonalPerk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+.seasonalPerkIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cream) 12%, transparent);
+  color: var(--cream);
+  font-size: 1rem;
+}
+.seasonalPerkText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.seasonalPerkText strong {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--cream);
+}
+.seasonalPerkText span {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: color-mix(in srgb, var(--cream) 78%, transparent);
+}
+.seasonalMedia {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  min-height: clamp(180px, 20vw, 260px);
+  margin: calc(clamp(1.6rem, 2.4vw, 2.2rem) * -1) calc(clamp(1.6rem, 2.4vw, 2.4rem) * -1) calc(clamp(1.6rem, 2.4vw, 2.2rem) * -1) 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.seasonalImg { object-fit: contain; object-position: bottom right; }
+
+/* ─────────── 5. Combo Deals ─────────── */
+.comboSection { margin-bottom: clamp(1.4rem, 2.4vw, 2rem); }
+.comboGrid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.85rem, 1.4vw, 1.2rem);
+}
+.comboCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: clamp(0.9rem, 1.4vw, 1.1rem);
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--beige) 50%, transparent);
+  border-radius: 14px;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.comboCard:hover {
+  border-color: color-mix(in srgb, var(--blush) 30%, transparent);
+  box-shadow: 0 16px 40px -28px color-mix(in srgb, var(--plum) 45%, transparent);
+}
+.comboMedia {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--cream);
+}
+.comboImg { object-fit: cover; transition: transform 0.6s var(--ease); }
+.comboCard:hover .comboImg { transform: scale(1.04); }
+.comboBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 0.3rem 0.55rem;
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.comboBody { display: flex; flex-direction: column; gap: 0.35rem; }
+.comboTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.comboTitle a { color: inherit; text-decoration: none; }
+.comboTitle a:hover { color: var(--blush); }
+.comboCopy {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+.comboPrice {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+}
+.comboPrice strong {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.comboPrice span {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-decoration: line-through;
+}
+
+/* ─────────── 6. Newsletter CTA ─────────── */
+.newsletter {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.6rem);
+  padding: clamp(1.2rem, 2vw, 1.6rem) clamp(1.4rem, 2.4vw, 2rem);
+  background: var(--plum);
+  color: var(--cream);
+  border-radius: 14px;
+  margin-bottom: clamp(1.4rem, 2.4vw, 2rem);
+}
+.newsletterIcon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cream) 16%, transparent);
+  color: var(--cream);
+  font-size: 1.4rem;
+}
+.newsletterCopy { display: flex; flex-direction: column; gap: 0.35rem; }
+.newsletterTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  color: var(--cream);
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.newsletterSpark { display: inline-flex; color: var(--blush); font-size: 0.75em; }
+.newsletterLead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--cream) 80%, transparent);
+}
+.newsletterForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+}
+.newsletterInput {
+  padding: 0.9rem 1rem;
+  background: var(--cream);
+  color: var(--ink);
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+}
+.newsletterInput::placeholder { color: color-mix(in srgb, var(--ink) 40%, transparent); }
+.newsletterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.4rem;
+  background: var(--cream);
+  color: var(--plum);
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease);
+}
+.newsletterBtn:hover { transform: translateY(-1px); }
+
+/* ─────────── Responsive ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  .heroCta, .seasonalCta, .newsletterBtn, .viewAll,
+  .comboImg, .offerCode, .offerCta {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media (max-width: 1180px) {
+  .offerGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .comboGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trustList { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .seasonal {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) clamp(140px, 18vw, 200px);
+  }
+  .seasonalPerks {
+    grid-column: 1 / span 2;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 960px) {
+  .heroInner { grid-template-columns: 1fr; }
+  .coupon { justify-self: start; }
+  .newsletter { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  .newsletterCopy { align-items: center; }
+  .newsletterForm { width: 100%; }
+}
+@media (max-width: 720px) {
+  .offerGrid { grid-template-columns: 1fr; }
+  .comboGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trustList { grid-template-columns: 1fr; }
+  .seasonal { grid-template-columns: 1fr; text-align: center; }
+  .seasonalCopy { align-items: center; max-width: 100%; }
+  .seasonalCta { align-self: center; }
+  .seasonalPerks { grid-template-columns: 1fr; }
+  .seasonalMedia { display: none; }
+  .offerBody { max-width: 100%; }
+  .offerCard::before {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--cream) 88%, transparent) 0%,
+      color-mix(in srgb, var(--cream) 55%, transparent) 60%,
+      color-mix(in srgb, var(--cream) 25%, transparent) 100%
+    );
+  }
+}
+@media (max-width: 480px) {
+  .comboGrid { grid-template-columns: 1fr; }
+}

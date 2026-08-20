@@ -1,5 +1,5 @@
 .section {
-  background: #eecdc3;
+  background: color-mix(in srgb, var(--beige) 40%, var(--cream));
   color: var(--ink);
   padding: clamp(1.6rem, 3vw, 2.4rem) 0;
 }

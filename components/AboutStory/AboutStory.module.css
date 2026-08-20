@@ -148,7 +148,7 @@
 .media {
   position: relative;
   aspect-ratio: 1 / 1;
-  background: #f6e7df;
+  background: var(--cream);
   border-radius: 6px;
   overflow: hidden;
 }

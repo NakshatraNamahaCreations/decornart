@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
-import atelierImg from "@/assets/collect-2.png";
+import atelierImg from "@/assets/butterfly-gift-box/butterfly-3.jpeg";
 import styles from "./ContactAtelier.module.css";
 
 const HOURS = [

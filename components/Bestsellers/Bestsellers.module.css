@@ -1,11 +1,14 @@
 .section {
   position: relative;
   color: var(--ink);
-  background: color-mix(in srgb, var(--beige) 20%, #ffffff);
-  padding: clamp(3.5rem, 2vw, 2rem) 0;
-  max-width: 1420px;
-  margin: auto;
+  padding: clamp(0rem, 0vw, 0rem) 0;
+  margin: 20px
+}
+.section > :global(.container) {
+  background: color-mix(in srgb, var(--beige) 20%, var(--cream));
   border-radius: 12px;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  padding-inline: clamp(1.25rem, 3vw, 2.5rem);
 }
 
 /* Head — centered title flanked by rules, "View all" on the right. */
@@ -35,7 +38,7 @@
 .heading {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-size: clamp(1.4rem, 2.4vw, 2.4rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1.1;
@@ -106,41 +109,11 @@
   padding: 0.35rem 0.65rem;
   border-radius: 4px;
   background: var(--ink);
-  color: #fff;
+  color: var(--cream);
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-}
-
-.wish {
-  position: absolute;
-  top: 0.7rem;
-  right: 0.7rem;
-  z-index: 2;
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--ink-soft);
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  transition: color 0.25s var(--ease), transform 0.25s var(--ease);
-}
-.wish svg {
-  width: 18px;
-  height: 18px;
-}
-.wish:hover {
-  color: var(--blush);
-  transform: scale(1.06);
-}
-.wished {
-  color: var(--blush);
 }
 
 .info {
@@ -164,7 +137,8 @@
 }
 .priceRow {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.55rem;
   margin-top: 0.15rem;
 }
@@ -175,76 +149,42 @@
   color: var(--ink);
 }
 
-/* Hover-reveal Add to cart (overlays the media). */
-.add {
-  position: absolute;
-  left: 0.7rem;
-  right: 0.7rem;
-  bottom: 0.7rem;
-  z-index: 2;
+/* Inline action row — wishlist + add-to-cart icons, right of the price. */
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.iconBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1rem;
-  border: 1px solid rgba(31, 18, 48, 0.12);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: var(--ink);
-  font-size: 0.7rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(10px);
-  pointer-events: none;
-  transition: background 0.3s var(--ease), color 0.3s var(--ease),
-    border-color 0.3s var(--ease), opacity 0.35s var(--ease),
-    transform 0.35s var(--ease);
+  transition: color 0.25s var(--ease), transform 0.25s var(--ease);
 }
-.add svg {
-  width: 17px;
-  height: 17px;
+.iconBtn svg {
+  width: 28px;
+  height: 28px;
 }
-.card:hover .add,
-.card:focus-within .add {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+.iconBtn:hover {
+  color: var(--blush);
+  transform: scale(1.08);
 }
-.add:hover {
-  background: var(--ink);
-  color: var(--ivory);
-  border-color: var(--ink);
-}
+.wished,
 .added {
-  background: var(--blush);
-  border-color: var(--blush);
-  color: #fff;
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.added:hover {
-  background: var(--blush);
-  color: #fff;
-  border-color: var(--blush);
-}
-
-@media (hover: none) {
-  .add {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
+  color: var(--blush);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .media,
   .media :global(img),
-  .add,
+  .iconBtn,
   .viewAll span {
     transition: none;
     transform: none;

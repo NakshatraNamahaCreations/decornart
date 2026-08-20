@@ -46,8 +46,8 @@ const SERVICES = [
   },
   {
     id: "returns",
-    title: "7 Days",
-    subtitle: "Easy Returns",
+    title: "Damage",
+    subtitle: "Protection",
     icon: (
       <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
         <path
@@ -75,22 +75,7 @@ const SERVICES = [
       </svg>
     ),
   },
-  {
-    id: "handmade",
-    title: "Handmade",
-    subtitle: "Products",
-    icon: (
-      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path
-          d="M16 27s-9-6-9-13a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 7-9 13-9 13z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
+ 
   {
     id: "eco",
     title: "Eco Friendly",

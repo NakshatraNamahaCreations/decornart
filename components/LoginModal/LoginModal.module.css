@@ -1,0 +1,679 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 3vw, 2rem);
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  position: relative;
+  width: min(1000px, 100%);
+  max-height: 98vh;
+  overflow: hidden;
+  background: var(--cream);
+  border-radius: 18px;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.4);
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  animation: pop 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+.body { min-width: 0; }
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.close:hover { background: var(--blush); color: var(--cream); border-color: var(--blush); }
+
+/* Media (left) */
+.media {
+  position: relative;
+  background: color-mix(in srgb, var(--blush) 10%, var(--cream));
+  overflow: hidden;
+  min-height: 520px;
+}
+.mediaImg { object-fit: cover; }
+.mediaScrim {
+  position: absolute;
+  inset: 0;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  color: var(--cream);
+  z-index: 2;
+}
+.mediaEyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.mediaQuote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: var(--cream);
+  line-height: 1.35;
+  max-width: 26ch;
+}
+
+/* Body (right) — column shell. .bodyScroll takes the form/header and
+   scrolls when the panel is short; .trust stays pinned at the bottom
+   so the assurance chips are always visible without scrolling. */
+.body {
+  padding: clamp(1.1rem, 1.6vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.bodyScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+/* Login-only header stack — brand + eyebrow + title + rule + lead, all
+   centered. Wrapping keeps the register modal's left-aligned header intact
+   since it doesn't render inside .headStack. */
+.headStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+  margin-bottom: 0.15rem;
+}
+.headStack .eyebrow,
+.headStack .title,
+.headStack .lead {
+  align-self: center;
+  text-align: center;
+}
+/* Brand mark stack — logo + wordmark + tagline, centered. */
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  margin-bottom: 0.35rem;
+}
+/* Small decorative divider between title and lead (~ · ~ style). */
+.rule {
+  display: block;
+  width: 48px;
+  height: 1px;
+  margin: 0.15rem auto 0.05rem;
+  background: color-mix(in srgb, var(--blush) 55%, transparent);
+  position: relative;
+}
+.rule::before,
+.rule::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--blush);
+  transform: translateY(-50%);
+}
+.rule::before { left: -10px; }
+.rule::after  { right: -10px; }
+.brandMark {
+  width: 150px;
+  height: 78px;
+  object-fit: contain;
+  margin-bottom: 0.1rem;
+}
+.brandName {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--plum);
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+.brandTag {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blush);
+}
+.eyebrowHeart { font-size: 0.85em; display: inline-flex; }
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2vw, 0.85rem);
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.15;
+}
+.title em {
+  font-family: var(--font-script);
+  font-style: normal;
+  color: var(--blush);
+  font-weight: 600;
+  font-size: 1.15em;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  padding: 0 0.05em;
+}
+.lead {
+  margin: 0.1rem 0 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.form { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+.field { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.label {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s var(--ease);
+}
+.input:focus { border-color: var(--blush); }
+
+.pwdWrap { position: relative; display: flex; align-items: center; }
+.pwdWrap .input { width: 100%; padding-right: 2.6rem; }
+.pwdToggle {
+  position: absolute;
+  right: 0.55rem;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 0;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.pwdToggle:hover { color: var(--blush); background: color-mix(in srgb, var(--blush) 10%, transparent); }
+
+.optionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+.remember input {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid color-mix(in srgb, var(--beige) 65%, transparent);
+  border-radius: 4px;
+  background: var(--cream);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.remember input:checked {
+  background: var(--blush);
+  border-color: var(--blush);
+}
+.remember input:checked::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid var(--cream);
+  border-bottom: 2px solid var(--cream);
+  transform: rotate(45deg);
+  left: 4px;
+  top: 1px;
+}
+.forgot {
+  color: var(--blush);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+  border: none;
+  background: transparent;
+}
+.forgot:hover { color: var(--plum); }
+
+.error {
+  margin: 0;
+  padding: 0.55rem 0.8rem;
+  background: color-mix(in srgb, #C64545 12%, var(--cream));
+  border: 1px solid color-mix(in srgb, #C64545 40%, transparent);
+  border-radius: 8px;
+  color: #A33131;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1rem;
+  background: var(--purple);
+  color: var(--cream);
+  border: 0;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.submit:hover:not(:disabled) { background: var(--purple); transform: translateY(-1px); }
+.submit:disabled { opacity: 0.65; cursor: wait; }
+
+.foot {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.footLink {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--blush);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+.footLink:hover { color: var(--plum); text-decoration: underline; }
+
+/* Forgot-password specific */
+.sub {
+  margin: 0.35rem 0 1rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.sub strong { color: var(--ink); font-weight: 700; }
+
+.sentBox {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1rem;
+  background: color-mix(in srgb, #2C7A54 10%, var(--cream));
+  border: 1px solid color-mix(in srgb, #2C7A54 30%, transparent);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+.sentIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--cream);
+  color: #2C7A54;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+.sentBox strong {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 700;
+}
+.sentBox span {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+/* Register-specific */
+.fieldRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.6rem;
+  min-width: 0;
+}
+.fieldRow .field { min-width: 0; }
+.hint {
+  font-style: normal;
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  margin-left: 0.4rem;
+}
+.terms {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.terms input {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid color-mix(in srgb, var(--beige) 65%, transparent);
+  border-radius: 4px;
+  background: var(--cream);
+  cursor: pointer;
+  position: relative;
+  margin-top: 2px;
+  flex-shrink: 0;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.terms input:checked {
+  background: var(--blush);
+  border-color: var(--blush);
+}
+.terms input:checked::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid var(--cream);
+  border-bottom: 2px solid var(--cream);
+  transform: rotate(45deg);
+  left: 4px;
+  top: 1px;
+}
+.termsLink {
+  color: var(--blush);
+  text-decoration: none;
+  font-weight: 700;
+}
+.termsLink:hover { text-decoration: underline; }
+
+.thankyou {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  background: color-mix(in srgb, var(--blush) 10%, var(--cream));
+  border: 1px solid color-mix(in srgb, var(--blush) 30%, transparent);
+  border-radius: 10px;
+  text-align: center;
+}
+.thankyouMark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--blush);
+  color: var(--cream);
+  font-size: 1.2rem;
+}
+.thankyou strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.thankyou > span {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+/* Input variant with a leading icon (email/lock) inside the field. Keeps
+   .input styling shared with the register modal — this wrapper just adds
+   the left icon and reserves left padding on the child input. */
+.fieldIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.fieldIcon .input {
+  padding-left: 2.4rem;
+}
+.fieldIcon .input:not(:only-child) {
+  padding-right: 2.6rem;
+}
+.fieldIconLeft {
+  position: absolute;
+  left: 0.85rem;
+  display: grid;
+  place-items: center;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  pointer-events: none;
+}
+.fieldIcon .pwdToggle {
+  right: 0.55rem;
+}
+
+/* "OR" divider between primary CTA and secondary link/CTA. */
+.orDivider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.15rem 0;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.orDivider::before,
+.orDivider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--beige) 65%, transparent);
+}
+
+/* "Continue with Google" button — white pill with a subtle border,
+   colored Google mark on the left, matches the height of the primary
+   submit button so both sit level. */
+.googleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--deep-plum);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+.googleBtn:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--plum-accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--lavender) 40%, var(--white));
+  transform: translateY(-1px);
+}
+.googleBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.googleBtn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Inline "coming soon" pill shown after tapping Continue with Google. */
+.googleNote {
+  display: block;
+  margin: 0.5rem auto 0;
+  padding: 0.55rem 0.9rem;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  background: var(--plum-accent);
+  border-radius: 8px;
+  box-shadow: 0 8px 18px -10px rgba(110, 28, 145, 0.5);
+  animation: googleNoteIn 0.25s var(--ease);
+}
+
+@keyframes googleNoteIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Trust strip — four assurance chips across the bottom of the panel.
+   Vertical stack per cell (icon on top, then title, then copy) so the
+   short right-panel columns don't wrap the title one-word-per-line. */
+.trust {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0.7rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+  border-top: 1px solid color-mix(in srgb, var(--beige) 55%, transparent);
+}
+.trustItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0 0.15rem;
+}
+.trustIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--blush) 15%, var(--cream));
+  color: var(--blush);
+  font-size: 0.95rem;
+}
+.trustBody {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+.trustBody strong {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+.trustBody span {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  color: var(--ink-soft);
+  line-height: 1.25;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .modal { grid-template-columns: 1fr; }
+  .media { min-height: 180px; }
+  .mediaScrim { padding: 1rem; }
+  .trust {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

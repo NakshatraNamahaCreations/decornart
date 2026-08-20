@@ -1,13 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { ScrollTrigger } from "@/lib/gsap";
 import Preloader from "@/components/Preloader/Preloader";
-import Hero from "@/components/Hero/Hero";
 import TrustStrip from "@/components/TrustStrip/TrustStrip";
+
+// Hero fetches admin-published banners from the client. SSRing it means the
+// server always renders `staticBanners` in the initial HTML, which the
+// client then swaps for the cached/API banners on hydration — that swap is
+// the "flash of old images" glitch. Disabling SSR removes the swap: the
+// hero renders from the client using its sessionStorage cache
+// synchronously, so repeat visits show the correct banners on the very
+// first frame.
+const Hero = dynamic(() => import("@/components/Hero/Hero"), {
+  ssr: false,
+  loading: () => <section aria-hidden="true" style={{ minHeight: "88vh" }} />,
+});
 import FeaturedCollections from "@/components/FeaturedCollections/FeaturedCollections";
 import PromoBanners from "@/components/PromoBanners/PromoBanners";
-// import ShopByOccasion from "@/components/ShopByOccasion/ShopByOccasion";
-import HandmadeBouquets from "@/components/HandmadeBouquets/HandmadeBouquets";
 import Bestsellers from "@/components/Bestsellers/Bestsellers";
 import WhyChooseUs from "@/components/WhyChooseUs/WhyChooseUs";
 import DIYInspiration from "@/components/DIYInspiration/DIYInspiration";
@@ -37,12 +47,12 @@ export default function Home() {
         <SpecialMoments />
         <PromoBanners />
         {/* <ShopByOccasion /> */}
-        {/* <HandmadeBouquets /> */}
         <Bestsellers />
-        <WhyChooseUs />
         <DIYInspiration />
-        
-        <Testimonials />
+        <WhyChooseUs />
+
+
+        {/* <Testimonials /> */}
         <InstagramFeed />
       </main>
     </>
